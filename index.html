@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -13,7 +12,7 @@
 body{
 margin:0;
 font-family:Arial;
-background:#070b1a;
+background:#050816;
 color:white;
 }
 
@@ -55,7 +54,7 @@ margin:auto;
 }
 
 .card{
-background:#111c45;
+background:#0d1638;
 padding:20px;
 border-radius:12px;
 margin-bottom:20px;
@@ -71,13 +70,13 @@ cursor:pointer;
 margin:4px 0;
 }
 
-input{
+input,textarea{
 width:100%;
 padding:10px;
 margin-bottom:10px;
 border-radius:8px;
 border:none;
-background:#0d1a40;
+background:#111c45;
 color:white;
 }
 
@@ -87,14 +86,28 @@ border-radius:10px;
 margin-top:10px;
 }
 
-.station{
+.task{
 display:flex;
-justify-content:space-between;
 align-items:center;
+gap:10px;
 padding:10px;
-background:#0c173a;
+background:#111c45;
 border-radius:8px;
 margin-bottom:6px;
+}
+
+.profile{
+background:#111c45;
+padding:12px;
+border-radius:8px;
+margin-bottom:6px;
+}
+
+.tip{
+background:#0c173a;
+padding:12px;
+border-radius:8px;
+margin-bottom:8px;
 }
 
 footer{
@@ -117,7 +130,7 @@ border-top:1px solid #333;
 
 <a href="#music">Music</a>
 <a href="#hub">Artist Hub</a>
-<a href="https://youtube.com/@seriousf1nch" target="_blank">YouTube</a>
+<a href="#signup">Join</a>
 
 </div>
 
@@ -161,15 +174,29 @@ border-top:1px solid #333;
 
 <section id="hub" class="section">
 
-<h2>Artist Growth Hub</h2>
+<h2>Artist Growth Hub Dashboard</h2>
 
 <div class="card">
 
 <h3>Growth Tasks</h3>
 
-<button onclick="completeTask()">Complete Task</button>
+<div class="task"><input type="checkbox" onclick="saveTasks()"> Upload new music weekly</div>
+<div class="task"><input type="checkbox" onclick="saveTasks()"> Post TikTok / Reels promoting your song</div>
+<div class="task"><input type="checkbox" onclick="saveTasks()"> Engage with fans daily</div>
+<div class="task"><input type="checkbox" onclick="saveTasks()"> Collaborate with another artist</div>
+<div class="task"><input type="checkbox" onclick="saveTasks()"> Submit music to playlists</div>
+<div class="task"><input type="checkbox" onclick="saveTasks()"> Promote Spotify saves</div>
 
-<p>Progress: <span id="progress">0</span>/5</p>
+</div>
+
+<div class="card">
+
+<h3>Promotion Tips</h3>
+
+<div class="tip">Use short clips of the best part of your song.</div>
+<div class="tip">Push Spotify saves the first 48 hours.</div>
+<div class="tip">Reply to every comment.</div>
+<div class="tip">Collaborate with artists in your genre.</div>
 
 </div>
 
@@ -187,59 +214,84 @@ border-top:1px solid #333;
 
 <div class="card">
 
-<h3>Top Radio Stations</h3>
+<h3>Artist Profiles</h3>
 
-<div class="station">
-Hot 97 New York
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFM.mp3')">Play</button>
+<input id="artistName" placeholder="Artist Name">
+<input id="artistGenre" placeholder="Genre">
+
+<button onclick="addArtist()">Add Artist</button>
+
+<div id="artistBoard"></div>
+
 </div>
 
-<div class="station">
-Power 105.1 New York
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFM.mp3')">Play</button>
+<div class="card">
+
+<h3>Artist Analytics</h3>
+
+<input id="streams" placeholder="Monthly Streams">
+
+<button onclick="calculateGrowth()">Estimate Growth</button>
+
+<p id="result"></p>
+
 </div>
 
-<div class="station">
-Z100 New York
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WHTZFM.mp3')">Play</button>
+<div class="card">
+
+<h3>Radio Stations</h3>
+
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFM.mp3')">Hot 97 NY</button>
+
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFM.mp3')">Power 105.1 NY</button>
+
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KIISFM.mp3')">KIIS FM LA</button>
+
+<button onclick="stopRadio()">Stop</button>
+
 </div>
 
-<div class="station">
-KIIS FM Los Angeles
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KIISFM.mp3')">Play</button>
+</section>
+
+<section id="signup" class="section">
+
+<h2>Join Artist Growth Hub</h2>
+
+<div class="card">
+
+<form action="https://formspree.io/f/mjgaajoq" method="POST">
+
+<input name="artist_name" placeholder="Artist Name" required>
+
+<input name="email" type="email" placeholder="Email Address" required>
+
+<input name="spotify" placeholder="Spotify Link">
+
+<input name="youtube" placeholder="YouTube Channel">
+
+<textarea name="message" placeholder="Tell us about your music"></textarea>
+
+<button type="submit">Join Hub</button>
+
+</form>
+
 </div>
 
-<div class="station">
-Wild 94.9 San Francisco
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KYLD.mp3')">Play</button>
-</div>
+<div class="card">
 
-<div class="station">
-97.9 The Box Houston
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KBXXFM.mp3')">Play</button>
-</div>
+<h3>Playlist Submission</h3>
 
-<div class="station">
-V103 Atlanta
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WVEEFM.mp3')">Play</button>
-</div>
+<form action="https://formspree.io/f/mjgaajoq" method="POST">
 
-<div class="station">
-REAL 92.3 LA
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KRRLFM.mp3')">Play</button>
-</div>
+<input name="artist" placeholder="Artist Name">
 
-<div class="station">
-WGCI Chicago
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WGCIFM.mp3')">Play</button>
-</div>
+<input name="song" placeholder="Song Title">
 
-<div class="station">
-Shade 45 Hip Hop
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/SHADE45.mp3')">Play</button>
-</div>
+<input name="spotify" placeholder="Spotify Link">
 
-<button onclick="stopRadio()">Stop Radio</button>
+<button type="submit">Submit to Playlist</button>
+
+</form>
 
 </div>
 
@@ -253,15 +305,35 @@ Shade 45 Hip Hop
 
 <script>
 
-/* Growth tasks */
+/* Save tasks */
 
-let progress=localStorage.getItem("progress")||0
-document.getElementById("progress").innerText=progress
+function saveTasks(){
 
-function completeTask(){
-progress++
-localStorage.setItem("progress",progress)
-document.getElementById("progress").innerText=progress
+let checks=document.querySelectorAll("input[type='checkbox']")
+
+let data=[]
+
+checks.forEach(c=>data.push(c.checked))
+
+localStorage.setItem("tasks",JSON.stringify(data))
+
+}
+
+window.onload=function(){
+
+let data=JSON.parse(localStorage.getItem("tasks")||"[]")
+
+let checks=document.querySelectorAll("input[type='checkbox']")
+
+checks.forEach((c,i)=>{
+
+if(data[i]) c.checked=true
+
+})
+
+renderFeed()
+renderArtists()
+
 }
 
 /* Music feed */
@@ -302,7 +374,56 @@ container.appendChild(frame)
 
 }
 
-renderFeed()
+/* Artist board */
+
+function addArtist(){
+
+let name=document.getElementById("artistName").value
+let genre=document.getElementById("artistGenre").value
+
+let list=JSON.parse(localStorage.getItem("artists")||"[]")
+
+list.push({name,genre})
+
+localStorage.setItem("artists",JSON.stringify(list))
+
+renderArtists()
+
+}
+
+function renderArtists(){
+
+let board=document.getElementById("artistBoard")
+
+board.innerHTML=""
+
+let list=JSON.parse(localStorage.getItem("artists")||"[]")
+
+list.forEach(a=>{
+
+let div=document.createElement("div")
+
+div.className="profile"
+
+div.innerHTML=`<b>${a.name}</b> — ${a.genre}`
+
+board.appendChild(div)
+
+})
+
+}
+
+/* Analytics */
+
+function calculateGrowth(){
+
+let streams=document.getElementById("streams").value
+
+let result=Math.round(streams*1.3)
+
+document.getElementById("result").innerText="Estimated next month streams: "+result
+
+}
 
 /* Radio */
 
@@ -327,5 +448,4 @@ if(audio) audio.pause()
 </script>
 
 </body>
-
 </html>
