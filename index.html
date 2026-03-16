@@ -4,51 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Serious Finch Artist Growth Hub</title>
+<link rel="manifest" href="manifest.json">
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
-background:#05070d;
+font-family:Arial,Helvetica,sans-serif;
+background:#071025;
 color:white;
 }
 
 header{
-padding:20px;
+background:#0f1f55;
+padding:30px;
 text-align:center;
-background:#0c173a;
-font-size:28px;
+font-size:34px;
 font-weight:bold;
 }
 
-section{
-padding:30px;
-max-width:1000px;
+.container{
+padding:20px;
+max-width:900px;
 margin:auto;
 }
 
 .card{
-background:#111c45;
-padding:20px;
-margin-bottom:20px;
-border-radius:10px;
+background:#101f50;
+padding:25px;
+margin-bottom:25px;
+border-radius:14px;
+box-shadow:0 0 10px rgba(0,0,0,.5);
 }
 
 button{
 background:#ffd400;
 border:none;
 padding:12px 18px;
-border-radius:6px;
+border-radius:8px;
 font-weight:bold;
 cursor:pointer;
 }
 
-input,textarea{
+input{
 width:100%;
 padding:12px;
-margin-top:6px;
-margin-bottom:12px;
+margin-top:10px;
+margin-bottom:18px;
 border-radius:6px;
 border:none;
 }
@@ -58,15 +60,26 @@ width:100%;
 margin-top:10px;
 }
 
-.station{
-display:flex;
-justify-content:space-between;
-align-items:center;
+.radio-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.radio-grid button{
+background:#1e3cff;
+color:white;
+}
+
+.feed-item{
+background:#0d1a40;
 padding:10px;
-border-bottom:1px solid #333;
+margin-top:10px;
+border-radius:6px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -75,137 +88,141 @@ border-bottom:1px solid #333;
 Serious Finch Artist Growth Hub
 </header>
 
-<section>
+<div class="container">
 
 <div class="card">
 
 <h2>Music Player</h2>
 
-<p id="nowPlaying">Nothing Playing</p>
+<p id="trackName">Nothing Playing</p>
 
-<audio id="player" controls>
-<source id="audioSource" src="">
-</audio>
+<audio id="player" controls></audio>
 
-<button onclick="playTrack()">Play Demo Track</button>
+<br><br>
+
+<button onclick="playDemo()">Play Serious Finch Demo</button>
 
 </div>
 
+<div class="card">
+
+<h2>Top Radio Stations</h2>
+
+<div class="radio-grid">
+
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/Z100.mp3')">Z100</button>
+
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KISSFM.mp3')">KIIS FM</button>
+
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/HOT97.mp3')">HOT 97</button>
+
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/POWER106.mp3')">Power 106</button>
+
+</div>
+
+</div>
 
 <div class="card">
 
 <h2>Artist Sign-Up</h2>
 
-<form action="https://formspree.io/f/mjgaajoq" method="POST">
+<form id="artistForm" action="https://formspree.io/f/mjgaajoq" method="POST">
 
 <label>Artist Name</label>
-<input name="artist" required>
+<input type="text" name="artist" required>
 
 <label>Email</label>
 <input type="email" name="email" required>
 
 <label>Music Link</label>
-<input name="music" required>
+<input type="text" name="music" required>
 
-<label>Message</label>
-<textarea name="message"></textarea>
-
-<button type="submit">Submit</button>
+<button type="submit">Join Growth Hub</button>
 
 </form>
 
 </div>
 
+<div class="card">
+
+<h2>Music Feed</h2>
+
+<div id="feed"></div>
+
+</div>
 
 <div class="card">
 
-<h2>Radio Stations</h2>
+<h2>Growth Tasks</h2>
 
-<div class="station">
-<span>Hot 97 New York</span>
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFM.mp3')">Play</button>
-</div>
-
-<div class="station">
-<span>Power 105.1 NYC</span>
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFM.mp3')">Play</button>
-</div>
-
-<div class="station">
-<span>Real 92.3 LA</span>
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KRRLFM.mp3')">Play</button>
-</div>
-
-<div class="station">
-<span>V103 Atlanta</span>
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WVEEFM.mp3')">Play</button>
-</div>
-
-<div class="station">
-<span>Chicago 107.5 WGCI</span>
-<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WGCIFM.mp3')">Play</button>
-</div>
+<ul>
+<li>Upload a new track</li>
+<li>Share your music link</li>
+<li>Promote your song</li>
+<li>Network with other artists</li>
+<li>Track your growth</li>
+</ul>
 
 </div>
-
 
 <div class="card">
 
-<h2>Site Analytics</h2>
+<h2>AI Support</h2>
 
-<p>Visits: <span id="visits">0</span></p>
-<p>Music Plays: <span id="plays">0</span></p>
-<p>Radio Plays: <span id="radioPlays">0</span></p>
+<p>Need help growing your music? Click below.</p>
+
+<button onclick="alert('AI Support Coming Soon')">Open AI Support</button>
 
 </div>
 
-</section>
-
+</div>
 
 <script>
 
-const demoTrack="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+function playDemo(){
 
-let visits = parseInt(localStorage.getItem("visits") || "0")
-visits++
-localStorage.setItem("visits", visits)
-document.getElementById("visits").innerText = visits
+const player=document.getElementById("player")
 
-let plays = parseInt(localStorage.getItem("plays") || "0")
-let radioPlays = parseInt(localStorage.getItem("radio") || "0")
+player.src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 
-document.getElementById("plays").innerText = plays
-document.getElementById("radioPlays").innerText = radioPlays
+document.getElementById("trackName").innerText="Serious Finch Demo Track"
 
-
-function playTrack(){
-
-document.getElementById("audioSource").src = demoTrack
-document.getElementById("player").load()
-document.getElementById("player").play()
-
-plays++
-localStorage.setItem("plays",plays)
-
-document.getElementById("plays").innerText = plays
-document.getElementById("nowPlaying").innerText="Playing Demo Track"
+player.play()
 
 }
 
+function playRadio(url){
 
-function playRadio(stream){
+const player=document.getElementById("player")
 
-document.getElementById("audioSource").src = stream
-document.getElementById("player").load()
-document.getElementById("player").play()
+player.src=url
 
-radioPlays++
-localStorage.setItem("radio",radioPlays)
+document.getElementById("trackName").innerText="Live Radio"
 
-document.getElementById("radioPlays").innerText = radioPlays
-document.getElementById("nowPlaying").innerText="Playing Radio"
+player.play()
 
 }
+
+const form=document.getElementById("artistForm")
+const feed=document.getElementById("feed")
+
+form.addEventListener("submit",function(e){
+
+setTimeout(function(){
+
+const artist=form.artist.value
+const music=form.music.value
+
+const div=document.createElement("div")
+div.className="feed-item"
+
+div.innerHTML="<strong>"+artist+"</strong><br><a href='"+music+"' target='_blank'>Listen</a>"
+
+feed.prepend(div)
+
+},500)
+
+})
 
 </script>
 
