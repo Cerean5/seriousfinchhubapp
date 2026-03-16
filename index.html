@@ -3,105 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Serious Finch Hub</title>
+<title>Serious Finch Artist Growth Hub</title>
 
 <style>
 
 body{
 margin:0;
 font-family:Arial;
-background:black;
+background:#05070d;
 color:white;
+}
+
+header{
+padding:20px;
 text-align:center;
+background:#0c173a;
+font-size:28px;
+font-weight:bold;
 }
 
-/* Background glow */
-
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at 20% 10%,rgba(255,0,0,.4),transparent 40%),
-radial-gradient(circle at 80% 20%,rgba(0,150,255,.4),transparent 40%);
-z-index:-1;
+section{
+padding:30px;
+max-width:1000px;
+margin:auto;
 }
 
-/* Title */
-
-h1{
-font-size:48px;
-margin-top:40px;
-letter-spacing:2px;
-}
-
-/* subtitle */
-
-.subtitle{
-color:#ccc;
-margin-bottom:30px;
-font-size:20px;
-}
-
-/* buttons */
-
-.button{
-display:block;
-width:280px;
-margin:15px auto;
-padding:15px;
-background:#ffd000;
-color:black;
-font-size:22px;
-text-decoration:none;
+.card{
+background:#111c45;
+padding:20px;
+margin-bottom:20px;
 border-radius:10px;
-transition:.3s;
 }
 
-.button:hover{
-background:white;
+button{
+background:#ffd400;
+border:none;
+padding:12px 18px;
+border-radius:6px;
+font-weight:bold;
+cursor:pointer;
 }
 
-/* music player */
-
-.player{
-margin-top:40px;
+input,textarea{
+width:100%;
+padding:12px;
+margin-top:6px;
+margin-bottom:12px;
+border-radius:6px;
+border:none;
 }
 
 audio{
-width:90%;
-max-width:500px;
-}
-
-/* section titles */
-
-.section{
-margin-top:50px;
-font-size:26px;
-}
-
-/* artist submit */
-
-input{
-padding:12px;
-width:70%;
-max-width:400px;
-border-radius:8px;
-border:none;
+width:100%;
 margin-top:10px;
 }
 
-.submit{
-background:#00ff88;
-padding:12px;
-border:none;
-border-radius:8px;
-margin-top:10px;
-font-size:18px;
+.station{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px;
+border-bottom:1px solid #333;
 }
 
 </style>
@@ -109,80 +71,143 @@ font-size:18px;
 
 <body>
 
-<h1>SERIOUS FINCH</h1>
+<header>
+Serious Finch Artist Growth Hub
+</header>
 
-<div class="subtitle">Official Music Hub</div>
+<section>
 
-<a class="button" href="https://serious-finch-hub.replit.app">
-Main Hub
-</a>
+<div class="card">
 
-<a class="button" href="https://youtube.com">
-YouTube Channel
-</a>
+<h2>Music Player</h2>
 
-<a class="button" href="#">
-Nature Finch
-</a>
+<p id="nowPlaying">Nothing Playing</p>
 
-<a class="button" href="#">
-Canelilive
-</a>
-
-
-<div class="section">
-Music Player
-</div>
-
-<div class="player">
-
-<audio controls>
-
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-
+<audio id="player" controls>
+<source id="audioSource" src="">
 </audio>
 
+<button onclick="playTrack()">Play Demo Track</button>
+
 </div>
 
 
-<div class="section">
-Top Radio Stations
+<div class="card">
+
+<h2>Artist Sign-Up</h2>
+
+<form action="https://formspree.io/f/mjgaajoq" method="POST">
+
+<label>Artist Name</label>
+<input name="artist" required>
+
+<label>Email</label>
+<input type="email" name="email" required>
+
+<label>Music Link</label>
+<input name="music" required>
+
+<label>Message</label>
+<textarea name="message"></textarea>
+
+<button type="submit">Submit</button>
+
+</form>
+
 </div>
 
-<a class="button" href="https://www.iheart.com/live/z100-new-york-1469/">
-Z100 New York
-</a>
 
-<a class="button" href="https://www.iheart.com/live/power-1051-2097/">
-Power 105.1
-</a>
+<div class="card">
 
-<a class="button" href="https://www.iheart.com/live/hot-97-2505/">
-Hot 97
-</a>
+<h2>Radio Stations</h2>
 
-
-<div class="section">
-Artist Music Submission
+<div class="station">
+<span>Hot 97 New York</span>
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFM.mp3')">Play</button>
 </div>
 
-<input placeholder="Paste Spotify / YouTube link">
-
-<br>
-
-<button class="submit">
-Submit
-</button>
-
-
-<div class="section">
-Artist Growth Hub
+<div class="station">
+<span>Power 105.1 NYC</span>
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFM.mp3')">Play</button>
 </div>
 
-<a class="button" href="https://serious-finch-hub.replit.app">
-Open Growth Hub
-</a>
+<div class="station">
+<span>Real 92.3 LA</span>
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KRRLFM.mp3')">Play</button>
+</div>
 
+<div class="station">
+<span>V103 Atlanta</span>
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WVEEFM.mp3')">Play</button>
+</div>
+
+<div class="station">
+<span>Chicago 107.5 WGCI</span>
+<button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WGCIFM.mp3')">Play</button>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Site Analytics</h2>
+
+<p>Visits: <span id="visits">0</span></p>
+<p>Music Plays: <span id="plays">0</span></p>
+<p>Radio Plays: <span id="radioPlays">0</span></p>
+
+</div>
+
+</section>
+
+
+<script>
+
+const demoTrack="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+
+let visits = parseInt(localStorage.getItem("visits") || "0")
+visits++
+localStorage.setItem("visits", visits)
+document.getElementById("visits").innerText = visits
+
+let plays = parseInt(localStorage.getItem("plays") || "0")
+let radioPlays = parseInt(localStorage.getItem("radio") || "0")
+
+document.getElementById("plays").innerText = plays
+document.getElementById("radioPlays").innerText = radioPlays
+
+
+function playTrack(){
+
+document.getElementById("audioSource").src = demoTrack
+document.getElementById("player").load()
+document.getElementById("player").play()
+
+plays++
+localStorage.setItem("plays",plays)
+
+document.getElementById("plays").innerText = plays
+document.getElementById("nowPlaying").innerText="Playing Demo Track"
+
+}
+
+
+function playRadio(stream){
+
+document.getElementById("audioSource").src = stream
+document.getElementById("player").load()
+document.getElementById("player").play()
+
+radioPlays++
+localStorage.setItem("radio",radioPlays)
+
+document.getElementById("radioPlays").innerText = radioPlays
+document.getElementById("nowPlaying").innerText="Playing Radio"
+
+}
+
+</script>
 
 </body>
 </html>
