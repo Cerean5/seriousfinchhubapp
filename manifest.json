@@ -1,0 +1,22 @@
+{
+  "name": "Finch Hub",
+  "short_name": "FinchHub",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff0000",
+  "orientation": "portrait",
+  "description": "Artist Growth Hub created by Serious Finch. A platform for artists to promote music, track growth, and connect with fans.",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/727/727399.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/727/727399.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
