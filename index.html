@@ -1,270 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Serious Finch Hub</title>
+
+<title>Serious Finch</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
-
-:root{
---bg1:#071025;
---bg2:#0c173a;
---card:#111c45;
---text:#ffffff;
---muted:#aab7e8;
---red:#ff2a2a;
---line:rgba(255,255,255,.08);
-}
-
-*{box-sizing:border-box}
 
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
-color:var(--text);
-background:
-radial-gradient(circle at 20% 0%, rgba(255,40,40,.18), transparent 40%),
-radial-gradient(circle at 80% 0%, rgba(60,120,255,.18), transparent 40%),
-linear-gradient(180deg,var(--bg1),var(--bg2));
+background:#000;
+color:white;
 }
 
-header{
-padding:25px;
-text-align:center;
-font-size:30px;
+nav{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+z-index:1000;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
 font-weight:bold;
 }
 
-/* HERO */
-
 .hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
 text-align:center;
-padding:70px 20px;
+background:black;
+}
+
+.hero video{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:.5;
 }
 
 .hero h1{
-font-size:60px;
-margin-bottom:10px;
+font-family:'Orbitron',sans-serif;
+font-size:80px;
+z-index:10;
 }
 
-.hero p{
-color:var(--muted);
-margin-bottom:30px;
-}
-
-.hero button{
-padding:14px 30px;
-border:none;
-border-radius:30px;
-background:var(--red);
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-/* LAYOUT */
-
-.container{
+.section{
+padding:120px 20px;
 max-width:1200px;
 margin:auto;
-padding:20px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:20px;
+gap:30px;
 }
-
-/* CARDS */
 
 .card{
-background:var(--card);
+background:#111;
 padding:20px;
-border-radius:14px;
-border:1px solid var(--line);
+border-radius:10px;
 }
 
-audio{
+iframe{
 width:100%;
-margin-top:15px;
+border-radius:10px;
 }
 
-/* RADIO */
-
-.radio-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
-margin-top:15px;
-}
-
-.radio{
-background:#2f45ff;
-padding:12px;
-border-radius:8px;
-text-align:center;
-cursor:pointer;
-font-weight:bold;
-}
-
-/* FORM */
-
-input,textarea{
-width:100%;
-padding:10px;
-margin-top:10px;
-margin-bottom:10px;
-border-radius:6px;
-border:none;
-}
-
-button.submit{
-background:var(--red);
-border:none;
-padding:12px;
-border-radius:6px;
+button{
+padding:12px 20px;
+background:#ff0000;
 color:white;
+border:none;
+border-radius:30px;
 cursor:pointer;
 }
 
 footer{
 text-align:center;
-padding:30px;
-color:var(--muted);
-font-size:14px;
+padding:40px;
+border-top:1px solid #333;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<header>
-Serious Finch Hub
-</header>
+<nav>
+
+<div><b>SERIOUS FINCH</b></div>
+
+<div>
+
+<a href="#music">Music</a>
+
+<a href="https://youtube.com/@seriousf1nch" target="_blank">YouTube</a>
+
+<a href="https://open.spotify.com/artist/2Nil52pQrjFepfxOi8aYY0" target="_blank">Spotify</a>
+
+<a href="/hub">Artist Hub</a>
+
+</div>
+
+</nav>
 
 <section class="hero">
 
-<h1>Artist Growth Hub</h1>
+<video autoplay muted loop playsinline>
 
-<p>Submit music • Grow streams • Connect with radio</p>
+<source src="hero-bg.mp4" type="video/mp4">
 
-<button onclick="enterHub()">Enter Hub</button>
+</video>
+
+<h1>SERIOUS<br>FINCH</h1>
 
 </section>
 
-<div class="container" id="hub">
+<section id="music" class="section">
+
+<h2>Latest Music</h2>
 
 <div class="grid">
 
 <div class="card">
 
-<h3>Radio Player</h3>
+<h3>Latest Single</h3>
 
-<audio id="player" controls></audio>
-
-<div style="margin-top:10px;display:flex;gap:10px">
-
-<button class="submit" onclick="previousStation()">◀ Prev</button>
-<button class="submit" onclick="nextStation()">Next ▶</button>
-
-</div>
+<iframe src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B"></iframe>
 
 </div>
 
 <div class="card">
 
-<h3>Top American Radio Stations</h3>
+<h3>Artist Profile</h3>
 
-<div class="radio-grid">
-
-<div class="radio" onclick="setStation(0)">Z100</div>
-<div class="radio" onclick="setStation(1)">KIIS FM</div>
-<div class="radio" onclick="setStation(2)">HOT 97</div>
-<div class="radio" onclick="setStation(3)">Power 106</div>
-<div class="radio" onclick="setStation(4)">Power 105.1</div>
-<div class="radio" onclick="setStation(5)">WBLS</div>
-<div class="radio" onclick="setStation(6)">WGCI</div>
-<div class="radio" onclick="setStation(7)">93.5 KDAY</div>
-<div class="radio" onclick="setStation(8)">Q102</div>
+<iframe src="https://open.spotify.com/embed/artist/2Nil52pQrjFepfxOi8aYY0"></iframe>
 
 </div>
 
 </div>
+
+</section>
+
+<section class="section">
+
+<h2>Latest Video</h2>
 
 <div class="card">
 
-<h3>Artist Submission</h3>
-
-<form action="https://formspree.io/f/mjgaajoq" method="POST">
-
-<input type="text" name="artist" placeholder="Artist Name" required>
-
-<input type="text" name="song" placeholder="Song Link" required>
-
-<textarea name="message" placeholder="Message"></textarea>
-
-<button class="submit" type="submit">Submit Music</button>
-
-</form>
+<iframe height="450" src="https://www.youtube.com/embed/3VUL8YdMftg"></iframe>
 
 </div>
 
-</div>
+</section>
+
+<section class="section">
+
+<h2>Short Videos</h2>
+
+<div class="grid">
+
+<iframe height="400" src="https://www.youtube.com/embed/36dmFgGrglg"></iframe>
+
+<iframe height="400" src="https://www.youtube.com/embed/3TUuY2WnLvg"></iframe>
+
+<iframe height="400" src="https://www.youtube.com/embed/8RtybrFZb5U"></iframe>
+
+<iframe height="400" src="https://www.youtube.com/embed/9ZBHn_4nRac"></iframe>
 
 </div>
+
+</section>
 
 <footer>
 
-Serious Finch Hub © 2026
+<p>© 2026 Serious Finch</p>
 
 </footer>
-
-<script>
-
-const stations=[
-
-"https://stream.revma.ihrhls.com/zc1465",
-"https://playerservices.streamtheworld.com/api/livestream-redirect/KIISFMAAC.aac",
-"https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFMAAC.aac",
-"https://playerservices.streamtheworld.com/api/livestream-redirect/KPWRFMAAC.aac",
-"https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFMAAC.aac",
-"https://playerservices.streamtheworld.com/api/livestream-redirect/WBLSFMAAC.aac",
-"https://playerservices.streamtheworld.com/api/livestream-redirect/WGCIAMAAC.aac",
-"https://playerservices.streamtheworld.com/api/livestream-redirect/KDAYFMAAC.aac",
-"https://playerservices.streamtheworld.com/api/livestream-redirect/KRBQFMAAC.aac"
-
-]
-
-let currentStation=0
-
-const player=document.getElementById("player")
-
-function setStation(index){
-currentStation=index
-player.src=stations[index]
-player.play()
-}
-
-function nextStation(){
-currentStation++
-if(currentStation>=stations.length){currentStation=0}
-setStation(currentStation)
-}
-
-function previousStation(){
-currentStation--
-if(currentStation<0){currentStation=stations.length-1}
-setStation(currentStation)
-}
-
-function enterHub(){
-document.getElementById("hub").scrollIntoView({behavior:"smooth"})
-}
-
-</script>
 
 </body>
 </html>
