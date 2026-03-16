@@ -1,201 +1,1314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serious Finch Hub</title>
+  <meta name="theme-color" content="#0b0b0f" />
+  <style>
+    :root{
+      --bg:#07090f;
+      --bg2:#0e1320;
+      --card:#12192b;
+      --card2:#0f1730;
+      --text:#f5f7ff;
+      --muted:#9aa4c7;
+      --line:rgba(255,255,255,.08);
+      --red:#ff2a2a;
+      --green:#1db954;
+      --blue:#4de8ff;
+      --shadow:0 20px 50px rgba(0,0,0,.35);
+      --radius:22px;
+    }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,42,42,.15), transparent 30%),
+        radial-gradient(circle at top right, rgba(77,232,255,.09), transparent 28%),
+        linear-gradient(180deg, #05070d 0%, #080b14 100%);
+    }
 
-<title>Serious Finch</title>
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    button,input,textarea{font:inherit}
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    .container{
+      width:min(1180px, calc(100% - 28px));
+      margin:0 auto;
+    }
 
-<style>
+    .nav{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(12px);
+      background:rgba(5,7,13,.72);
+      border-bottom:1px solid var(--line);
+    }
 
-body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#000;
-color:white;
-}
+    .nav-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      min-height:72px;
+    }
 
-nav{
-position:fixed;
-top:0;
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 40px;
-z-index:1000;
-}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
 
-nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
-font-weight:bold;
-}
+    .brand-dot{
+      width:10px;height:10px;border-radius:50%;
+      background:var(--red);
+      box-shadow:0 0 18px rgba(255,42,42,.8);
+    }
 
-.hero{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-background:black;
-}
+    .nav-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-end;
+    }
 
-.hero video{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-opacity:.5;
-}
+    .nav-links a{
+      padding:10px 14px;
+      border-radius:999px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:700;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
 
-.hero h1{
-font-family:'Orbitron',sans-serif;
-font-size:80px;
-z-index:10;
-}
+    .nav-links a:hover{
+      color:#fff;
+      background:rgba(255,255,255,.06);
+    }
 
-.section{
-padding:120px 20px;
-max-width:1200px;
-margin:auto;
-}
+    .nav-links .cta{
+      background:var(--red);
+      color:#fff;
+      box-shadow:0 10px 24px rgba(255,42,42,.25);
+    }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:30px;
-}
+    .hero{
+      position:relative;
+      min-height:92vh;
+      display:flex;
+      align-items:end;
+      overflow:hidden;
+      border-bottom:1px solid var(--line);
+    }
 
-.card{
-background:#111;
-padding:20px;
-border-radius:10px;
-}
+    .hero::before{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,42,42,.2), transparent 28%),
+        linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.55));
+      pointer-events:none;
+    }
 
-iframe{
-width:100%;
-border-radius:10px;
-}
+    .hero-grid{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:30px;
+      align-items:end;
+      padding:72px 0 56px;
+    }
 
-button{
-padding:12px 20px;
-background:#ff0000;
-color:white;
-border:none;
-border-radius:30px;
-cursor:pointer;
-}
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:999px;
+      color:#fff;
+      background:rgba(255,255,255,.04);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
 
-footer{
-text-align:center;
-padding:40px;
-border-top:1px solid #333;
-}
+    .pulse{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--red);
+      box-shadow:0 0 16px rgba(255,42,42,.8);
+    }
 
-</style>
+    .hero h1{
+      margin:18px 0 16px;
+      font-size:clamp(52px, 11vw, 132px);
+      line-height:.86;
+      letter-spacing:-.05em;
+      text-transform:uppercase;
+    }
 
+    .hero p{
+      max-width:700px;
+      color:var(--muted);
+      font-size:clamp(16px,2.4vw,20px);
+      line-height:1.6;
+      margin:0 0 28px;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-bottom:16px;
+    }
+
+    .btn{
+      border:none;
+      padding:14px 18px;
+      border-radius:999px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{
+      background:#fff;color:#000;
+    }
+    .btn-red{
+      background:var(--red);color:#fff;
+    }
+    .btn-ghost{
+      background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.08);
+    }
+    .btn-green{
+      background:var(--green);color:#fff;
+    }
+
+    .hero-panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      background:rgba(0,0,0,.2);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:#dce2ff;
+    }
+
+    .dots{display:flex;gap:7px}
+    .dots span{
+      width:9px;height:9px;border-radius:50%;
+      background:#fff3;
+    }
+
+    .hero-embed{
+      aspect-ratio:16/10;
+      background:#000;
+    }
+
+    .section{
+      padding:78px 0;
+      border-bottom:1px solid var(--line);
+    }
+
+    .section-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:20px;
+      margin-bottom:26px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size:clamp(34px,6vw,62px);
+      line-height:.94;
+      letter-spacing:-.04em;
+      text-transform:uppercase;
+    }
+
+    .section-head p{
+      margin:0;
+      max-width:620px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .grid{
+      display:grid;
+      gap:18px;
+    }
+
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.025));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .card-pad{padding:20px}
+    .card h3,.card h4{
+      margin:0 0 10px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+
+    .sub{
+      color:var(--muted);
+      line-height:1.55;
+      margin:0;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    .embed-wrap{
+      background:#000;
+      border-top:1px solid var(--line);
+    }
+
+    iframe{
+      width:100%;
+      border:0;
+      display:block;
+      background:#000;
+    }
+
+    .short-grid iframe{
+      aspect-ratio:9/16;
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .hub-top{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    .hub-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .metric-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .metric{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .metric strong{
+      display:block;
+      font-size:28px;
+      margin-bottom:6px;
+    }
+
+    .metric span{
+      color:var(--muted);
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      font-weight:700;
+    }
+
+    .task-list{
+      display:grid;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .task{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px;
+      background:rgba(255,255,255,.03);
+    }
+
+    .task-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .check{
+      width:22px;height:22px;border-radius:50%;
+      border:2px solid rgba(255,255,255,.25);
+      flex:0 0 auto;
+      display:grid;
+      place-items:center;
+      font-size:14px;
+      font-weight:900;
+      color:#000;
+      background:transparent;
+      transition:.18s ease;
+    }
+
+    .task.done .check{
+      border-color:var(--green);
+      background:var(--green);
+    }
+
+    .task-title{
+      font-weight:800;
+      letter-spacing:.02em;
+    }
+
+    .task-text{
+      color:var(--muted);
+      font-size:14px;
+      margin-top:4px;
+    }
+
+    .progress-shell{
+      margin-top:16px;
+      height:14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .progress-bar{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, var(--green), #6dff9b);
+      transition:width .2s ease;
+    }
+
+    .progress-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.09em;
+    }
+
+    .field{
+      margin-top:12px;
+    }
+
+    .label{
+      display:block;
+      margin-bottom:8px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.14em;
+      color:#dce2ff;
+      text-transform:uppercase;
+    }
+
+    input, textarea, select{
+      width:100%;
+      background:#0b1123;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      padding:14px 14px;
+      outline:none;
+    }
+
+    textarea{
+      min-height:120px;
+      resize:vertical;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      align-items:end;
+    }
+
+    .hint{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .response{
+      margin-top:14px;
+      padding:16px;
+      border-radius:16px;
+      background:#0b1123;
+      border:1px solid rgba(255,255,255,.08);
+      min-height:72px;
+      line-height:1.6;
+      color:#eef2ff;
+      white-space:pre-wrap;
+    }
+
+    .feed-list{
+      display:grid;
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .feed-item{
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.03);
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .feed-meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .feed-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .tiny{
+      border:none;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:12px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .stations{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .station{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:14px;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px;
+      background:rgba(255,255,255,.03);
+    }
+
+    .station strong{
+      display:block;
+      margin-bottom:4px;
+    }
+
+    .station span{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .station .play{
+      background:var(--green);
+      color:#fff;
+      border:none;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .station .stop{
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      border:none;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .status{
+      margin-top:10px;
+      color:#dce2ff;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .footer{
+      padding:28px 0 40px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,
+      .hub-top,
+      .hub-grid,
+      .grid-2,
+      .grid-3,
+      .grid-4{
+        grid-template-columns:1fr;
+      }
+      .metric-row{
+        grid-template-columns:1fr;
+      }
+      .nav-inner{
+        min-height:auto;
+        padding:10px 0;
+        align-items:flex-start;
+        flex-direction:column;
+      }
+      .nav-links{
+        width:100%;
+        justify-content:flex-start;
+      }
+      .hero{
+        min-height:auto;
+      }
+      .hero-grid{
+        padding-top:48px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span>Serious Finch</span>
+      </div>
 
-<nav>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#music">Music</a>
+        <a href="#shorts">Visuals</a>
+        <a href="#hub" class="cta">Artist Growth Hub</a>
+      </div>
+    </div>
+  </nav>
 
-<div><b>SERIOUS FINCH</b></div>
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">
+          <span class="pulse"></span>
+          <span>Official Artist Hub</span>
+        </div>
 
-<div>
+        <h1>Serious<br>Finch</h1>
 
-<a href="#music">Music</a>
+        <p>
+          Official site and growth platform for Serious Finch. Stream the music, watch visuals,
+          and use the Artist Growth Hub for music strategy, promotion tasks, submissions, and radio.
+        </p>
 
-<a href="https://youtube.com/@seriousf1nch" target="_blank">YouTube</a>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#music">Latest Music</a>
+          <a class="btn btn-red" href="#hub">Open Hub</a>
+          <a class="btn btn-ghost" href="https://youtube.com/@seriousf1nch?si=hk56qafuFBkiqPJW" target="_blank" rel="noopener noreferrer">YouTube</a>
+        </div>
+      </div>
 
-<a href="https://open.spotify.com/artist/2Nil52pQrjFepfxOi8aYY0" target="_blank">Spotify</a>
+      <div class="hero-panel">
+        <div class="panel-head">
+          <span>Latest Single</span>
+          <div class="dots"><span></span><span></span><span></span></div>
+        </div>
+        <div class="hero-embed">
+          <iframe
+            src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B?utm_source=generator&theme=0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title="Serious Finch Latest Single"
+            height="100%">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<a href="/hub">Artist Hub</a>
+  <section class="section" id="music">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Stream Everywhere</div>
+          <h2>Latest Music</h2>
+        </div>
+        <p>
+          Spotify and Apple embeds, artist profile, and featured songs — all in one place.
+        </p>
+      </div>
 
-</div>
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-pad">
+            <h3>Serious Finch — Latest Single</h3>
+            <p class="sub">Direct embed for the current track.</p>
+          </div>
+          <div class="embed-wrap">
+            <iframe
+              src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B?utm_source=generator&theme=0"
+              height="352"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title="Spotify Single Embed">
+            </iframe>
+          </div>
+        </div>
 
-</nav>
+        <div class="card">
+          <div class="card-pad">
+            <h3>Finch Brothers — Artist Profile</h3>
+            <p class="sub">Official Spotify artist profile embed.</p>
+          </div>
+          <div class="embed-wrap">
+            <iframe
+              src="https://open.spotify.com/embed/artist/2Nil52pQrjFepfxOi8aYY0?utm_source=generator&theme=0"
+              height="352"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title="Spotify Artist Embed">
+            </iframe>
+          </div>
+        </div>
 
-<section class="hero">
+        <div class="card">
+          <div class="card-pad">
+            <h3>Nature Finch Feature — Where Da Sauce At</h3>
+            <p class="sub">Apple Music feature embed.</p>
+          </div>
+          <div class="embed-wrap">
+            <iframe
+              src="https://embed.music.apple.com/us/album/where-da-sauce-at-feat-nature-finch/1802715879"
+              height="450"
+              allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+              loading="lazy"
+              title="Apple Music Embed - Where Da Sauce At">
+            </iframe>
+          </div>
+        </div>
 
-<video autoplay muted loop playsinline>
+        <div class="card">
+          <div class="card-pad">
+            <h3>Work Week</h3>
+            <p class="sub">Canei Finch & Serious Finch feature embed.</p>
+          </div>
+          <div class="embed-wrap">
+            <iframe
+              src="https://embed.music.apple.com/us/album/work-week-feat-canei-finch-serious-finch-khyian-wayne/1646510352"
+              height="450"
+              allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+              loading="lazy"
+              title="Apple Music Embed - Work Week">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<source src="hero-bg.mp4" type="video/mp4">
+  <section class="section" id="shorts">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Latest Visuals</div>
+          <h2>Newest Videos</h2>
+        </div>
+        <p>
+          Main visual up front, with short-form videos underneath for the full artist experience.
+        </p>
+      </div>
 
-</video>
+      <div class="grid grid-2" style="margin-bottom:18px;">
+        <div class="card">
+          <div class="card-pad">
+            <h3>Official Music Video</h3>
+            <p class="sub">Streaming on the main channel now.</p>
+          </div>
+          <div class="embed-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/3VUL8YdMftg?controls=1"
+              height="460"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy"
+              title="Serious Finch Latest Video">
+            </iframe>
+          </div>
+        </div>
 
-<h1>SERIOUS<br>FINCH</h1>
+        <div class="card card-pad">
+          <div class="tag">Follow</div>
+          <h3>Links</h3>
+          <p class="sub" style="margin-bottom:18px;">
+            Subscribe, stream, and connect across platforms.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-red" href="https://youtube.com/@seriousf1nch?si=hk56qafuFBkiqPJW" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a class="btn btn-green" href="https://open.spotify.com/artist/2Nil52pQrjFepfxOi8aYY0?si=wpAZWOOSS26webHsyDodMw" target="_blank" rel="noopener noreferrer">Spotify</a>
+            <a class="btn btn-ghost" href="https://www.tiktok.com/@serious_finch?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer">TikTok</a>
+            <a class="btn btn-ghost" href="https://www.facebook.com/SeriousFinch5" target="_blank" rel="noopener noreferrer">Facebook</a>
+          </div>
+        </div>
+      </div>
 
-</section>
+      <div class="grid grid-4 short-grid">
+        <iframe src="https://www.youtube.com/embed/36dmFgGrglg?controls=1&rel=0&playsinline=1&modestbranding=1" title="Short 1" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://www.youtube.com/embed/3TUuY2WnLvg?controls=1&rel=0&playsinline=1&modestbranding=1" title="Short 2" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://www.youtube.com/embed/8RtybrFZb5U?controls=1&rel=0&playsinline=1&modestbranding=1" title="Short 3" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://www.youtube.com/embed/9ZBHn_4nRac?controls=1&rel=0&playsinline=1&modestbranding=1" title="Short 4" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
 
-<section id="music" class="section">
+  <section class="section" id="hub">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Artist Growth Hub</div>
+          <h2>Build. Submit. Grow.</h2>
+        </div>
+        <p>
+          This hub saves progress in your browser, lets artists submit Spotify tracks,
+          plays live radio, and gives strategy responses immediately.
+        </p>
+      </div>
 
-<h2>Latest Music</h2>
+      <div class="hub-top">
+        <div class="card card-pad">
+          <div class="tag">Growth Snapshot</div>
+          <h3>Artist Dashboard</h3>
+          <p class="sub">
+            Track progress, keep artists active, and use the hub like a real growth system.
+          </p>
 
-<div class="grid">
+          <div class="metric-row">
+            <div class="metric">
+              <strong id="metricTasks">0/5</strong>
+              <span>Tasks Done</span>
+            </div>
+            <div class="metric">
+              <strong id="metricFeed">0</strong>
+              <span>Feed Posts</span>
+            </div>
+            <div class="metric">
+              <strong id="metricRadio">Ready</strong>
+              <span>Radio Status</span>
+            </div>
+          </div>
+        </div>
 
-<div class="card">
+        <div class="card card-pad">
+          <div class="tag">How It Works</div>
+          <h3>Hub Features</h3>
+          <p class="sub">
+            Growth tasks save. Music feed accepts Spotify track, album, playlist, or artist links.
+            AI works immediately with smart local responses, and can later connect to a secure endpoint for real AI.
+          </p>
+        </div>
+      </div>
 
-<h3>Latest Single</h3>
+      <div class="hub-grid">
+        <div class="card card-pad">
+          <div class="tag">Growth Tasks</div>
+          <h3>Daily Artist Actions</h3>
+          <p class="sub">Mark these complete and the progress will stay saved on this device.</p>
 
-<iframe src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B"></iframe>
+          <div class="task-list" id="taskList"></div>
 
-</div>
+          <div class="progress-shell">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="progress-meta">
+            <span id="progressText">0/5 complete</span>
+            <span id="progressPercent">0%</span>
+          </div>
+        </div>
 
-<div class="card">
+        <div class="card card-pad">
+          <div class="tag">AI Artist Assistant</div>
+          <h3>Strategy Help</h3>
+          <p class="sub">
+            This works right now on GitHub Pages. If you later add a secure AI backend endpoint,
+            it can switch to real AI.
+          </p>
 
-<h3>Artist Profile</h3>
+          <div class="field">
+            <label class="label" for="aiInput">Ask a growth question</label>
+            <textarea id="aiInput" placeholder="Example: How should I promote my Spotify release this week?"></textarea>
+          </div>
 
-<iframe src="https://open.spotify.com/embed/artist/2Nil52pQrjFepfxOi8aYY0"></iframe>
+          <div class="row">
+            <button class="btn btn-red" id="askAiBtn" type="button">Ask AI</button>
+            <button class="btn btn-ghost" id="clearAiBtn" type="button">Clear</button>
+          </div>
 
-</div>
+          <div class="hint">
+            Optional later: set a secure endpoint in the code for real AI. Do not put secret API keys in GitHub Pages.
+          </div>
 
-</div>
+          <div class="response" id="aiResponse">Ask a question and the assistant will answer here.</div>
+        </div>
 
-</section>
+        <div class="card card-pad">
+          <div class="tag">Music Feed</div>
+          <h3>Artist Submissions</h3>
+          <p class="sub">
+            Paste a Spotify link and it will save in the feed below.
+          </p>
 
-<section class="section">
+          <div class="field">
+            <label class="label" for="spotifyLink">Spotify link</label>
+            <input id="spotifyLink" type="url" placeholder="https://open.spotify.com/track/..." />
+          </div>
 
-<h2>Latest Video</h2>
+          <div class="row">
+            <button class="btn btn-green" id="submitTrackBtn" type="button">Submit Track</button>
+            <button class="btn btn-ghost" id="clearFeedBtn" type="button">Clear Feed</button>
+          </div>
 
-<div class="card">
+          <div class="hint" id="feedHint">
+            Accepts Spotify track, artist, album, or playlist links.
+          </div>
 
-<iframe height="450" src="https://www.youtube.com/embed/3VUL8YdMftg"></iframe>
+          <div class="feed-list" id="musicFeed"></div>
+        </div>
 
-</div>
+        <div class="card card-pad">
+          <div class="tag">Radio</div>
+          <h3>Top Stations</h3>
+          <p class="sub">Play live streams directly in the hub.</p>
 
-</section>
+          <div class="stations" id="stations"></div>
 
-<section class="section">
+          <div class="status" id="radioStatus">No station playing.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<h2>Short Videos</h2>
+  <div class="container footer">
+    © <span id="year"></span> Serious Finch. All rights reserved.
+  </div>
 
-<div class="grid">
+  <script>
+    const STORAGE_KEYS = {
+      tasks: "sf_growth_tasks_v1",
+      feed: "sf_music_feed_v1"
+    };
 
-<iframe height="400" src="https://www.youtube.com/embed/36dmFgGrglg"></iframe>
+    const taskDefinitions = [
+      { id: "upload", title: "Upload a track", text: "Post a new song or visual this week." },
+      { id: "share", title: "Share music", text: "Push links across socials and stories." },
+      { id: "comment", title: "Comment on 5 artists", text: "Build real engagement with other artists." },
+      { id: "collab", title: "Reach out for a collab", text: "Start one new feature conversation." },
+      { id: "radio", title: "Submit to radio", text: "Send a song to stations or DJs." }
+    ];
 
-<iframe height="400" src="https://www.youtube.com/embed/3TUuY2WnLvg"></iframe>
+    const radioStations = [
+      {
+        name: "Hot 97 New York",
+        type: "Hip-Hop / Urban",
+        stream: "https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFM.mp3"
+      },
+      {
+        name: "Power 105.1 New York",
+        type: "Hip-Hop / Urban",
+        stream: "https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFM.mp3"
+      },
+      {
+        name: "REAL 92.3 Los Angeles",
+        type: "Hip-Hop / Urban",
+        stream: "https://playerservices.streamtheworld.com/api/livestream-redirect/KRRLFM.mp3"
+      },
+      {
+        name: "WGCI Chicago",
+        type: "Hip-Hop / Urban",
+        stream: "https://playerservices.streamtheworld.com/api/livestream-redirect/WGCIFM.mp3"
+      }
+    ];
 
-<iframe height="400" src="https://www.youtube.com/embed/8RtybrFZb5U"></iframe>
+    // Optional secure AI endpoint.
+    // Leave blank for local smart assistant mode.
+    const AI_ENDPOINT = "";
 
-<iframe height="400" src="https://www.youtube.com/embed/9ZBHn_4nRac"></iframe>
+    let audioPlayer = null;
+    let currentStation = "";
 
-</div>
+    function safeJsonParse(value, fallback){
+      try { return JSON.parse(value) ?? fallback; }
+      catch { return fallback; }
+    }
 
-</section>
+    function getTasks(){
+      const fallback = {};
+      for (const t of taskDefinitions) fallback[t.id] = false;
+      return Object.assign(fallback, safeJsonParse(localStorage.getItem(STORAGE_KEYS.tasks), {}));
+    }
 
-<footer>
+    function saveTasks(tasks){
+      localStorage.setItem(STORAGE_KEYS.tasks, JSON.stringify(tasks));
+    }
 
-<p>© 2026 Serious Finch</p>
+    function getFeed(){
+      return safeJsonParse(localStorage.getItem(STORAGE_KEYS.feed), []);
+    }
 
-</footer>
+    function saveFeed(feed){
+      localStorage.setItem(STORAGE_KEYS.feed, JSON.stringify(feed));
+    }
 
+    function renderTasks(){
+      const taskList = document.getElementById("taskList");
+      const tasks = getTasks();
+      taskList.innerHTML = "";
+
+      taskDefinitions.forEach(def => {
+        const done = !!tasks[def.id];
+        const item = document.createElement("div");
+        item.className = "task" + (done ? " done" : "");
+
+        item.innerHTML = `
+          <div class="task-left">
+            <div class="check">${done ? "✓" : ""}</div>
+            <div>
+              <div class="task-title">${def.title}</div>
+              <div class="task-text">${def.text}</div>
+            </div>
+          </div>
+          <button class="tiny" type="button">${done ? "Undo" : "Complete"}</button>
+        `;
+
+        item.querySelector("button").addEventListener("click", () => {
+          const updated = getTasks();
+          updated[def.id] = !updated[def.id];
+          saveTasks(updated);
+          renderTasks();
+          updateMetrics();
+        });
+
+        taskList.appendChild(item);
+      });
+
+      const completed = taskDefinitions.filter(t => tasks[t.id]).length;
+      const percent = Math.round((completed / taskDefinitions.length) * 100);
+
+      document.getElementById("progressBar").style.width = percent + "%";
+      document.getElementById("progressText").textContent = completed + "/5 complete";
+      document.getElementById("progressPercent").textContent = percent + "%";
+      document.getElementById("metricTasks").textContent = completed + "/5";
+    }
+
+    function normalizeSpotifyEmbed(url){
+      if (!url || !url.includes("open.spotify.com/")) return null;
+
+      try{
+        const cleaned = url.trim().split("?")[0];
+        if (cleaned.includes("/embed/")) return cleaned;
+
+        const types = ["track", "artist", "album", "playlist", "episode", "show"];
+        for (const type of types){
+          const marker = `/${type}/`;
+          const idx = cleaned.indexOf(marker);
+          if (idx !== -1){
+            const id = cleaned.slice(idx + marker.length).split("/")[0];
+            return `https://open.spotify.com/embed/${type}/${id}`;
+          }
+        }
+        return null;
+      } catch {
+        return null;
+      }
+    }
+
+    function renderFeed(){
+      const feed = getFeed();
+      const container = document.getElementById("musicFeed");
+      container.innerHTML = "";
+
+      if (!feed.length){
+        container.innerHTML = `<div class="response">No tracks yet. Submit music to build the feed.</div>`;
+        document.getElementById("metricFeed").textContent = "0";
+        return;
+      }
+
+      feed.forEach((entry, index) => {
+        const item = document.createElement("div");
+        item.className = "feed-item";
+
+        item.innerHTML = `
+          <div class="feed-meta">
+            <span>Submission ${index + 1}</span>
+            <div class="feed-actions">
+              <button class="tiny" type="button" data-remove="${index}">Remove</button>
+            </div>
+          </div>
+          <iframe
+            src="${entry.embed}"
+            height="${entry.embed.includes('/artist/') ? '352' : '152'}"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title="Spotify Submission ${index + 1}">
+          </iframe>
+        `;
+
+        item.querySelector("[data-remove]").addEventListener("click", () => {
+          const next = getFeed();
+          next.splice(index, 1);
+          saveFeed(next);
+          renderFeed();
+          updateMetrics();
+        });
+
+        container.appendChild(item);
+      });
+
+      document.getElementById("metricFeed").textContent = String(feed.length);
+    }
+
+    function submitSpotify(){
+      const input = document.getElementById("spotifyLink");
+      const hint = document.getElementById("feedHint");
+      const raw = input.value.trim();
+      const embed = normalizeSpotifyEmbed(raw);
+
+      if (!embed){
+        hint.textContent = "That link is not a valid Spotify open.spotify.com link.";
+        hint.style.color = "#ff9d9d";
+        return;
+      }
+
+      const feed = getFeed();
+      feed.unshift({ raw, embed, createdAt: Date.now() });
+      saveFeed(feed);
+      input.value = "";
+      hint.textContent = "Saved to the feed.";
+      hint.style.color = "#9fe8b7";
+      renderFeed();
+      updateMetrics();
+    }
+
+    function clearFeed(){
+      saveFeed([]);
+      renderFeed();
+      updateMetrics();
+      const hint = document.getElementById("feedHint");
+      hint.textContent = "Feed cleared.";
+      hint.style.color = "#9fe8b7";
+    }
+
+    function renderStations(){
+      const box = document.getElementById("stations");
+      box.innerHTML = "";
+
+      radioStations.forEach(station => {
+        const row = document.createElement("div");
+        row.className = "station";
+        row.innerHTML = `
+          <div>
+            <strong>${station.name}</strong>
+            <span>${station.type}</span>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="play" type="button">Play</button>
+            <button class="stop" type="button">Stop</button>
+          </div>
+        `;
+
+        const [playBtn, stopBtn] = row.querySelectorAll("button");
+
+        playBtn.addEventListener("click", () => {
+          try{
+            if (audioPlayer) audioPlayer.pause();
+            audioPlayer = new Audio(station.stream);
+            audioPlayer.play();
+            currentStation = station.name;
+            document.getElementById("radioStatus").textContent = "Now playing: " + station.name;
+            document.getElementById("metricRadio").textContent = "Live";
+          } catch {
+            document.getElementById("radioStatus").textContent = "Radio could not start.";
+          }
+        });
+
+        stopBtn.addEventListener("click", () => {
+          if (audioPlayer) audioPlayer.pause();
+          currentStation = "";
+          document.getElementById("radioStatus").textContent = "No station playing.";
+          document.getElementById("metricRadio").textContent = "Ready";
+        });
+
+        box.appendChild(row);
+      });
+    }
+
+    function localAiReply(question){
+      const q = question.toLowerCase().trim();
+
+      const answers = [];
+
+      if (q.includes("spotify")){
+        answers.push("Push saves first. Ask every supporter to save the track, add it to one playlist, and share it in stories the same day.");
+      }
+
+      if (q.includes("radio")){
+        answers.push("Use a clean edit, short artist bio, cover art, and one direct link. Target stations and DJs that already play similar records.");
+      }
+
+      if (q.includes("tiktok") || q.includes("reel") || q.includes("short")){
+        answers.push("Post the strongest 10 to 15 second moment. Use captions, show your face early, and repeat the hook across multiple clips.");
+      }
+
+      if (q.includes("fans") || q.includes("engagement")){
+        answers.push("Reply fast, pin strong comments, ask one question in every post, and turn listeners into repeat supporters through direct interaction.");
+      }
+
+      if (q.includes("release") || q.includes("rollout")){
+        answers.push("Do a 7 day rollout: teaser, snippet, cover reveal, pre-save push, release post, reaction clip, then performance clip.");
+      }
+
+      if (q.includes("youtube")){
+        answers.push("Use one clear thumbnail style, title with artist name plus song name, and post Shorts that point to the full video.");
+      }
+
+      if (q.includes("grow") || q.includes("promotion") || q.includes("market")){
+        answers.push("Pick one song, one audience, and one visual angle. Push the same record consistently instead of splitting attention.");
+      }
+
+      if (!answers.length){
+        answers.push("Focus on one main song this week, post three short clips, push one streaming link, and directly engage every comment or DM.");
+      }
+
+      answers.push("Best next move: finish your 5 growth tasks, submit one Spotify link to the feed, and test one radio station while promoting the same song.");
+
+      return answers.join("\n\n");
+    }
+
+    async function askAI(){
+      const input = document.getElementById("aiInput");
+      const output = document.getElementById("aiResponse");
+      const question = input.value.trim();
+
+      if (!question){
+        output.textContent = "Type a real question first.";
+        return;
+      }
+
+      output.textContent = "Thinking...";
+
+      if (AI_ENDPOINT){
+        try{
+          const res = await fetch(AI_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question })
+          });
+
+          if (!res.ok) throw new Error("AI endpoint failed");
+
+          const data = await res.json();
+          output.textContent = data.answer || data.response || "No response returned from the AI endpoint.";
+          return;
+        } catch (err){
+          output.textContent = "Secure AI endpoint was unavailable, so local assistant mode answered instead.\n\n" + localAiReply(question);
+          return;
+        }
+      }
+
+      output.textContent = localAiReply(question);
+    }
+
+    function clearAI(){
+      document.getElementById("aiInput").value = "";
+      document.getElementById("aiResponse").textContent = "Ask a question and the assistant will answer here.";
+    }
+
+    function updateMetrics(){
+      const tasks = getTasks();
+      const completed = taskDefinitions.filter(t => tasks[t.id]).length;
+      document.getElementById("metricTasks").textContent = completed + "/5";
+      document.getElementById("metricFeed").textContent = String(getFeed().length);
+      document.getElementById("metricRadio").textContent = currentStation ? "Live" : "Ready";
+    }
+
+    function init(){
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      renderTasks();
+      renderFeed();
+      renderStations();
+      updateMetrics();
+
+      document.getElementById("submitTrackBtn").addEventListener("click", submitSpotify);
+      document.getElementById("clearFeedBtn").addEventListener("click", clearFeed);
+      document.getElementById("askAiBtn").addEventListener("click", askAI);
+      document.getElementById("clearAiBtn").addEventListener("click", clearAI);
+    }
+
+    init();
+  </script>
 </body>
 </html>
