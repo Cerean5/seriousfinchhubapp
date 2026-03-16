@@ -30,15 +30,17 @@ linear-gradient(180deg,var(--bg1),var(--bg2));
 }
 
 header{
-padding:30px;
+padding:25px;
 text-align:center;
-font-size:34px;
+font-size:30px;
 font-weight:bold;
 }
 
+/* HERO */
+
 .hero{
 text-align:center;
-padding:60px 20px;
+padding:70px 20px;
 }
 
 .hero h1{
@@ -52,14 +54,16 @@ margin-bottom:30px;
 }
 
 .hero button{
-padding:14px 26px;
+padding:14px 30px;
 border:none;
 border-radius:30px;
-font-size:16px;
 background:var(--red);
 color:white;
+font-size:16px;
 cursor:pointer;
 }
+
+/* LAYOUT */
 
 .container{
 max-width:1200px;
@@ -73,6 +77,8 @@ grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
 gap:20px;
 }
 
+/* CARDS */
+
 .card{
 background:var(--card);
 padding:20px;
@@ -84,6 +90,8 @@ audio{
 width:100%;
 margin-top:15px;
 }
+
+/* RADIO */
 
 .radio-grid{
 display:grid;
@@ -101,6 +109,26 @@ cursor:pointer;
 font-weight:bold;
 }
 
+/* FORM */
+
+input,textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+margin-bottom:10px;
+border-radius:6px;
+border:none;
+}
+
+button.submit{
+background:var(--red);
+border:none;
+padding:12px;
+border-radius:6px;
+color:white;
+cursor:pointer;
+}
+
 footer{
 text-align:center;
 padding:30px;
@@ -109,7 +137,6 @@ font-size:14px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -124,7 +151,7 @@ Serious Finch Hub
 
 <p>Submit music • Grow streams • Connect with radio</p>
 
-<button onclick="scrollHub()">Enter Hub</button>
+<button onclick="enterHub()">Enter Hub</button>
 
 </section>
 
@@ -138,6 +165,13 @@ Serious Finch Hub
 
 <audio id="player" controls></audio>
 
+<div style="margin-top:10px;display:flex;gap:10px">
+
+<button class="submit" onclick="previousStation()">◀ Prev</button>
+<button class="submit" onclick="nextStation()">Next ▶</button>
+
+</div>
+
 </div>
 
 <div class="card">
@@ -146,25 +180,35 @@ Serious Finch Hub
 
 <div class="radio-grid">
 
-<div class="radio" onclick="playRadio('https://stream.revma.ihrhls.com/zc1465')">Z100</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KIISFMAAC.aac')">KIIS FM</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFMAAC.aac')">HOT 97</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KPWRFMAAC.aac')">Power 106</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFMAAC.aac')">Power 105.1</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WBLSFMAAC.aac')">WBLS</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WGCIAMAAC.aac')">WGCI</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KDAYFMAAC.aac')">93.5 KDAY</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KRBQFMAAC.aac')">Q102</div>
+<div class="radio" onclick="setStation(0)">Z100</div>
+<div class="radio" onclick="setStation(1)">KIIS FM</div>
+<div class="radio" onclick="setStation(2)">HOT 97</div>
+<div class="radio" onclick="setStation(3)">Power 106</div>
+<div class="radio" onclick="setStation(4)">Power 105.1</div>
+<div class="radio" onclick="setStation(5)">WBLS</div>
+<div class="radio" onclick="setStation(6)">WGCI</div>
+<div class="radio" onclick="setStation(7)">93.5 KDAY</div>
+<div class="radio" onclick="setStation(8)">Q102</div>
 
 </div>
+
+</div>
+
+<div class="card">
+
+<h3>Artist Submission</h3>
+
+<form action="https://formspree.io/f/mjgaajoq" method="POST">
+
+<input type="text" name="artist" placeholder="Artist Name" required>
+
+<input type="text" name="song" placeholder="Song Link" required>
+
+<textarea name="message" placeholder="Message"></textarea>
+
+<button class="submit" type="submit">Submit Music</button>
+
+</form>
 
 </div>
 
@@ -173,19 +217,50 @@ Serious Finch Hub
 </div>
 
 <footer>
+
 Serious Finch Hub © 2026
+
 </footer>
 
 <script>
 
+const stations=[
+
+"https://stream.revma.ihrhls.com/zc1465",
+"https://playerservices.streamtheworld.com/api/livestream-redirect/KIISFMAAC.aac",
+"https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFMAAC.aac",
+"https://playerservices.streamtheworld.com/api/livestream-redirect/KPWRFMAAC.aac",
+"https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFMAAC.aac",
+"https://playerservices.streamtheworld.com/api/livestream-redirect/WBLSFMAAC.aac",
+"https://playerservices.streamtheworld.com/api/livestream-redirect/WGCIAMAAC.aac",
+"https://playerservices.streamtheworld.com/api/livestream-redirect/KDAYFMAAC.aac",
+"https://playerservices.streamtheworld.com/api/livestream-redirect/KRBQFMAAC.aac"
+
+]
+
+let currentStation=0
+
 const player=document.getElementById("player")
 
-function playRadio(url){
-player.src=url
+function setStation(index){
+currentStation=index
+player.src=stations[index]
 player.play()
 }
 
-function scrollHub(){
+function nextStation(){
+currentStation++
+if(currentStation>=stations.length){currentStation=0}
+setStation(currentStation)
+}
+
+function previousStation(){
+currentStation--
+if(currentStation<0){currentStation=stations.length-1}
+setStation(currentStation)
+}
+
+function enterHub(){
 document.getElementById("hub").scrollIntoView({behavior:"smooth"})
 }
 
