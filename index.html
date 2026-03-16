@@ -29,16 +29,12 @@ radial-gradient(circle at 80% 0%, rgba(60,120,255,.18), transparent 40%),
 linear-gradient(180deg,var(--bg1),var(--bg2));
 }
 
-/* HEADER */
-
 header{
 padding:30px;
 text-align:center;
 font-size:34px;
 font-weight:bold;
 }
-
-/* HERO */
 
 .hero{
 text-align:center;
@@ -65,8 +61,6 @@ color:white;
 cursor:pointer;
 }
 
-/* LAYOUT */
-
 .container{
 max-width:1200px;
 margin:auto;
@@ -79,8 +73,6 @@ grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
 gap:20px;
 }
 
-/* CARDS */
-
 .card{
 background:var(--card);
 padding:20px;
@@ -88,40 +80,25 @@ border-radius:14px;
 border:1px solid var(--line);
 }
 
-/* PLAYER */
-
 audio{
 width:100%;
 margin-top:15px;
 }
 
-/* RADIO */
-
-iframe{
-width:100%;
-height:120px;
-border:none;
-margin-top:10px;
+.radio-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:15px;
 }
 
-/* FORM */
-
-input,textarea{
-width:100%;
-padding:10px;
-margin-top:10px;
-margin-bottom:10px;
-border-radius:6px;
-border:none;
-}
-
-button.submit{
-background:var(--red);
-border:none;
+.radio{
+background:#2f45ff;
 padding:12px;
-border-radius:6px;
-color:white;
+border-radius:8px;
+text-align:center;
 cursor:pointer;
+font-weight:bold;
 }
 
 footer{
@@ -157,7 +134,7 @@ Serious Finch Hub
 
 <div class="card">
 
-<h3>Music Player</h3>
+<h3>Radio Player</h3>
 
 <audio id="player" controls></audio>
 
@@ -167,41 +144,27 @@ Serious Finch Hub
 
 <h3>Top American Radio Stations</h3>
 
-<iframe src="https://live365.com/embed/player/a29138"></iframe>
+<div class="radio-grid">
 
-<iframe src="https://live365.com/embed/player/a30543"></iframe>
+<div class="radio" onclick="playRadio('https://stream.revma.ihrhls.com/zc1465')">Z100</div>
 
-<iframe src="https://live365.com/embed/player/a28322"></iframe>
+<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KIISFMAAC.aac')">KIIS FM</div>
 
-<iframe src="https://live365.com/embed/player/a31265"></iframe>
+<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFMAAC.aac')">HOT 97</div>
 
-<iframe src="https://live365.com/embed/player/a29672"></iframe>
+<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KPWRFMAAC.aac')">Power 106</div>
 
-<iframe src="https://live365.com/embed/player/a28391"></iframe>
+<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFMAAC.aac')">Power 105.1</div>
 
-<iframe src="https://live365.com/embed/player/a31206"></iframe>
+<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WBLSFMAAC.aac')">WBLS</div>
 
-<iframe src="https://live365.com/embed/player/a30112"></iframe>
+<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WGCIAMAAC.aac')">WGCI</div>
 
-<iframe src="https://live365.com/embed/player/a30745"></iframe>
+<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KDAYFMAAC.aac')">93.5 KDAY</div>
+
+<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KRBQFMAAC.aac')">Q102</div>
 
 </div>
-
-<div class="card">
-
-<h3>Artist Submission</h3>
-
-<form action="https://formspree.io/f/mjgaajoq" method="POST">
-
-<input type="text" name="artist" placeholder="Artist Name" required>
-
-<input type="text" name="song" placeholder="Song Link" required>
-
-<textarea name="message" placeholder="Message"></textarea>
-
-<button class="submit" type="submit">Submit Music</button>
-
-</form>
 
 </div>
 
@@ -210,12 +173,17 @@ Serious Finch Hub
 </div>
 
 <footer>
-
 Serious Finch Hub © 2026
-
 </footer>
 
 <script>
+
+const player=document.getElementById("player")
+
+function playRadio(url){
+player.src=url
+player.play()
+}
 
 function scrollHub(){
 document.getElementById("hub").scrollIntoView({behavior:"smooth"})
