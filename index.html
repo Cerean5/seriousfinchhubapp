@@ -3,197 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Serious Finch Artist Growth Hub</title>
+<title>Serious Finch Hub</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, Helvetica, sans-serif;
+
+:root{
+--bg1:#071025;
+--bg2:#0c173a;
+--card:#111c45;
+--text:#ffffff;
+--muted:#aab7e8;
+--red:#ff2a2a;
+--line:rgba(255,255,255,.08);
 }
 
+*{box-sizing:border-box}
+
 body{
-background:#020617;
-color:white;
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+color:var(--text);
+background:
+radial-gradient(circle at 20% 0%, rgba(255,40,40,.18), transparent 40%),
+radial-gradient(circle at 80% 0%, rgba(60,120,255,.18), transparent 40%),
+linear-gradient(180deg,var(--bg1),var(--bg2));
+}
+
+/* HEADER */
+
+header{
+padding:30px;
+text-align:center;
+font-size:34px;
+font-weight:bold;
 }
 
 /* HERO */
 
 .hero{
-height:100vh;
-background:
-linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.9)),
-url("https://images.unsplash.com/photo-1511379938547-c1f69419868d");
-background-size:cover;
-background-position:center;
-display:flex;
-align-items:center;
-padding:40px;
-}
-
-.hero-content{
-max-width:650px;
-}
-
-.tag{
-color:#ff3d3d;
-letter-spacing:3px;
-font-size:14px;
-margin-bottom:15px;
+text-align:center;
+padding:60px 20px;
 }
 
 .hero h1{
-font-size:72px;
-line-height:1;
+font-size:60px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:var(--muted);
 margin-bottom:30px;
-font-weight:900;
 }
 
-.buttons{
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-}
-
-.btn{
-padding:15px 30px;
-border-radius:40px;
+.hero button{
+padding:14px 26px;
 border:none;
-font-weight:bold;
+border-radius:30px;
+font-size:16px;
+background:var(--red);
+color:white;
 cursor:pointer;
 }
 
-.primary{
-background:linear-gradient(90deg,#ff003c,#ff3d3d);
-color:white;
-}
+/* LAYOUT */
 
-.secondary{
-background:white;
-color:black;
-}
-
-/* HUB SECTION */
-
-.section{
-padding:60px 25px;
-max-width:1100px;
+.container{
+max-width:1200px;
 margin:auto;
+padding:20px;
 }
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+}
+
+/* CARDS */
 
 .card{
-background:#0f1c3a;
-padding:30px;
-border-radius:12px;
-margin-bottom:30px;
+background:var(--card);
+padding:20px;
+border-radius:14px;
+border:1px solid var(--line);
 }
 
-.radio-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-margin-top:20px;
-}
-
-.radio{
-background:#2f45ff;
-padding:15px;
-text-align:center;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-}
+/* PLAYER */
 
 audio{
 width:100%;
-margin-top:20px;
+margin-top:15px;
 }
+
+/* RADIO */
+
+iframe{
+width:100%;
+height:120px;
+border:none;
+margin-top:10px;
+}
+
+/* FORM */
+
+input,textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+margin-bottom:10px;
+border-radius:6px;
+border:none;
+}
+
+button.submit{
+background:var(--red);
+border:none;
+padding:12px;
+border-radius:6px;
+color:white;
+cursor:pointer;
+}
+
+footer{
+text-align:center;
+padding:30px;
+color:var(--muted);
+font-size:14px;
+}
+
 </style>
+
 </head>
 
 <body>
 
+<header>
+Serious Finch Hub
+</header>
+
 <section class="hero">
 
-<div class="hero-content">
+<h1>Artist Growth Hub</h1>
 
-<div class="tag">OFFICIAL ARTIST HUB</div>
+<p>Submit music • Grow streams • Connect with radio</p>
 
-<h1>SERIOUS<br>FINCH</h1>
-
-<div class="buttons">
-
-<button class="btn primary"
-onclick="document.getElementById('hub').scrollIntoView()">
-ARTIST GROWTH HUB
-</button>
-
-<button class="btn secondary"
-onclick="playDemo()">
-▶ LATEST DROP
-</button>
-
-</div>
-
-</div>
+<button onclick="scrollHub()">Enter Hub</button>
 
 </section>
 
-<section id="hub" class="section">
+<div class="container" id="hub">
+
+<div class="grid">
 
 <div class="card">
 
-<h2>Music Player</h2>
+<h3>Music Player</h3>
 
 <audio id="player" controls></audio>
 
-<button class="btn primary" onclick="playDemo()">
-Play Demo
-</button>
+</div>
+
+<div class="card">
+
+<h3>Top American Radio Stations</h3>
+
+<iframe src="https://live365.com/embed/player/a29138"></iframe>
+
+<iframe src="https://live365.com/embed/player/a30543"></iframe>
+
+<iframe src="https://live365.com/embed/player/a28322"></iframe>
+
+<iframe src="https://live365.com/embed/player/a31265"></iframe>
+
+<iframe src="https://live365.com/embed/player/a29672"></iframe>
+
+<iframe src="https://live365.com/embed/player/a28391"></iframe>
+
+<iframe src="https://live365.com/embed/player/a31206"></iframe>
+
+<iframe src="https://live365.com/embed/player/a30112"></iframe>
+
+<iframe src="https://live365.com/embed/player/a30745"></iframe>
 
 </div>
 
 <div class="card">
 
-<h2>Top American Radio Stations</h2>
+<h3>Artist Submission</h3>
 
-<div class="radio-grid">
+<form action="https://formspree.io/f/mjgaajoq" method="POST">
 
-<div class="radio" onclick="playRadio('https://stream.revma.ihrhls.com/zc1465')">Z100 New York</div>
+<input type="text" name="artist" placeholder="Artist Name" required>
 
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KIISFMAAC.aac')">KIIS FM Los Angeles</div>
+<input type="text" name="song" placeholder="Song Link" required>
 
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFMAAC.aac')">HOT 97 New York</div>
+<textarea name="message" placeholder="Message"></textarea>
 
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KPWRFMAAC.aac')">Power 106 Los Angeles</div>
+<button class="submit" type="submit">Submit Music</button>
 
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFMAAC.aac')">Power 105.1 New York</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WBLSFMAAC.aac')">WBLS New York</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WGCIAMAAC.aac')">WGCI Chicago</div>
-
-<div class="radio" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KDAYFMAAC.aac')">93.5 KDAY Los Angeles</div>
+</form>
 
 </div>
 
 </div>
 
-</section>
+</div>
+
+<footer>
+
+Serious Finch Hub © 2026
+
+</footer>
 
 <script>
 
-const player = document.getElementById("player");
-
-function playDemo(){
-player.src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-player.play();
-}
-
-function playRadio(url){
-player.src=url;
-player.play();
+function scrollHub(){
+document.getElementById("hub").scrollIntoView({behavior:"smooth"})
 }
 
 </script>
