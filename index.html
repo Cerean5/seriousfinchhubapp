@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Serious Finch Hub</title>
-  <meta name="description" content="Official Serious Finch platform with music, videos, artist growth tools, radio access, artist submissions, playlist submissions, analytics, and professional artist onboarding." />
+  <title>Serious Finch Hub | Official Artist Platform</title>
+  <meta
+    name="description"
+    content="Official Serious Finch Hub with music, videos, artist growth tools, artist sign-up, playlist submissions, artist board, music feed, and official radio station links."
+  />
   <style>
     :root{
-      --bg:#07111f;
-      --bg2:#0d1730;
-      --card:#121d3d;
-      --card2:#162652;
+      --bg:#07101d;
+      --bg2:#0c1730;
+      --card:#101b3b;
+      --card2:#162551;
       --line:rgba(255,255,255,.08);
       --text:#ffffff;
       --muted:#b9c4f4;
@@ -29,33 +32,30 @@
       font-family:Arial,Helvetica,sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at top left, rgba(255,54,95,.20), transparent 28%),
+        radial-gradient(circle at top left, rgba(255,54,95,.18), transparent 28%),
         radial-gradient(circle at top right, rgba(86,216,255,.14), transparent 30%),
         linear-gradient(180deg,var(--bg),#091327 35%,#07101d 100%);
     }
 
     a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
     button,input,textarea,select{font:inherit}
+    img{max-width:100%;display:block}
 
-    .container{
-      width:min(1180px,92vw);
-      margin:auto;
-    }
+    .container{width:min(1180px,92vw);margin:auto}
 
     .topbar{
       position:sticky;
       top:0;
-      z-index:50;
+      z-index:100;
       backdrop-filter:blur(12px);
-      background:rgba(7,17,31,.72);
+      background:rgba(7,17,31,.78);
       border-bottom:1px solid var(--line);
     }
 
     .topbar-inner{
       display:flex;
-      align-items:center;
       justify-content:space-between;
+      align-items:center;
       gap:16px;
       padding:14px 0;
     }
@@ -76,7 +76,6 @@
       place-items:center;
       background:linear-gradient(135deg,var(--red),#ff7a45);
       box-shadow:var(--shadow);
-      font-weight:900;
     }
 
     .nav{
@@ -87,8 +86,8 @@
 
     .nav a{
       padding:10px 14px;
-      border:1px solid var(--line);
       border-radius:999px;
+      border:1px solid var(--line);
       color:var(--muted);
       font-size:.95rem;
       transition:.2s ease;
@@ -101,7 +100,7 @@
     }
 
     .hero{
-      padding:64px 0 30px;
+      padding:60px 0 30px;
     }
 
     .hero-grid{
@@ -120,8 +119,8 @@
 
     .hero-card{
       padding:34px;
-      overflow:hidden;
       position:relative;
+      overflow:hidden;
     }
 
     .hero-card::before{
@@ -150,7 +149,7 @@
     }
 
     h1{
-      font-size:clamp(2.2rem,5vw,4.6rem);
+      font-size:clamp(2.2rem,5vw,4.8rem);
       line-height:.95;
       margin:18px 0 14px;
       letter-spacing:.02em;
@@ -179,9 +178,14 @@
       font-weight:800;
       letter-spacing:.02em;
       transition:.2s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
     }
 
     .btn:hover{transform:translateY(-2px)}
+
     .btn-primary{
       background:linear-gradient(135deg,var(--red),#ff6d46);
       color:#fff;
@@ -223,9 +227,7 @@
       font-weight:900;
     }
 
-    .section{
-      padding:22px 0 12px;
-    }
+    .section{padding:22px 0 12px}
 
     .section-head{
       display:flex;
@@ -258,6 +260,25 @@
       gap:18px;
     }
 
+    .dashboard{
+      display:grid;
+      grid-template-columns:1.1fr .9fr .9fr .9fr;
+      gap:16px;
+    }
+
+    .forms-wrap{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      align-items:start;
+    }
+
+    .board-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
     .card{
       padding:22px;
       background:linear-gradient(180deg,var(--card),var(--card2));
@@ -271,37 +292,66 @@
       font-size:1.1rem;
     }
 
+    .helper{
+      color:var(--muted);
+      line-height:1.58;
+      font-size:.94rem;
+    }
+
+    .notice{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      line-height:1.6;
+      font-size:.93rem;
+    }
+
     .pill{
       display:inline-block;
       padding:7px 10px;
+      margin:0 8px 8px 0;
       border-radius:999px;
       background:rgba(255,255,255,.06);
       border:1px solid var(--line);
       color:var(--muted);
       font-size:.82rem;
-      margin:0 8px 8px 0;
     }
 
-    .song-list, .tip-list, .task-list, .feed-list, .artist-list, .radio-list{
+    .row-list,
+    .task-list,
+    .board-list,
+    .official-list{
       display:grid;
       gap:12px;
       margin-top:14px;
     }
 
-    .row-item{
-      padding:14px 15px;
+    .board-list{
+      max-height:480px;
+      overflow:auto;
+      padding-right:4px;
+    }
+
+    .row-item,
+    .board-item,
+    .official-card{
+      padding:14px;
       border-radius:16px;
       border:1px solid var(--line);
       background:rgba(255,255,255,.04);
     }
 
-    .row-item strong{display:block;margin-bottom:4px}
-    .row-item span{color:var(--muted);font-size:.95rem}
+    .row-item strong{
+      display:block;
+      margin-bottom:4px;
+    }
 
-    .dashboard{
-      display:grid;
-      grid-template-columns:1.1fr .9fr .9fr .9fr;
-      gap:16px;
+    .row-item span{
+      color:var(--muted);
+      font-size:.94rem;
     }
 
     .metric{
@@ -325,8 +375,8 @@
     .progress-wrap{
       margin-top:10px;
       height:12px;
-      border-radius:999px;
       background:rgba(255,255,255,.08);
+      border-radius:999px;
       overflow:hidden;
     }
 
@@ -335,14 +385,69 @@
       width:0%;
       background:linear-gradient(90deg,var(--blue),var(--green));
       border-radius:999px;
-      transition:.3s ease;
+      transition:.25s ease;
     }
 
-    .forms-wrap{
+    .official-grid{
       display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      align-items:start;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .official-card{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:170px;
+    }
+
+    .official-name{
+      font-size:1rem;
+      font-weight:900;
+    }
+
+    .official-meta{
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:max-content;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:.8rem;
+      font-weight:700;
+    }
+
+    .official-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:auto;
+    }
+
+    .mini-btn{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.07);
+      color:#fff;
+      cursor:pointer;
+      font-weight:800;
+      font-size:.9rem;
+      text-align:center;
+    }
+
+    .mini-btn.primary{
+      background:linear-gradient(135deg,var(--red),#ff7b48);
+      border:none;
     }
 
     form{
@@ -357,119 +462,38 @@
     }
 
     .field label{
-      color:#fff;
-      font-weight:700;
       font-size:.95rem;
+      font-weight:800;
     }
 
     .field input,
     .field textarea,
     .field select{
       width:100%;
-      border:none;
-      outline:none;
-      color:#fff;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.09);
-      border-radius:16px;
-      padding:14px 14px;
       min-height:52px;
+      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.09);
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      outline:none;
     }
 
     .field textarea{
-      min-height:115px;
       resize:vertical;
-    }
-
-    .helper{
-      color:var(--muted);
-      font-size:.9rem;
-      line-height:1.55;
-    }
-
-    .radio-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
-      margin-top:16px;
-    }
-
-    .radio-card{
-      padding:16px;
-      border-radius:18px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .radio-title{
-      font-size:1rem;
-      font-weight:800;
-    }
-
-    .radio-city{
-      color:var(--muted);
-      font-size:.92rem;
-    }
-
-    .radio-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:auto;
-    }
-
-    .mini-btn{
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.07);
-      color:#fff;
-      cursor:pointer;
-      font-weight:700;
-      font-size:.9rem;
-    }
-
-    .mini-btn.live{
-      background:linear-gradient(135deg,#ff365f,#ff7b48);
-      border:none;
-    }
-
-    .board-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
-
-    .board-list{
-      display:grid;
-      gap:12px;
-      margin-top:14px;
-      max-height:480px;
-      overflow:auto;
-      padding-right:4px;
-    }
-
-    .board-item{
-      padding:14px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
+      min-height:118px;
     }
 
     .board-item .top{
       display:flex;
       justify-content:space-between;
       gap:10px;
-      margin-bottom:7px;
       align-items:start;
+      margin-bottom:7px;
     }
 
     .board-item .name{
-      font-weight:800;
-      font-size:1rem;
+      font-weight:900;
     }
 
     .board-item .time{
@@ -506,34 +530,18 @@
       gap:18px;
     }
 
-    .footer a{
-      color:#fff;
-      opacity:.9;
-    }
-
-    .notice{
-      margin-top:16px;
-      padding:14px 16px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-      line-height:1.6;
-      font-size:.93rem;
-    }
-
     .support-fab{
       position:fixed;
       right:18px;
       bottom:18px;
-      z-index:55;
-      padding:14px 16px;
-      border-radius:999px;
+      z-index:120;
       border:none;
       cursor:pointer;
+      padding:14px 16px;
+      border-radius:999px;
       color:#fff;
       font-weight:900;
-      background:linear-gradient(135deg,var(--blue),#2b9bff);
+      background:linear-gradient(135deg,var(--blue),#288fff);
       box-shadow:0 18px 34px rgba(43,155,255,.28);
     }
 
@@ -545,7 +553,7 @@
       align-items:center;
       justify-content:center;
       padding:20px;
-      z-index:120;
+      z-index:140;
     }
 
     .modal.show{display:flex}
@@ -565,9 +573,9 @@
     }
 
     .modal-card p{
+      margin:0 0 16px;
       color:var(--muted);
       line-height:1.7;
-      margin:0 0 16px;
     }
 
     .modal-actions{
@@ -586,21 +594,11 @@
       cursor:pointer;
     }
 
-    .tag-good{
-      color:var(--green);
-      font-weight:800;
-    }
-
-    .tag-hot{
-      color:var(--gold);
-      font-weight:800;
-    }
-
     @media (max-width:1100px){
       .hero-grid,
       .dashboard,
       .grid-3,
-      .radio-grid,
+      .official-grid,
       .forms-wrap,
       .board-grid,
       .footer-grid{
@@ -614,24 +612,25 @@
         flex-direction:column;
         align-items:flex-start;
       }
+
       .hero-grid,
       .grid-3,
       .grid-2,
-      .dashboard,
-      .radio-grid,
       .forms-wrap,
       .board-grid,
       .footer-grid,
-      .stats{
+      .dashboard,
+      .stats,
+      .official-grid{
         grid-template-columns:1fr;
       }
-      h1{font-size:2.5rem}
+
       .hero{padding-top:42px}
+      h1{font-size:2.6rem}
     }
   </style>
 </head>
 <body>
-
   <div class="topbar">
     <div class="container topbar-inner">
       <div class="brand">
@@ -642,9 +641,9 @@
       <nav class="nav">
         <a href="#latest">Latest</a>
         <a href="#music">Music</a>
-        <a href="#growth">Artist Growth Hub</a>
+        <a href="#growth">Growth</a>
         <a href="#radio">Radio</a>
-        <a href="#feed">Submissions</a>
+        <a href="#feed">Feed</a>
         <a href="#join">Join</a>
       </nav>
     </div>
@@ -656,22 +655,20 @@
         <div class="eyebrow">Official Artist Platform</div>
         <h1>SERIOUS<br>FINCH</h1>
         <p class="hero-copy">
-          Official Serious Finch platform with music, artist growth tools, radio access,
-          artist sign-up, playlist submissions, live professional pop-ups, submission tracking,
-          saved artist entries, and a polished hub built to convert visitors into real supporters.
+          Official Serious Finch platform with music, videos, artist growth tools,
+          artist sign-up, playlist submissions, artist profiles board, music feed,
+          and official radio station access without fake playback buttons.
         </p>
 
         <div class="cta-row">
           <a class="btn btn-primary" href="#join">Join The Hub</a>
-          <a class="btn btn-secondary" href="#radio">Open Radio Section</a>
-          <a class="btn btn-secondary" href="https://open.spotify.com/" target="_blank" rel="noopener">Spotify</a>
-          <a class="btn btn-secondary" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+          <a class="btn btn-secondary" href="#radio">Official Radio</a>
+          <a class="btn btn-secondary" href="#feed">Music Feed</a>
         </div>
 
         <div class="notice">
-          This version keeps the site professional and real:
-          artist submissions save instantly on the page, dashboard numbers update automatically,
-          and radio buttons send people to official listen pages where needed.
+          This version keeps the original Serious Finch Hub style but makes the radio section official:
+          major stations open their real live pages instead of pretending to play inside your site.
         </div>
       </section>
 
@@ -681,7 +678,7 @@
           <div class="value" id="taskCount">0/5</div>
         </div>
         <div class="stat">
-          <div class="label">Music Feed Posts</div>
+          <div class="label">Feed Posts</div>
           <div class="value" id="feedCount">0</div>
         </div>
         <div class="stat">
@@ -690,7 +687,7 @@
         </div>
         <div class="stat">
           <div class="label">Radio Status</div>
-          <div class="value" id="radioStatus">Ready</div>
+          <div class="value" id="radioStatus">Official</div>
         </div>
       </section>
     </div>
@@ -702,25 +699,26 @@
         <div class="section-head">
           <div>
             <h2 class="section-title">Latest Drop</h2>
-            <p class="section-sub">Your official front page still needs to feel like the original Serious Finch site, but cleaner, stronger, and more professional.</p>
+            <p class="section-sub">Your real platform, cleaned up and made more professional.</p>
           </div>
         </div>
 
         <div class="grid-3">
           <article class="card">
             <h3>Popular Songs</h3>
-            <div class="song-list">
+            <div class="row-list">
               <div class="row-item"><strong>Work Week</strong><span>Street energy and replay value</span></div>
-              <div class="row-item"><strong>Where You From</strong><span>Raw record with hometown identity</span></div>
-              <div class="row-item"><strong>Where I Come From</strong><span>Strong storytelling and grit</span></div>
+              <div class="row-item"><strong>Where You From</strong><span>Strong identity record</span></div>
+              <div class="row-item"><strong>Where I Come From</strong><span>Storytelling and grit</span></div>
               <div class="row-item"><strong>Finch Boys Freestyle Pt.1</strong><span>Cypher-style momentum</span></div>
-              <div class="row-item"><strong>No Contact</strong><span>Cold delivery with focus</span></div>
-              <div class="row-item"><strong>Get A Loaf</strong><span>Money-minded anthem energy</span></div>
+              <div class="row-item"><strong>No Contact</strong><span>Cold focused delivery</span></div>
+              <div class="row-item"><strong>Get A Loaf</strong><span>Money anthem energy</span></div>
             </div>
           </article>
 
           <article class="card" id="music">
             <h3>Finch Music Network</h3>
+            <div class="pill">Sons of Gunsmoke</div>
             <div class="pill">Serious Finch</div>
             <div class="pill">Nature Finch</div>
             <div class="pill">Canei Finch</div>
@@ -730,27 +728,28 @@
             <div class="pill">Skrewface</div>
 
             <div class="notice">
-              Swap your real artist profile links into the buttons below whenever you want:
-              Spotify, YouTube, Apple Music, TikTok, and Instagram.
+              Use your real platform links only. No fake artists. No fake views. No fake stream buttons.
             </div>
 
             <div class="cta-row">
               <a class="btn btn-secondary" href="https://open.spotify.com/" target="_blank" rel="noopener">Follow Spotify</a>
               <a class="btn btn-secondary" href="https://www.youtube.com/" target="_blank" rel="noopener">Subscribe YouTube</a>
+              <a class="btn btn-secondary" href="https://www.tiktok.com/" target="_blank" rel="noopener">Follow TikTok</a>
             </div>
           </article>
 
           <article class="card">
             <h3>Mental Warfare</h3>
             <p class="helper">
-              By Cerean Lassiter. Add your real Amazon link below to keep the literature section polished
-              and connected to the rest of the brand.
+              Keep your author and music worlds together here without making the page feel cluttered.
             </p>
+
             <div class="cta-row">
               <a class="btn btn-primary" href="https://a.co/" target="_blank" rel="noopener">Order On Amazon</a>
             </div>
+
             <div class="notice">
-              Paperback, Kindle, and author branding can stay here without making the music side feel cluttered.
+              Swap in your exact book link if you want this section fully finished.
             </div>
           </article>
         </div>
@@ -762,7 +761,7 @@
         <div class="section-head">
           <div>
             <h2 class="section-title">Artist Growth Hub</h2>
-            <p class="section-sub">Build. Submit. Grow. Everything below updates automatically in the browser and looks more official than a plain form page.</p>
+            <p class="section-sub">Build. Submit. Grow. Real progress, clean layout, and no fake automation claims.</p>
           </div>
         </div>
 
@@ -771,7 +770,7 @@
             <div class="small">Growth Progress</div>
             <div class="big" id="progressText">0%</div>
             <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
-            <div class="helper" style="margin-top:10px">Complete all five official growth tasks to hit full progress.</div>
+            <div class="helper" style="margin-top:10px">Complete all five growth tasks to hit full progress.</div>
           </div>
 
           <div class="metric">
@@ -785,7 +784,7 @@
           </div>
 
           <div class="metric">
-            <div class="small">Playlist Submissions</div>
+            <div class="small">Song Submissions</div>
             <div class="big" id="dashboardSubmissions">0</div>
           </div>
         </div>
@@ -794,21 +793,21 @@
           <article class="card">
             <h3>Official Growth Tasks</h3>
             <div class="task-list">
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Upload new music weekly</strong><span>Keep your audience trained to expect releases.</span></label>
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Post 3 TikTok / Reels this week</strong><span>Use the strongest moment, not the whole song.</span></label>
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Engage with 10 fans today</strong><span>Reply quickly and turn comments into support.</span></label>
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Collaborate with another artist this month</strong><span>Cross audiences and build social proof.</span></label>
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Submit music to playlists and radio</strong><span>Push saves and shares hardest in the first 48 hours.</span></label>
+              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Upload new music weekly</strong><span>Train your audience to expect consistent motion.</span></label>
+              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Post 3 TikTok / Reels this week</strong><span>Lead with your strongest 10–15 seconds.</span></label>
+              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Engage with 10 supporters today</strong><span>Turn attention into loyalty.</span></label>
+              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Collaborate this month</strong><span>Build cross-audience reach.</span></label>
+              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Submit to playlists and radio</strong><span>Push hardest during the first 48 hours.</span></label>
             </div>
           </article>
 
           <article class="card">
-            <h3>Artist Promotion Tips</h3>
-            <div class="tip-list">
-              <div class="row-item"><strong>Lead with the hardest 10–15 seconds</strong><span>Make the first impression impossible to skip.</span></div>
-              <div class="row-item"><strong>Focus on one main record at a time</strong><span>Stop splitting your traffic between too many songs.</span></div>
-              <div class="row-item"><strong>Push saves, shares, and watch time</strong><span>Those signals matter more than fake vanity numbers.</span></div>
-              <div class="row-item"><strong>Make each post point somewhere</strong><span>Drive people to Spotify, YouTube, or sign-up pages.</span></div>
+            <h3>Promotion Tips</h3>
+            <div class="row-list">
+              <div class="row-item"><strong>Push one main song at a time</strong><span>Don’t split attention between too many records.</span></div>
+              <div class="row-item"><strong>Ask for saves and shares</strong><span>Not just plays.</span></div>
+              <div class="row-item"><strong>Make every post point somewhere</strong><span>Spotify, YouTube, or your hub.</span></div>
+              <div class="row-item"><strong>Keep your page alive</strong><span>An active feed makes your platform look trusted.</span></div>
             </div>
           </article>
         </div>
@@ -819,17 +818,60 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <h2 class="section-title">Radio Network</h2>
-            <p class="section-sub">Professional radio section using verified station destinations. For many major stations, official listen pages are the cleanest legal and stable way to send traffic.</p>
+            <h2 class="section-title">Official Radio Access</h2>
+            <p class="section-sub">Major station cards now open the real official pages instead of fake on-page playback.</p>
           </div>
         </div>
 
         <div class="card">
-          <div class="radio-grid" id="radioGrid"></div>
+          <div class="official-grid">
+            <div class="official-card">
+              <div class="tag">Official</div>
+              <div class="official-name">HOT 97</div>
+              <div class="official-meta">New York • Hip-Hop</div>
+              <div class="helper">Open the real live page.</div>
+              <div class="official-actions">
+                <a class="mini-btn primary" href="https://www.hot97.com/listen-live/" target="_blank" rel="noopener">Listen Live</a>
+                <a class="mini-btn" href="https://www.hot97.com/download-the-official-hot-97-app/" target="_blank" rel="noopener">Official App</a>
+              </div>
+            </div>
+
+            <div class="official-card">
+              <div class="tag">Official</div>
+              <div class="official-name">Power 105.1</div>
+              <div class="official-meta">New York • Hip-Hop / R&B</div>
+              <div class="helper">Open the official iHeart page.</div>
+              <div class="official-actions">
+                <a class="mini-btn primary" href="https://power1051.iheart.com/featured/iheartradio-live/" target="_blank" rel="noopener">Listen Live</a>
+                <a class="mini-btn" href="https://power1051.iheart.com/" target="_blank" rel="noopener">Station Page</a>
+              </div>
+            </div>
+
+            <div class="official-card">
+              <div class="tag">Official</div>
+              <div class="official-name">Z100</div>
+              <div class="official-meta">New York • Hit Music</div>
+              <div class="helper">Open the official iHeart live page.</div>
+              <div class="official-actions">
+                <a class="mini-btn primary" href="https://z100.iheart.com/featured/iheartradio-live/" target="_blank" rel="noopener">Listen Live</a>
+                <a class="mini-btn" href="https://z100.iheart.com/" target="_blank" rel="noopener">Station Page</a>
+              </div>
+            </div>
+
+            <div class="official-card">
+              <div class="tag">Official</div>
+              <div class="official-name">Shade 45</div>
+              <div class="official-meta">SiriusXM • Hip-Hop</div>
+              <div class="helper">Open the official SiriusXM channel page.</div>
+              <div class="official-actions">
+                <a class="mini-btn primary" href="https://www.siriusxm.com/channels/shade-45" target="_blank" rel="noopener">Channel Page</a>
+                <a class="mini-btn" href="https://www.siriusxm.com/" target="_blank" rel="noopener">SiriusXM</a>
+              </div>
+            </div>
+          </div>
 
           <div class="notice">
-            <strong class="tag-hot">Pro setup:</strong> not every commercial station allows a direct raw stream embed.
-            These buttons are built around official listen destinations so your site feels real instead of broken.
+            This is the cleanest official setup. If a station does not publicly expose a browser-safe stream URL, your site should link to the real official player instead of faking a play button.
           </div>
         </div>
       </div>
@@ -840,7 +882,7 @@
         <div class="section-head">
           <div>
             <h2 class="section-title">Submissions + Artist Board</h2>
-            <p class="section-sub">When artists submit, the page updates instantly with a clean music feed and artist board. That makes the site feel alive.</p>
+            <p class="section-sub">Artists and songs appear instantly on the site after submission.</p>
           </div>
         </div>
 
@@ -862,15 +904,15 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <h2 class="section-title">Artist Sign-Up & Playlist Submission</h2>
-            <p class="section-sub">Both forms below post to Formspree and also update your local hub instantly for a polished user experience.</p>
+            <h2 class="section-title">Artist Sign-Up & Song Submission</h2>
+            <p class="section-sub">Both forms send to Formspree and also update your local feed instantly.</p>
           </div>
         </div>
 
         <div class="forms-wrap">
           <article class="card">
             <h3>Artist Sign-Up</h3>
-            <p class="helper">This builds your artist board automatically the moment someone joins.</p>
+            <p class="helper">Artists join here and get added to the board automatically.</p>
 
             <form id="artistForm" action="https://formspree.io/f/mjgaajoq" method="POST">
               <div class="field">
@@ -916,8 +958,8 @@
           </article>
 
           <article class="card">
-            <h3>Playlist Submission</h3>
-            <p class="helper">This creates a clean feed post as soon as the artist submits their song.</p>
+            <h3>Song Submission</h3>
+            <p class="helper">Songs post to your feed instantly when submitted.</p>
 
             <form id="songForm" action="https://formspree.io/f/mjgaajoq" method="POST">
               <div class="field">
@@ -964,8 +1006,8 @@
       <div>
         <strong>SERIOUS FINCH HUB</strong>
         <p class="helper">
-          Official artist platform with music, growth tools, artist sign-up, playlist submissions,
-          a live-looking feed, and professional radio access.
+          Official artist platform with music, growth tools, submissions, artist board,
+          and official station links.
         </p>
       </div>
 
@@ -973,8 +1015,8 @@
         <strong>Quick Links</strong>
         <p class="helper">
           <a href="#growth">Growth Hub</a><br>
-          <a href="#radio">Radio Network</a><br>
-          <a href="#join">Artist Join</a>
+          <a href="#radio">Official Radio</a><br>
+          <a href="#join">Join Hub</a>
         </p>
       </div>
 
@@ -990,15 +1032,15 @@
     <div class="container" style="margin-top:14px">© 2026 Serious Finch</div>
   </footer>
 
-  <button class="support-fab" id="supportButton">AI Support</button>
+  <button class="support-fab" id="supportButton">Need Help?</button>
 
   <div class="modal" id="popupModal">
     <div class="modal-card">
       <button class="close-x" id="closeModalBtn" aria-label="Close">×</button>
-      <h3 id="modalTitle">Submission Received</h3>
+      <h3 id="modalTitle">Done</h3>
       <p id="modalMessage">Your action was completed.</p>
       <div class="modal-actions">
-        <button class="btn btn-primary" id="okModalBtn">Done</button>
+        <button class="btn btn-primary" id="okModalBtn" type="button">Done</button>
       </div>
     </div>
   </div>
@@ -1006,18 +1048,14 @@
   <div class="modal" id="supportModal">
     <div class="modal-card">
       <button class="close-x" id="closeSupportBtn" aria-label="Close">×</button>
-      <h3>Support Assistant</h3>
+      <h3>Quick Help</h3>
       <p>
-        Try these quick actions:
-        <br><br>
-        <span class="tag-good">•</span> Push one main song for 7 days straight<br>
-        <span class="tag-good">•</span> Use your best 10-second clip first<br>
-        <span class="tag-good">•</span> Ask fans for saves, not just plays<br>
-        <span class="tag-good">•</span> Submit to playlists and radio the same week you drop
+        Use the official radio links for real station access, keep artist links real,
+        and use the submission forms to keep your feed active and professional.
       </p>
       <div class="modal-actions">
         <a class="btn btn-primary" href="#join">Open Submission Forms</a>
-        <button class="btn btn-secondary" id="supportCloseAction">Close</button>
+        <button class="btn btn-secondary" id="supportCloseAction" type="button">Close</button>
       </div>
     </div>
   </div>
@@ -1028,29 +1066,6 @@
       songs: "sfh_songs",
       tasks: "sfh_tasks_checked"
     };
-
-    const radioStations = [
-      { name: "HOT 97", city: "New York", url: "https://www.hot97.com/listen-live/" },
-      { name: "Power 105.1", city: "New York", url: "https://power1051.iheart.com/featured/iheartradio-live/" },
-      { name: "Z100", city: "New York", url: "https://z100.iheart.com/featured/iheartradio-live/" },
-      { name: "Shade 45", city: "SiriusXM", url: "https://www.siriusxm.com/channels/shade-45" },
-      { name: "KIIS FM", city: "Los Angeles", url: "https://kiisfm.iheart.com/" },
-      { name: "Real 92.3", city: "Los Angeles", url: "https://real923la.iheart.com/" },
-      { name: "Power 106", city: "Los Angeles", url: "https://www.power106.com/" },
-      { name: "Wild 94.9", city: "San Francisco", url: "https://wild949.iheart.com/" },
-      { name: "97.9 The Box", city: "Houston", url: "https://theboxhouston.com/" },
-      { name: "V-103", city: "Atlanta", url: "https://v103.radio.com/" },
-      { name: "WGCI", city: "Chicago", url: "https://wgci.iheart.com/" },
-      { name: "B96", city: "Chicago", url: "https://b96.com/" },
-      { name: "Power 96", city: "Miami", url: "https://power96.iheart.com/" },
-      { name: "Hot 99.5", city: "Washington, DC", url: "https://hot995.iheart.com/" },
-      { name: "Channel 955", city: "Detroit", url: "https://channel955.iheart.com/" },
-      { name: "Kiss 108", city: "Boston", url: "https://kiss108.iheart.com/" },
-      { name: "Q102", city: "Philadelphia", url: "https://q102.iheart.com/" },
-      { name: "Power 96.1", city: "Atlanta", url: "https://power961.iheart.com/" },
-      { name: "Jam'n 94.5", city: "Boston", url: "https://jamn945.iheart.com/" },
-      { name: "Hip-Hop Nation", city: "SiriusXM", url: "https://www.siriusxm.com/channels/hip-hop-nation" }
-    ];
 
     const popupModal = document.getElementById("popupModal");
     const modalTitle = document.getElementById("modalTitle");
@@ -1072,7 +1087,6 @@
     const taskCount = document.getElementById("taskCount");
     const feedCount = document.getElementById("feedCount");
     const artistCount = document.getElementById("artistCount");
-    const radioStatus = document.getElementById("radioStatus");
     const progressText = document.getElementById("progressText");
     const progressBar = document.getElementById("progressBar");
     const estimatedStreams = document.getElementById("estimatedStreams");
@@ -1129,35 +1143,6 @@
       }[m]));
     }
 
-    function renderRadio(){
-      const radioGrid = document.getElementById("radioGrid");
-      radioGrid.innerHTML = radioStations.map((station) => `
-        <div class="radio-card">
-          <div class="radio-title">${escapeHtml(station.name)}</div>
-          <div class="radio-city">${escapeHtml(station.city)}</div>
-          <div class="radio-actions">
-            <a class="mini-btn live" href="${station.url}" target="_blank" rel="noopener" onclick="setRadioStatus('${escapeHtml(station.name)}')">Listen Live</a>
-            <button class="mini-btn" onclick="copyStation('${escapeHtml(station.name)}','${station.url}')">Copy Link</button>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    function copyStation(name, url){
-      navigator.clipboard.writeText(url).then(() => {
-        showModal("Station Link Copied", `${name} was copied to your clipboard.`);
-      }).catch(() => {
-        showModal("Copy Failed", "The station link could not be copied on this device.");
-      });
-    }
-
-    function setRadioStatus(name){
-      radioStatus.textContent = name;
-    }
-
-    window.setRadioStatus = setRadioStatus;
-    window.copyStation = copyStation;
-
     function renderArtists(){
       const artists = readStorage(STORAGE_KEYS.artists, []);
       artistBoard.innerHTML = artists.length ? artists.map((artist) => `
@@ -1185,7 +1170,7 @@
           <p>${escapeHtml(song.songNotes)}</p>
           <p><a href="${song.songLink}" target="_blank" rel="noopener">Open streaming link</a></p>
         </div>
-      `).join("") : `<div class="empty">No feed posts yet. New playlist submissions will appear here automatically.</div>`;
+      `).join("") : `<div class="empty">No feed posts yet. New song submissions will appear here automatically.</div>`;
     }
 
     function renderDashboard(){
@@ -1200,10 +1185,8 @@
       taskCount.textContent = `${complete}/5`;
       feedCount.textContent = String(songs.length);
       artistCount.textContent = String(artists.length);
-
       progressText.textContent = `${percent}%`;
       progressBar.style.width = `${percent}%`;
-
       estimatedStreams.textContent = streamEstimate.toLocaleString();
       dashboardArtists.textContent = String(artists.length);
       dashboardSubmissions.textContent = String(songs.length);
@@ -1292,11 +1275,10 @@
       );
     });
 
-    renderRadio();
     renderArtists();
     renderSongs();
     renderDashboard();
     initTasks();
   </script>
 </body>
-          </html>
+                                                                                                    </html>
