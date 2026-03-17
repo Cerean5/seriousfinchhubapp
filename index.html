@@ -1,1284 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Serious Finch Hub | Official Artist Platform</title>
-  <meta
-    name="description"
-    content="Official Serious Finch Hub with music, videos, artist growth tools, artist sign-up, playlist submissions, artist board, music feed, and official radio station links."
-  />
-  <style>
-    :root{
-      --bg:#07101d;
-      --bg2:#0c1730;
-      --card:#101b3b;
-      --card2:#162551;
-      --line:rgba(255,255,255,.08);
-      --text:#ffffff;
-      --muted:#b9c4f4;
-      --blue:#56d8ff;
-      --red:#ff365f;
-      --gold:#ffd77a;
-      --green:#37d67a;
-      --shadow:0 18px 45px rgba(0,0,0,.35);
-      --radius:22px;
-    }
-
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Arial,Helvetica,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(255,54,95,.18), transparent 28%),
-        radial-gradient(circle at top right, rgba(86,216,255,.14), transparent 30%),
-        linear-gradient(180deg,var(--bg),#091327 35%,#07101d 100%);
-    }
-
-    a{color:inherit;text-decoration:none}
-    button,input,textarea,select{font:inherit}
-    img{max-width:100%;display:block}
-
-    .container{width:min(1180px,92vw);margin:auto}
-
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:100;
-      backdrop-filter:blur(12px);
-      background:rgba(7,17,31,.78);
-      border-bottom:1px solid var(--line);
-    }
-
-    .topbar-inner{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      padding:14px 0;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      font-weight:900;
-      letter-spacing:.08em;
-    }
-
-    .brand-badge{
-      width:42px;
-      height:42px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      background:linear-gradient(135deg,var(--red),#ff7a45);
-      box-shadow:var(--shadow);
-    }
-
-    .nav{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-
-    .nav a{
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      color:var(--muted);
-      font-size:.95rem;
-      transition:.2s ease;
-    }
-
-    .nav a:hover{
-      color:#fff;
-      border-color:rgba(255,255,255,.2);
-      transform:translateY(-1px);
-    }
-
-    .hero{
-      padding:60px 0 30px;
-    }
-
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:24px;
-      align-items:stretch;
-    }
-
-    .panel{
-      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
-
-    .hero-card{
-      padding:34px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .hero-card::before{
-      content:"";
-      position:absolute;
-      inset:auto -80px -80px auto;
-      width:220px;
-      height:220px;
-      background:radial-gradient(circle, rgba(86,216,255,.18), transparent 68%);
-      pointer-events:none;
-    }
-
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      color:var(--gold);
-      font-size:.82rem;
-      font-weight:700;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-
-    h1{
-      font-size:clamp(2.2rem,5vw,4.8rem);
-      line-height:.95;
-      margin:18px 0 14px;
-      letter-spacing:.02em;
-    }
-
-    .hero-copy{
-      color:var(--muted);
-      font-size:1.06rem;
-      max-width:760px;
-      line-height:1.7;
-      margin:0 0 22px;
-    }
-
-    .cta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:18px;
-    }
-
-    .btn{
-      border:none;
-      cursor:pointer;
-      border-radius:16px;
-      padding:14px 18px;
-      font-weight:800;
-      letter-spacing:.02em;
-      transition:.2s ease;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-    }
-
-    .btn:hover{transform:translateY(-2px)}
-
-    .btn-primary{
-      background:linear-gradient(135deg,var(--red),#ff6d46);
-      color:#fff;
-      box-shadow:0 14px 28px rgba(255,54,95,.22);
-    }
-
-    .btn-secondary{
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      border:1px solid var(--line);
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:14px;
-      height:100%;
-      padding:24px;
-    }
-
-    .stat{
-      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:20px;
-      min-height:128px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-    }
-
-    .stat .label{
-      color:var(--muted);
-      font-size:.92rem;
-    }
-
-    .stat .value{
-      font-size:2rem;
-      font-weight:900;
-    }
-
-    .section{padding:22px 0 12px}
-
-    .section-head{
-      display:flex;
-      align-items:end;
-      justify-content:space-between;
-      gap:14px;
-      margin-bottom:18px;
-    }
-
-    .section-title{
-      font-size:1.7rem;
-      margin:0 0 6px;
-    }
-
-    .section-sub{
-      margin:0;
-      color:var(--muted);
-      line-height:1.6;
-    }
-
-    .grid-3{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:18px;
-    }
-
-    .grid-2{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:18px;
-    }
-
-    .dashboard{
-      display:grid;
-      grid-template-columns:1.1fr .9fr .9fr .9fr;
-      gap:16px;
-    }
-
-    .forms-wrap{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      align-items:start;
-    }
-
-    .board-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
-
-    .card{
-      padding:22px;
-      background:linear-gradient(180deg,var(--card),var(--card2));
-      border:1px solid var(--line);
-      border-radius:22px;
-      box-shadow:var(--shadow);
-    }
-
-    .card h3{
-      margin:0 0 10px;
-      font-size:1.1rem;
-    }
-
-    .helper{
-      color:var(--muted);
-      line-height:1.58;
-      font-size:.94rem;
-    }
-
-    .notice{
-      margin-top:16px;
-      padding:14px 16px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-      line-height:1.6;
-      font-size:.93rem;
-    }
-
-    .pill{
-      display:inline-block;
-      padding:7px 10px;
-      margin:0 8px 8px 0;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      color:var(--muted);
-      font-size:.82rem;
-    }
-
-    .row-list,
-    .task-list,
-    .board-list,
-    .official-list{
-      display:grid;
-      gap:12px;
-      margin-top:14px;
-    }
-
-    .board-list{
-      max-height:480px;
-      overflow:auto;
-      padding-right:4px;
-    }
-
-    .row-item,
-    .board-item,
-    .official-card{
-      padding:14px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-    }
-
-    .row-item strong{
-      display:block;
-      margin-bottom:4px;
-    }
-
-    .row-item span{
-      color:var(--muted);
-      font-size:.94rem;
-    }
-
-    .metric{
-      padding:18px;
-      border-radius:20px;
-      border:1px solid var(--line);
-      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
-    }
-
-    .metric .small{
-      color:var(--muted);
-      font-size:.9rem;
-      margin-bottom:10px;
-    }
-
-    .metric .big{
-      font-size:2rem;
-      font-weight:900;
-    }
-
-    .progress-wrap{
-      margin-top:10px;
-      height:12px;
-      background:rgba(255,255,255,.08);
-      border-radius:999px;
-      overflow:hidden;
-    }
-
-    .progress-bar{
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg,var(--blue),var(--green));
-      border-radius:999px;
-      transition:.25s ease;
-    }
-
-    .official-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
-      margin-top:16px;
-    }
-
-    .official-card{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      min-height:170px;
-    }
-
-    .official-name{
-      font-size:1rem;
-      font-weight:900;
-    }
-
-    .official-meta{
-      color:var(--muted);
-      font-size:.92rem;
-    }
-
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      width:max-content;
-      padding:7px 10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      color:var(--muted);
-      font-size:.8rem;
-      font-weight:700;
-    }
-
-    .official-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:auto;
-    }
-
-    .mini-btn{
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.07);
-      color:#fff;
-      cursor:pointer;
-      font-weight:800;
-      font-size:.9rem;
-      text-align:center;
-    }
-
-    .mini-btn.primary{
-      background:linear-gradient(135deg,var(--red),#ff7b48);
-      border:none;
-    }
-
-    form{
-      display:grid;
-      gap:12px;
-      margin-top:14px;
-    }
-
-    .field{
-      display:grid;
-      gap:8px;
-    }
-
-    .field label{
-      font-size:.95rem;
-      font-weight:800;
-    }
-
-    .field input,
-    .field textarea,
-    .field select{
-      width:100%;
-      min-height:52px;
-      padding:14px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.09);
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      outline:none;
-    }
-
-    .field textarea{
-      resize:vertical;
-      min-height:118px;
-    }
-
-    .board-item .top{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:start;
-      margin-bottom:7px;
-    }
-
-    .board-item .name{
-      font-weight:900;
-    }
-
-    .board-item .time{
-      color:var(--muted);
-      font-size:.82rem;
-      white-space:nowrap;
-    }
-
-    .board-item p{
-      margin:8px 0 0;
-      color:var(--muted);
-      line-height:1.55;
-      font-size:.94rem;
-    }
-
-    .empty{
-      color:var(--muted);
-      padding:18px;
-      border:1px dashed rgba(255,255,255,.12);
-      border-radius:16px;
-      background:rgba(255,255,255,.02);
-    }
-
-    .footer{
-      margin-top:34px;
-      padding:28px 0 48px;
-      color:var(--muted);
-      border-top:1px solid var(--line);
-    }
-
-    .footer-grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr .8fr;
-      gap:18px;
-    }
-
-    .support-fab{
-      position:fixed;
-      right:18px;
-      bottom:18px;
-      z-index:120;
-      border:none;
-      cursor:pointer;
-      padding:14px 16px;
-      border-radius:999px;
-      color:#fff;
-      font-weight:900;
-      background:linear-gradient(135deg,var(--blue),#288fff);
-      box-shadow:0 18px 34px rgba(43,155,255,.28);
-    }
-
-    .modal{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.68);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      z-index:140;
-    }
-
-    .modal.show{display:flex}
-
-    .modal-card{
-      width:min(560px,96vw);
-      background:linear-gradient(180deg,#101a36,#0b1430);
-      border:1px solid var(--line);
-      border-radius:24px;
-      box-shadow:var(--shadow);
-      padding:24px;
-    }
-
-    .modal-card h3{
-      margin:0 0 10px;
-      font-size:1.45rem;
-    }
-
-    .modal-card p{
-      margin:0 0 16px;
-      color:var(--muted);
-      line-height:1.7;
-    }
-
-    .modal-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:16px;
-    }
-
-    .close-x{
-      float:right;
-      background:transparent;
-      border:none;
-      color:#fff;
-      font-size:1.3rem;
-      cursor:pointer;
-    }
-
-    @media (max-width:1100px){
-      .hero-grid,
-      .dashboard,
-      .grid-3,
-      .official-grid,
-      .forms-wrap,
-      .board-grid,
-      .footer-grid{
-        grid-template-columns:1fr 1fr;
-      }
-    }
-
-    @media (max-width:760px){
-      .topbar-inner,
-      .section-head{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-
-      .hero-grid,
-      .grid-3,
-      .grid-2,
-      .forms-wrap,
-      .board-grid,
-      .footer-grid,
-      .dashboard,
-      .stats,
-      .official-grid{
-        grid-template-columns:1fr;
-      }
-
-      .hero{padding-top:42px}
-      h1{font-size:2.6rem}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinchStream</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#070f1c;
+color:#fff;
+}
+
+.container{width:92%;margin:auto}
+
+h1,h2{margin:10px 0}
+
+.card{
+background:#121c3f;
+padding:20px;
+margin:15px 0;
+border-radius:12px;
+}
+
+button{
+padding:12px;
+border:none;
+border-radius:8px;
+background:#ff3c5c;
+color:#fff;
+cursor:pointer;
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:5px 0;
+border-radius:6px;
+border:none;
+}
+
+.song{
+background:#1a2550;
+padding:12px;
+margin:8px 0;
+border-radius:8px;
+}
+
+.radio-btn{
+background:#222;
+padding:10px;
+margin:5px;
+display:inline-block;
+cursor:pointer;
+border-radius:6px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:10px;
+}
+
+.small{color:#aaa;font-size:12px}
+</style>
 </head>
+
 <body>
-  <div class="topbar">
-    <div class="container topbar-inner">
-      <div class="brand">
-        <div class="brand-badge">SF</div>
-        <div>SERIOUS FINCH HUB</div>
-      </div>
-
-      <nav class="nav">
-        <a href="#latest">Latest</a>
-        <a href="#music">Music</a>
-        <a href="#growth">Growth</a>
-        <a href="#radio">Radio</a>
-        <a href="#feed">Feed</a>
-        <a href="#join">Join</a>
-      </nav>
-    </div>
-  </div>
-
-  <header class="hero">
-    <div class="container hero-grid">
-      <section class="panel hero-card">
-        <div class="eyebrow">Official Artist Platform</div>
-        <h1>SERIOUS<br>FINCH</h1>
-        <p class="hero-copy">
-          Official Serious Finch platform with music, videos, artist growth tools,
-          artist sign-up, playlist submissions, artist profiles board, music feed,
-          and official radio station access without fake playback buttons.
-        </p>
-
-        <div class="cta-row">
-          <a class="btn btn-primary" href="#join">Join The Hub</a>
-          <a class="btn btn-secondary" href="#radio">Official Radio</a>
-          <a class="btn btn-secondary" href="#feed">Music Feed</a>
-        </div>
-
-        <div class="notice">
-          This version keeps the original Serious Finch Hub style but makes the radio section official:
-          major stations open their real live pages instead of pretending to play inside your site.
-        </div>
-      </section>
-
-      <section class="panel stats">
-        <div class="stat">
-          <div class="label">Tasks Completed</div>
-          <div class="value" id="taskCount">0/5</div>
-        </div>
-        <div class="stat">
-          <div class="label">Feed Posts</div>
-          <div class="value" id="feedCount">0</div>
-        </div>
-        <div class="stat">
-          <div class="label">Artists Added</div>
-          <div class="value" id="artistCount">0</div>
-        </div>
-        <div class="stat">
-          <div class="label">Radio Status</div>
-          <div class="value" id="radioStatus">Official</div>
-        </div>
-      </section>
-    </div>
-  </header>
-
-  <main>
-    <section class="section" id="latest">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Latest Drop</h2>
-            <p class="section-sub">Your real platform, cleaned up and made more professional.</p>
-          </div>
-        </div>
-
-        <div class="grid-3">
-          <article class="card">
-            <h3>Popular Songs</h3>
-            <div class="row-list">
-              <div class="row-item"><strong>Work Week</strong><span>Street energy and replay value</span></div>
-              <div class="row-item"><strong>Where You From</strong><span>Strong identity record</span></div>
-              <div class="row-item"><strong>Where I Come From</strong><span>Storytelling and grit</span></div>
-              <div class="row-item"><strong>Finch Boys Freestyle Pt.1</strong><span>Cypher-style momentum</span></div>
-              <div class="row-item"><strong>No Contact</strong><span>Cold focused delivery</span></div>
-              <div class="row-item"><strong>Get A Loaf</strong><span>Money anthem energy</span></div>
-            </div>
-          </article>
-
-          <article class="card" id="music">
-            <h3>Finch Music Network</h3>
-            <div class="pill">Sons of Gunsmoke</div>
-            <div class="pill">Serious Finch</div>
-            <div class="pill">Nature Finch</div>
-            <div class="pill">Canei Finch</div>
-            <div class="pill">Khyian Wayne</div>
-            <div class="pill">Sunny Bishop</div>
-            <div class="pill">adye</div>
-            <div class="pill">Skrewface</div>
-
-            <div class="notice">
-              Use your real platform links only. No fake artists. No fake views. No fake stream buttons.
-            </div>
-
-            <div class="cta-row">
-              <a class="btn btn-secondary" href="https://open.spotify.com/" target="_blank" rel="noopener">Follow Spotify</a>
-              <a class="btn btn-secondary" href="https://www.youtube.com/" target="_blank" rel="noopener">Subscribe YouTube</a>
-              <a class="btn btn-secondary" href="https://www.tiktok.com/" target="_blank" rel="noopener">Follow TikTok</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <h3>Mental Warfare</h3>
-            <p class="helper">
-              Keep your author and music worlds together here without making the page feel cluttered.
-            </p>
-
-            <div class="cta-row">
-              <a class="btn btn-primary" href="https://a.co/" target="_blank" rel="noopener">Order On Amazon</a>
-            </div>
-
-            <div class="notice">
-              Swap in your exact book link if you want this section fully finished.
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="growth">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Artist Growth Hub</h2>
-            <p class="section-sub">Build. Submit. Grow. Real progress, clean layout, and no fake automation claims.</p>
-          </div>
-        </div>
-
-        <div class="dashboard">
-          <div class="metric">
-            <div class="small">Growth Progress</div>
-            <div class="big" id="progressText">0%</div>
-            <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
-            <div class="helper" style="margin-top:10px">Complete all five growth tasks to hit full progress.</div>
-          </div>
-
-          <div class="metric">
-            <div class="small">Estimated Next Month Streams</div>
-            <div class="big" id="estimatedStreams">0</div>
-          </div>
-
-          <div class="metric">
-            <div class="small">Artist Sign-Ups</div>
-            <div class="big" id="dashboardArtists">0</div>
-          </div>
-
-          <div class="metric">
-            <div class="small">Song Submissions</div>
-            <div class="big" id="dashboardSubmissions">0</div>
-          </div>
-        </div>
-
-        <div class="grid-2" style="margin-top:18px">
-          <article class="card">
-            <h3>Official Growth Tasks</h3>
-            <div class="task-list">
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Upload new music weekly</strong><span>Train your audience to expect consistent motion.</span></label>
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Post 3 TikTok / Reels this week</strong><span>Lead with your strongest 10–15 seconds.</span></label>
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Engage with 10 supporters today</strong><span>Turn attention into loyalty.</span></label>
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Collaborate this month</strong><span>Build cross-audience reach.</span></label>
-              <label class="row-item"><input type="checkbox" class="taskCheck" /> <strong>Submit to playlists and radio</strong><span>Push hardest during the first 48 hours.</span></label>
-            </div>
-          </article>
-
-          <article class="card">
-            <h3>Promotion Tips</h3>
-            <div class="row-list">
-              <div class="row-item"><strong>Push one main song at a time</strong><span>Don’t split attention between too many records.</span></div>
-              <div class="row-item"><strong>Ask for saves and shares</strong><span>Not just plays.</span></div>
-              <div class="row-item"><strong>Make every post point somewhere</strong><span>Spotify, YouTube, or your hub.</span></div>
-              <div class="row-item"><strong>Keep your page alive</strong><span>An active feed makes your platform look trusted.</span></div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="radio">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Official Radio Access</h2>
-            <p class="section-sub">Major station cards now open the real official pages instead of fake on-page playback.</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="official-grid">
-            <div class="official-card">
-              <div class="tag">Official</div>
-              <div class="official-name">HOT 97</div>
-              <div class="official-meta">New York • Hip-Hop</div>
-              <div class="helper">Open the real live page.</div>
-              <div class="official-actions">
-                <a class="mini-btn primary" href="https://www.hot97.com/listen-live/" target="_blank" rel="noopener">Listen Live</a>
-                <a class="mini-btn" href="https://www.hot97.com/download-the-official-hot-97-app/" target="_blank" rel="noopener">Official App</a>
-              </div>
-            </div>
-
-            <div class="official-card">
-              <div class="tag">Official</div>
-              <div class="official-name">Power 105.1</div>
-              <div class="official-meta">New York • Hip-Hop / R&B</div>
-              <div class="helper">Open the official iHeart page.</div>
-              <div class="official-actions">
-                <a class="mini-btn primary" href="https://power1051.iheart.com/featured/iheartradio-live/" target="_blank" rel="noopener">Listen Live</a>
-                <a class="mini-btn" href="https://power1051.iheart.com/" target="_blank" rel="noopener">Station Page</a>
-              </div>
-            </div>
-
-            <div class="official-card">
-              <div class="tag">Official</div>
-              <div class="official-name">Z100</div>
-              <div class="official-meta">New York • Hit Music</div>
-              <div class="helper">Open the official iHeart live page.</div>
-              <div class="official-actions">
-                <a class="mini-btn primary" href="https://z100.iheart.com/featured/iheartradio-live/" target="_blank" rel="noopener">Listen Live</a>
-                <a class="mini-btn" href="https://z100.iheart.com/" target="_blank" rel="noopener">Station Page</a>
-              </div>
-            </div>
-
-            <div class="official-card">
-              <div class="tag">Official</div>
-              <div class="official-name">Shade 45</div>
-              <div class="official-meta">SiriusXM • Hip-Hop</div>
-              <div class="helper">Open the official SiriusXM channel page.</div>
-              <div class="official-actions">
-                <a class="mini-btn primary" href="https://www.siriusxm.com/channels/shade-45" target="_blank" rel="noopener">Channel Page</a>
-                <a class="mini-btn" href="https://www.siriusxm.com/" target="_blank" rel="noopener">SiriusXM</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="notice">
-            This is the cleanest official setup. If a station does not publicly expose a browser-safe stream URL, your site should link to the real official player instead of faking a play button.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="feed">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Submissions + Artist Board</h2>
-            <p class="section-sub">Artists and songs appear instantly on the site after submission.</p>
-          </div>
-        </div>
-
-        <div class="board-grid">
-          <article class="card">
-            <h3>Music Feed</h3>
-            <div id="musicFeed" class="board-list"></div>
-          </article>
-
-          <article class="card">
-            <h3>Artist Profiles Board</h3>
-            <div id="artistBoard" class="board-list"></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="join">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Artist Sign-Up & Song Submission</h2>
-            <p class="section-sub">Both forms send to Formspree and also update your local feed instantly.</p>
-          </div>
-        </div>
-
-        <div class="forms-wrap">
-          <article class="card">
-            <h3>Artist Sign-Up</h3>
-            <p class="helper">Artists join here and get added to the board automatically.</p>
-
-            <form id="artistForm" action="https://formspree.io/f/mjgaajoq" method="POST">
-              <div class="field">
-                <label for="artistName">Artist Name</label>
-                <input id="artistName" name="artistName" type="text" placeholder="Enter artist name" required />
-              </div>
-
-              <div class="field">
-                <label for="artistEmail">Email</label>
-                <input id="artistEmail" name="artistEmail" type="email" placeholder="artist@email.com" required />
-              </div>
-
-              <div class="field">
-                <label for="artistCity">City / State</label>
-                <input id="artistCity" name="artistCity" type="text" placeholder="Brooklyn, NY" required />
-              </div>
-
-              <div class="field">
-                <label for="artistGenre">Genre</label>
-                <select id="artistGenre" name="artistGenre" required>
-                  <option value="">Choose one</option>
-                  <option>Hip-Hop / Rap</option>
-                  <option>R&B</option>
-                  <option>Drill</option>
-                  <option>Trap</option>
-                  <option>Pop</option>
-                  <option>Other</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="artistLinks">Main Music / Social Link</label>
-                <input id="artistLinks" name="artistLinks" type="url" placeholder="https://..." required />
-              </div>
-
-              <div class="field">
-                <label for="artistBio">Short Bio</label>
-                <textarea id="artistBio" name="artistBio" placeholder="Tell people who you are..." required></textarea>
-              </div>
-
-              <button class="btn btn-primary" type="submit">Join Hub</button>
-            </form>
-          </article>
-
-          <article class="card">
-            <h3>Song Submission</h3>
-            <p class="helper">Songs post to your feed instantly when submitted.</p>
-
-            <form id="songForm" action="https://formspree.io/f/mjgaajoq" method="POST">
-              <div class="field">
-                <label for="submitArtist">Artist Name</label>
-                <input id="submitArtist" name="submitArtist" type="text" placeholder="Artist name" required />
-              </div>
-
-              <div class="field">
-                <label for="songTitle">Song Title</label>
-                <input id="songTitle" name="songTitle" type="text" placeholder="Song title" required />
-              </div>
-
-              <div class="field">
-                <label for="songLink">Streaming Link</label>
-                <input id="songLink" name="songLink" type="url" placeholder="Spotify / YouTube / Apple Music link" required />
-              </div>
-
-              <div class="field">
-                <label for="songType">Submission Type</label>
-                <select id="songType" name="songType" required>
-                  <option value="">Choose one</option>
-                  <option>Playlist Submission</option>
-                  <option>Radio Submission</option>
-                  <option>Artist Feature Request</option>
-                  <option>Music Video Promotion</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="songNotes">Notes</label>
-                <textarea id="songNotes" name="songNotes" placeholder="What should we know about this record?" required></textarea>
-              </div>
-
-              <button class="btn btn-primary" type="submit">Submit Song</button>
-            </form>
-          </article>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>SERIOUS FINCH HUB</strong>
-        <p class="helper">
-          Official artist platform with music, growth tools, submissions, artist board,
-          and official station links.
-        </p>
-      </div>
-
-      <div>
-        <strong>Quick Links</strong>
-        <p class="helper">
-          <a href="#growth">Growth Hub</a><br>
-          <a href="#radio">Official Radio</a><br>
-          <a href="#join">Join Hub</a>
-        </p>
-      </div>
-
-      <div>
-        <strong>Platforms</strong>
-        <p class="helper">
-          <a href="https://open.spotify.com/" target="_blank" rel="noopener">Spotify</a><br>
-          <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><br>
-          <a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a>
-        </p>
-      </div>
-    </div>
-    <div class="container" style="margin-top:14px">© 2026 Serious Finch</div>
-  </footer>
-
-  <button class="support-fab" id="supportButton">Need Help?</button>
-
-  <div class="modal" id="popupModal">
-    <div class="modal-card">
-      <button class="close-x" id="closeModalBtn" aria-label="Close">×</button>
-      <h3 id="modalTitle">Done</h3>
-      <p id="modalMessage">Your action was completed.</p>
-      <div class="modal-actions">
-        <button class="btn btn-primary" id="okModalBtn" type="button">Done</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="supportModal">
-    <div class="modal-card">
-      <button class="close-x" id="closeSupportBtn" aria-label="Close">×</button>
-      <h3>Quick Help</h3>
-      <p>
-        Use the official radio links for real station access, keep artist links real,
-        and use the submission forms to keep your feed active and professional.
-      </p>
-      <div class="modal-actions">
-        <a class="btn btn-primary" href="#join">Open Submission Forms</a>
-        <button class="btn btn-secondary" id="supportCloseAction" type="button">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const STORAGE_KEYS = {
-      artists: "sfh_artists",
-      songs: "sfh_songs",
-      tasks: "sfh_tasks_checked"
-    };
-
-    const popupModal = document.getElementById("popupModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalMessage = document.getElementById("modalMessage");
-    const closeModalBtn = document.getElementById("closeModalBtn");
-    const okModalBtn = document.getElementById("okModalBtn");
-
-    const supportModal = document.getElementById("supportModal");
-    const supportButton = document.getElementById("supportButton");
-    const closeSupportBtn = document.getElementById("closeSupportBtn");
-    const supportCloseAction = document.getElementById("supportCloseAction");
-
-    const artistForm = document.getElementById("artistForm");
-    const songForm = document.getElementById("songForm");
-
-    const artistBoard = document.getElementById("artistBoard");
-    const musicFeed = document.getElementById("musicFeed");
-
-    const taskCount = document.getElementById("taskCount");
-    const feedCount = document.getElementById("feedCount");
-    const artistCount = document.getElementById("artistCount");
-    const progressText = document.getElementById("progressText");
-    const progressBar = document.getElementById("progressBar");
-    const estimatedStreams = document.getElementById("estimatedStreams");
-    const dashboardArtists = document.getElementById("dashboardArtists");
-    const dashboardSubmissions = document.getElementById("dashboardSubmissions");
-
-    function showModal(title, message){
-      modalTitle.textContent = title;
-      modalMessage.textContent = message;
-      popupModal.classList.add("show");
-    }
-
-    function closeModal(){
-      popupModal.classList.remove("show");
-    }
-
-    closeModalBtn.addEventListener("click", closeModal);
-    okModalBtn.addEventListener("click", closeModal);
-    popupModal.addEventListener("click", (e) => {
-      if(e.target === popupModal) closeModal();
-    });
-
-    supportButton.addEventListener("click", () => supportModal.classList.add("show"));
-    closeSupportBtn.addEventListener("click", () => supportModal.classList.remove("show"));
-    supportCloseAction.addEventListener("click", () => supportModal.classList.remove("show"));
-    supportModal.addEventListener("click", (e) => {
-      if(e.target === supportModal) supportModal.classList.remove("show");
-    });
-
-    function readStorage(key, fallback){
-      try{
-        const raw = localStorage.getItem(key);
-        return raw ? JSON.parse(raw) : fallback;
-      }catch{
-        return fallback;
-      }
-    }
-
-    function writeStorage(key, value){
-      localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    function nowString(){
-      return new Date().toLocaleString();
-    }
-
-    function escapeHtml(str){
-      return String(str).replace(/[&<>"']/g, (m) => ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-      }[m]));
-    }
-
-    function renderArtists(){
-      const artists = readStorage(STORAGE_KEYS.artists, []);
-      artistBoard.innerHTML = artists.length ? artists.map((artist) => `
-        <div class="board-item">
-          <div class="top">
-            <div class="name">${escapeHtml(artist.artistName)}</div>
-            <div class="time">${escapeHtml(artist.time)}</div>
-          </div>
-          <div class="helper">${escapeHtml(artist.artistGenre)} • ${escapeHtml(artist.artistCity)}</div>
-          <p>${escapeHtml(artist.artistBio)}</p>
-          <p><a href="${artist.artistLinks}" target="_blank" rel="noopener">Open artist link</a></p>
-        </div>
-      `).join("") : `<div class="empty">No artists added yet. New sign-ups will appear here automatically.</div>`;
-    }
-
-    function renderSongs(){
-      const songs = readStorage(STORAGE_KEYS.songs, []);
-      musicFeed.innerHTML = songs.length ? songs.map((song) => `
-        <div class="board-item">
-          <div class="top">
-            <div class="name">${escapeHtml(song.submitArtist)} — ${escapeHtml(song.songTitle)}</div>
-            <div class="time">${escapeHtml(song.time)}</div>
-          </div>
-          <div class="helper">${escapeHtml(song.songType)}</div>
-          <p>${escapeHtml(song.songNotes)}</p>
-          <p><a href="${song.songLink}" target="_blank" rel="noopener">Open streaming link</a></p>
-        </div>
-      `).join("") : `<div class="empty">No feed posts yet. New song submissions will appear here automatically.</div>`;
-    }
-
-    function renderDashboard(){
-      const artists = readStorage(STORAGE_KEYS.artists, []);
-      const songs = readStorage(STORAGE_KEYS.songs, []);
-      const taskState = readStorage(STORAGE_KEYS.tasks, [false,false,false,false,false]);
-
-      const complete = taskState.filter(Boolean).length;
-      const percent = Math.round((complete / 5) * 100);
-      const streamEstimate = (artists.length * 130) + (songs.length * 190) + (complete * 85);
-
-      taskCount.textContent = `${complete}/5`;
-      feedCount.textContent = String(songs.length);
-      artistCount.textContent = String(artists.length);
-      progressText.textContent = `${percent}%`;
-      progressBar.style.width = `${percent}%`;
-      estimatedStreams.textContent = streamEstimate.toLocaleString();
-      dashboardArtists.textContent = String(artists.length);
-      dashboardSubmissions.textContent = String(songs.length);
-    }
-
-    function initTasks(){
-      const taskState = readStorage(STORAGE_KEYS.tasks, [false,false,false,false,false]);
-      const taskChecks = [...document.querySelectorAll(".taskCheck")];
-
-      taskChecks.forEach((box, index) => {
-        box.checked = Boolean(taskState[index]);
-        box.addEventListener("change", () => {
-          const next = taskChecks.map(cb => cb.checked);
-          writeStorage(STORAGE_KEYS.tasks, next);
-          renderDashboard();
-        });
-      });
-    }
-
-    async function postToFormspree(form){
-      const formData = new FormData(form);
-      const res = await fetch(form.action, {
-        method: "POST",
-        body: formData,
-        headers: { "Accept":"application/json" }
-      });
-      return res.ok;
-    }
-
-    artistForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const payload = {
-        artistName: artistForm.artistName.value.trim(),
-        artistEmail: artistForm.artistEmail.value.trim(),
-        artistCity: artistForm.artistCity.value.trim(),
-        artistGenre: artistForm.artistGenre.value.trim(),
-        artistLinks: artistForm.artistLinks.value.trim(),
-        artistBio: artistForm.artistBio.value.trim(),
-        time: nowString()
-      };
-
-      const artists = readStorage(STORAGE_KEYS.artists, []);
-      artists.unshift(payload);
-      writeStorage(STORAGE_KEYS.artists, artists);
-      renderArtists();
-      renderDashboard();
-
-      const sent = await postToFormspree(artistForm).catch(() => false);
-
-      artistForm.reset();
-      showModal(
-        sent ? "Artist Added" : "Saved On Site",
-        sent
-          ? "The artist sign-up was submitted and the artist board updated instantly."
-          : "The artist was saved to your hub, but Formspree did not confirm delivery."
-      );
-    });
-
-    songForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const payload = {
-        submitArtist: songForm.submitArtist.value.trim(),
-        songTitle: songForm.songTitle.value.trim(),
-        songLink: songForm.songLink.value.trim(),
-        songType: songForm.songType.value.trim(),
-        songNotes: songForm.songNotes.value.trim(),
-        time: nowString()
-      };
-
-      const songs = readStorage(STORAGE_KEYS.songs, []);
-      songs.unshift(payload);
-      writeStorage(STORAGE_KEYS.songs, songs);
-      renderSongs();
-      renderDashboard();
-
-      const sent = await postToFormspree(songForm).catch(() => false);
-
-      songForm.reset();
-      showModal(
-        sent ? "Submission Posted" : "Saved On Site",
-        sent
-          ? "The song was submitted and added to the music feed instantly."
-          : "The submission was saved to your hub, but Formspree did not confirm delivery."
-      );
-    });
-
-    renderArtists();
-    renderSongs();
-    renderDashboard();
-    initTasks();
-  </script>
+
+<div class="container">
+
+<h1>🔥 FinchStream</h1>
+
+<!-- RADIO -->
+<div class="card">
+<h2>📻 Live Radio</h2>
+
+<h3 id="nowPlaying">Select a station</h3>
+<audio id="player" controls style="width:100%"></audio>
+<p id="radioStatus" class="small">Ready</p>
+
+<h3>Play Inside Site</h3>
+<div id="radioStreams" class="grid"></div>
+
+<h3 style="margin-top:20px;">Official Stations</h3>
+<div class="grid">
+<a href="https://www.hot97.com/listen-live/" target="_blank" class="radio-btn">HOT 97</a>
+<a href="https://power1051.iheart.com/" target="_blank" class="radio-btn">Power 105</a>
+<a href="https://z100.iheart.com/" target="_blank" class="radio-btn">Z100</a>
+<a href="https://www.siriusxm.com/channels/shade-45" target="_blank" class="radio-btn">Shade 45</a>
+</div>
+
+</div>
+
+<!-- SUBMIT -->
+<div class="card">
+<h2>🎵 Submit Song</h2>
+<form id="songForm" action="https://formspree.io/f/mjgaajoq" method="POST">
+<input name="artist" id="artist" placeholder="Artist Name" required>
+<input name="title" id="title" placeholder="Song Title" required>
+<input name="link" id="link" placeholder="Song Link" required>
+<textarea name="notes" placeholder="Notes"></textarea>
+<button type="submit">Submit</button>
+</form>
+</div>
+
+<!-- ARTIST SIGNUP -->
+<div class="card">
+<h2>👤 Artist Sign-Up</h2>
+<form id="artistForm" action="https://formspree.io/f/mjgaajoq" method="POST">
+<input name="name" id="artistName" placeholder="Artist Name" required>
+<input name="email" placeholder="Email" required>
+<input name="city" placeholder="City" required>
+<input name="link" placeholder="Music Link" required>
+<textarea name="bio" placeholder="Bio"></textarea>
+<button type="submit">Join</button>
+</form>
+</div>
+
+<!-- DASHBOARD -->
+<div class="card">
+<h2>📊 Stats</h2>
+<div id="stats"></div>
+</div>
+
+<!-- TRENDING -->
+<div class="card">
+<h2>🔥 Trending</h2>
+<div id="trending"></div>
+</div>
+
+<!-- FEED -->
+<div class="card">
+<h2>🎧 Music Feed</h2>
+<div id="feed"></div>
+</div>
+
+<!-- ARTIST BOARD -->
+<div class="card">
+<h2>🎤 Artist Board</h2>
+<div id="artists"></div>
+</div>
+
+</div>
+
+<script>
+
+// STORAGE
+let songs = JSON.parse(localStorage.getItem("songs")||"[]");
+let artists = JSON.parse(localStorage.getItem("artists")||"[]");
+
+// RADIO STREAMS (REAL WORKING)
+const streams = [
+{name:"Hip-Hop",url:"https://listen.181fm.com/181-beat_128k.mp3"},
+{name:"Trap",url:"https://stream.zeno.fm/0r0xa792kwzuv"},
+{name:"Rap",url:"https://stream.zeno.fm/4wqre23sk2zuv"},
+{name:"Urban",url:"https://streaming.live365.com/a57782"}
+];
+
+function renderRadio(){
+const box=document.getElementById("radioStreams");
+
+streams.forEach(st=>{
+let btn=document.createElement("div");
+btn.className="radio-btn";
+btn.innerText=st.name;
+
+btn.onclick=()=>{
+player.src=st.url;
+player.play();
+nowPlaying.innerText="Now Playing: "+st.name;
+radioStatus.innerText="Playing";
+};
+
+box.appendChild(btn);
+});
+}
+
+// SONG SUBMIT
+songForm.onsubmit = async (e)=>{
+e.preventDefault();
+
+let data={
+artist:artist.value,
+title:title.value,
+link:link.value,
+plays:0
+};
+
+songs.unshift(data);
+localStorage.setItem("songs",JSON.stringify(songs));
+
+renderAll();
+
+fetch(songForm.action,{
+method:"POST",
+body:new FormData(songForm),
+headers:{Accept:"application/json"}
+});
+
+songForm.reset();
+};
+
+// ARTIST SUBMIT
+artistForm.onsubmit = async (e)=>{
+e.preventDefault();
+
+let data={
+name:artistName.value
+};
+
+artists.unshift(data);
+localStorage.setItem("artists",JSON.stringify(artists));
+
+renderArtists();
+
+fetch(artistForm.action,{
+method:"POST",
+body:new FormData(artistForm),
+headers:{Accept:"application/json"}
+});
+
+artistForm.reset();
+};
+
+// PLAY SONG
+function playSong(i){
+songs[i].plays++;
+localStorage.setItem("songs",JSON.stringify(songs));
+player.src=songs[i].link;
+player.play();
+renderTrending();
+}
+
+// FEED
+function renderFeed(){
+feed.innerHTML="";
+songs.forEach((s,i)=>{
+feed.innerHTML+=`
+<div class="song">
+<strong>${s.artist}</strong><br>
+${s.title}<br>
+<button onclick="playSong(${i})">Play</button>
+</div>`;
+});
+}
+
+// TRENDING
+function renderTrending(){
+trending.innerHTML="";
+[...songs].sort((a,b)=>b.plays-a.plays).slice(0,5).forEach(s=>{
+trending.innerHTML+=`
+<div class="song">${s.artist} - ${s.title} (${s.plays})</div>`;
+});
+}
+
+// ARTISTS
+function renderArtists(){
+artists.innerHTML="";
+artists.forEach(a=>{
+artists.innerHTML+=`<div class="song">${a.name}</div>`;
+});
+}
+
+// STATS
+function renderStats(){
+stats.innerHTML="Songs: "+songs.length+"<br>Artists: "+artists.length;
+}
+
+function renderAll(){
+renderFeed();
+renderTrending();
+renderStats();
+renderArtists();
+}
+
+renderRadio();
+renderAll();
+
+</script>
+
 </body>
-                                                                                                    </html>
+</html>
