@@ -4,17 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Serious Finch Hub</title>
+
   <style>
     :root{
-      --bg:#05070d;
+      --bg:#050816;
       --bg2:#0a1020;
-      --card:#0f1730;
+      --card:#0d1638;
       --card2:#111c45;
       --text:#ffffff;
       --muted:#aab7e8;
       --red:#ff0000;
       --green:#1db954;
       --line:rgba(255,255,255,.08);
+      --shadow:0 20px 50px rgba(0,0,0,.35);
+      --radius:22px;
     }
 
     *{box-sizing:border-box}
@@ -24,17 +27,18 @@
       font-family:Arial,Helvetica,sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at 20% 0%, rgba(255,0,0,.16), transparent 28%),
-        radial-gradient(circle at 85% 10%, rgba(77,232,255,.08), transparent 24%),
-        linear-gradient(180deg, #04060c 0%, #071025 100%);
+        radial-gradient(circle at 20% 0%, rgba(255,0,0,.14), transparent 35%),
+        radial-gradient(circle at 85% 0%, rgba(77,232,255,.06), transparent 28%),
+        linear-gradient(180deg,#050816 0%, #071025 100%);
     }
 
-    a{text-decoration:none;color:inherit}
-    iframe{border:0;width:100%;display:block}
-    input,textarea,button{font:inherit}
+    a{color:inherit;text-decoration:none}
+    iframe{width:100%;border:0;display:block;background:#000}
+    img{max-width:100%;display:block}
+    button,input,textarea{font:inherit}
 
     .container{
-      width:min(1180px, calc(100% - 28px));
+      width:min(1200px, calc(100% - 28px));
       margin:0 auto;
     }
 
@@ -44,61 +48,62 @@
       left:0;
       right:0;
       z-index:1000;
-      background:rgba(0,0,0,.88);
+      background:rgba(0,0,0,.86);
       backdrop-filter:blur(8px);
       border-bottom:1px solid var(--line);
     }
 
     .nav-inner{
-      min-height:76px;
+      min-height:78px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:16px;
+      gap:18px;
     }
 
     .brand{
       font-weight:900;
-      font-size:20px;
-      letter-spacing:-.02em;
+      font-size:28px;
+      letter-spacing:-.04em;
       text-transform:uppercase;
       white-space:nowrap;
     }
 
     .nav-links{
       display:flex;
-      align-items:center;
       gap:10px;
       flex-wrap:wrap;
       justify-content:flex-end;
+      align-items:center;
     }
 
     .nav-links a{
-      color:#fff;
-      font-weight:800;
-      font-size:14px;
-      padding:10px 14px;
+      padding:11px 15px;
       border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.12em;
       text-transform:uppercase;
-      letter-spacing:.08em;
+      color:#fff;
     }
 
     .nav-links a:hover{
       background:rgba(255,255,255,.06);
     }
 
-    .hub-btn{
+    .nav-links .hub-btn{
       background:var(--red);
-      box-shadow:0 8px 20px rgba(255,0,0,.25);
+      box-shadow:0 10px 24px rgba(255,0,0,.22);
     }
 
     .hero{
+      position:relative;
       min-height:100vh;
       display:flex;
       align-items:flex-end;
-      padding:120px 0 70px;
-      position:relative;
       overflow:hidden;
+      padding:110px 0 70px;
+      background:#000;
     }
 
     .hero:before{
@@ -106,18 +111,26 @@
       position:absolute;
       inset:0;
       background:
-        linear-gradient(to top, rgba(5,7,13,.95), rgba(5,7,13,.45), rgba(5,7,13,.2)),
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,.02), transparent 28%);
+        linear-gradient(to top, rgba(5,8,22,.96), rgba(5,8,22,.45), rgba(5,8,22,.12)),
+        linear-gradient(to right, rgba(5,8,22,.75), rgba(5,8,22,.15), rgba(5,8,22,.05));
+      z-index:1;
       pointer-events:none;
     }
 
-    .hero-grid{
+    .hero-video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.55;
+      mix-blend-mode:screen;
+    }
+
+    .hero-content{
       position:relative;
-      z-index:1;
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:24px;
-      align-items:end;
+      z-index:2;
+      max-width:1100px;
     }
 
     .eyebrow{
@@ -127,105 +140,86 @@
       padding:10px 14px;
       border-radius:999px;
       border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
+      background:rgba(255,255,255,.04);
       font-size:12px;
       font-weight:800;
       letter-spacing:.18em;
       text-transform:uppercase;
+      margin-bottom:18px;
     }
 
-    .dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:var(--green);
-      box-shadow:0 0 12px rgba(29,185,84,.7);
+    .pulse{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--red);
+      box-shadow:0 0 15px rgba(255,0,0,.75);
     }
 
-    .hero-title{
-      margin:18px 0 18px;
-      font-size:clamp(64px, 12vw, 180px);
+    .hero h1{
+      margin:0 0 18px;
+      font-size:clamp(72px, 13vw, 176px);
       line-height:.84;
-      letter-spacing:-.06em;
+      letter-spacing:-.07em;
       text-transform:uppercase;
       font-weight:900;
-    }
-
-    .hero-copy{
-      color:var(--muted);
-      max-width:760px;
-      font-size:clamp(16px,2vw,20px);
-      line-height:1.6;
-      margin:0 0 30px;
     }
 
     .hero-actions{
       display:flex;
       flex-wrap:wrap;
       gap:12px;
+      margin-top:22px;
     }
 
     .btn{
-      border:none;
-      border-radius:999px;
-      padding:14px 18px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      cursor:pointer;
-      color:#fff;
-      background:rgba(255,255,255,.08);
-    }
-
-    .btn-white{
-      background:#fff;
-      color:#000;
-    }
-
-    .btn-red{
-      background:var(--red);
-    }
-
-    .feature-card{
-      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-      border:1px solid var(--line);
-      border-radius:28px;
-      overflow:hidden;
-      box-shadow:0 24px 60px rgba(0,0,0,.35);
-    }
-
-    .feature-head{
-      padding:14px 18px;
-      border-bottom:1px solid var(--line);
-      display:flex;
-      justify-content:space-between;
+      display:inline-flex;
       align-items:center;
-      font-size:12px;
+      gap:10px;
+      padding:14px 18px;
+      border-radius:999px;
+      font-size:13px;
       font-weight:800;
+      letter-spacing:.12em;
       text-transform:uppercase;
-      letter-spacing:.16em;
+      border:none;
+      cursor:pointer;
     }
+
+    .btn-white{background:#fff;color:#000}
+    .btn-red{background:var(--red);color:#fff}
+    .btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--line)}
 
     .section{
-      padding:84px 0;
+      padding:90px 0;
       border-top:1px solid rgba(255,255,255,.03);
     }
 
     .section-head{
       display:flex;
+      align-items:flex-end;
       justify-content:space-between;
-      align-items:end;
       gap:20px;
       margin-bottom:26px;
       flex-wrap:wrap;
     }
 
+    .label{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:14px;
+      color:var(--red);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
     .section-head h2{
       margin:0;
-      font-size:clamp(34px, 6vw, 76px);
-      line-height:.92;
-      letter-spacing:-.05em;
+      font-size:clamp(38px,7vw,82px);
+      line-height:.9;
       text-transform:uppercase;
+      letter-spacing:-.05em;
       font-weight:900;
     }
 
@@ -236,27 +230,25 @@
       line-height:1.6;
     }
 
-    .grid{
-      display:grid;
-      gap:18px;
-    }
-
+    .grid{display:grid;gap:20px}
     .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
     .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .grid-12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px}
+
     .card{
       background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.025));
       border:1px solid var(--line);
-      border-radius:24px;
+      border-radius:28px;
       overflow:hidden;
-      box-shadow:0 20px 50px rgba(0,0,0,.28);
+      box-shadow:var(--shadow);
     }
 
-    .card-pad{padding:22px}
-    .card h3{
+    .card-pad{padding:24px}
+    .card h3,.card h4{
       margin:0 0 10px;
-      font-size:24px;
-      font-weight:800;
       text-transform:uppercase;
+      font-weight:800;
       letter-spacing:.03em;
     }
 
@@ -266,112 +258,147 @@
       line-height:1.6;
     }
 
+    .bio-wrap{
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:20px;
+    }
+
+    .songs-list{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .song-item{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px;
+      background:rgba(0,0,0,.3);
+      border:1px solid var(--line);
+      border-radius:16px;
+      font-weight:700;
+    }
+
+    .song-num{
+      color:var(--red);
+      opacity:.55;
+      width:24px;
+      text-align:center;
+      font-weight:900;
+    }
+
+    .network-list{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .network-item{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:8px 0;
+      color:#fff;
+      opacity:.84;
+      font-weight:700;
+    }
+
+    .network-symbol{
+      color:var(--red);
+      opacity:.6;
+      font-size:18px;
+      width:22px;
+      text-align:center;
+    }
+
     .embed-shell{
       background:#000;
       border-top:1px solid var(--line);
     }
 
-    .hub-wrap{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
-
-    .task{
+    .social-actions{
       display:flex;
-      align-items:center;
       gap:12px;
-      padding:14px;
-      background:rgba(255,255,255,.035);
-      border:1px solid var(--line);
-      border-radius:16px;
-      margin-bottom:10px;
+      flex-wrap:wrap;
     }
 
-    .task input{
-      width:18px;
-      height:18px;
-      accent-color:#1db954;
-      flex:0 0 auto;
-    }
-
-    .task span{
-      font-weight:700;
-      line-height:1.4;
-    }
-
-    .tip{
-      padding:14px;
-      border-radius:16px;
-      background:rgba(255,255,255,.035);
-      border:1px solid var(--line);
-      margin-bottom:10px;
-      color:#eef2ff;
-      line-height:1.55;
-    }
-
-    .station{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      padding:14px;
-      border-radius:16px;
-      background:rgba(255,255,255,.035);
-      border:1px solid var(--line);
-      margin-bottom:10px;
-    }
-
-    .station button{
-      background:var(--green);
-      color:#fff;
-      border:none;
-      border-radius:999px;
-      padding:10px 14px;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    .stop-btn{
-      background:var(--red) !important;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="url"],
-    textarea{
-      width:100%;
-      background:#0b1330;
-      color:#fff;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
-      margin-bottom:12px;
-      outline:none;
-    }
-
-    textarea{
-      min-height:120px;
-      resize:vertical;
-    }
-
-    .submit-btn{
-      background:var(--red);
-      color:#fff;
-      border:none;
-      border-radius:16px;
+    .social-actions a{
       padding:14px 18px;
+      border-radius:999px;
+      font-size:13px;
       font-weight:800;
-      cursor:pointer;
+      letter-spacing:.12em;
+      text-transform:uppercase;
     }
 
-    .feed-item,
-    .profile-item{
-      background:rgba(255,255,255,.035);
+    .spotify-btn{background:#1db954;color:#fff}
+    .yt-btn{background:var(--red);color:#fff}
+    .white-btn{background:#fff;color:#000}
+
+    .short-grid iframe{
+      aspect-ratio:9/16;
+      border-radius:22px;
+      overflow:hidden;
+    }
+
+    .book-wrap{
+      display:grid;
+      grid-template-columns:5fr 7fr;
+      gap:20px;
+      align-items:center;
+    }
+
+    .book-cover{
+      aspect-ratio:3/4;
+      border-radius:22px;
+      overflow:hidden;
       border:1px solid var(--line);
+      background:
+        linear-gradient(180deg,#1a1a1a,#070707),
+        radial-gradient(circle at top, rgba(255,255,255,.1), transparent 35%);
+      display:flex;
+      align-items:flex-end;
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+
+    .book-cover-inner{
+      width:100%;
+      border:1px solid rgba(255,255,255,.08);
       border-radius:18px;
-      padding:14px;
-      margin-top:12px;
+      padding:22px;
+      background:rgba(0,0,0,.4);
+    }
+
+    .book-cover h3{
+      margin:0;
+      font-size:clamp(28px,4vw,48px);
+      line-height:.95;
+      text-transform:uppercase;
+      letter-spacing:-.04em;
+    }
+
+    .book-cover p{
+      margin:12px 0 0;
+      color:#d1d7f4;
+      font-weight:700;
+    }
+
+    .hub-header{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:20px;
+      margin-bottom:20px;
+    }
+
+    .metric-row{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+      margin-top:18px;
     }
 
     .metric{
@@ -379,45 +406,176 @@
       border:1px solid var(--line);
       border-radius:18px;
       padding:16px;
-      margin-top:12px;
     }
 
     .metric strong{
       display:block;
-      font-size:34px;
+      font-size:28px;
       margin-bottom:6px;
     }
 
-    footer{
-      padding:34px 0 48px;
+    .metric span{
       color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+
+    .hub-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .task{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:14px;
+      background:rgba(255,255,255,.035);
+      border:1px solid var(--line);
+      border-radius:18px;
+      margin-bottom:10px;
+    }
+
+    .task input{
+      margin-top:3px;
+      width:18px;
+      height:18px;
+      accent-color:#1db954;
+      flex:0 0 auto;
+    }
+
+    .task span{
+      line-height:1.45;
+      font-weight:700;
+    }
+
+    .tip{
+      background:rgba(255,255,255,.035);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      margin-bottom:10px;
+      line-height:1.55;
+      color:#eef2ff;
+    }
+
+    .field{
+      width:100%;
+      padding:13px 14px;
+      border:none;
+      border-radius:16px;
+      background:#0d1638;
+      color:#fff;
+      margin-bottom:10px;
+      outline:none;
+    }
+
+    textarea.field{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    .submit-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+
+    .feed-item,.profile-item{
+      background:rgba(255,255,255,.035);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px;
+      margin-top:12px;
+    }
+
+    .station{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      background:rgba(255,255,255,.035);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      margin-bottom:10px;
+    }
+
+    .station-title{
+      font-weight:800;
+    }
+
+    .station-sub{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:4px;
+    }
+
+    .station button{
+      border:none;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:800;
+      cursor:pointer;
+      background:var(--green);
+      color:#fff;
+    }
+
+    .stop-radio{
+      background:var(--red)!important;
+    }
+
+    .status{
+      margin-top:10px;
+      color:#dbe2ff;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .footer{
+      padding:34px 0 48px;
       text-align:center;
+      color:var(--muted);
       border-top:1px solid var(--line);
     }
 
     @media (max-width: 980px){
-      .hero-grid,
+      .nav-inner,
+      .bio-wrap,
+      .book-wrap,
+      .hub-header,
+      .hub-grid,
       .grid-2,
       .grid-3,
-      .hub-wrap{
-        grid-template-columns:1fr;
+      .grid-4,
+      .grid-12{
+        grid-template-columns:1fr !important;
       }
 
       .nav-inner{
-        padding:10px 0;
-        min-height:auto;
         flex-direction:column;
         align-items:flex-start;
+        padding:12px 0;
+        min-height:auto;
       }
 
       .nav-links{
-        justify-content:flex-start;
         width:100%;
+        justify-content:flex-start;
+      }
+
+      .songs-list,
+      .metric-row{
+        grid-template-columns:1fr;
       }
 
       .hero{
         min-height:auto;
-        padding-top:120px;
+        padding-top:140px;
       }
     }
   </style>
@@ -428,48 +586,109 @@
     <div class="container nav-inner">
       <div class="brand">SERIOUS FINCH</div>
       <div class="nav-links">
+        <a href="#latest">Latest</a>
         <a href="#music">Music</a>
-        <a href="#hub" class="hub-btn">Artist Hub</a>
+        <a href="#hub" class="hub-btn">Artist Growth Hub</a>
         <a href="#signup">Join</a>
-        <a href="https://youtube.com/@seriousf1nch?si=hk56qafuFBkiqPJW" target="_blank" rel="noopener noreferrer">YouTube</a>
       </div>
     </div>
   </nav>
 
-  <section class="hero" id="home">
-    <div class="container hero-grid">
-      <div>
-        <div class="eyebrow">
-          <span class="dot"></span>
-          <span>Official Artist Hub</span>
-        </div>
+  <section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline poster="">
+      <source src="hero-bg.mp4" type="video/mp4">
+    </video>
 
-        <h1 class="hero-title">SERIOUS<br>FINCH</h1>
-
-        <p class="hero-copy">
-          Official Serious Finch platform with music, video, artist growth tools, sign-up forms,
-          playlist submissions, artist profiles, and working radio — built to feel closer to the original page you gave me.
-        </p>
-
-        <div class="hero-actions">
-          <a class="btn btn-white" href="#music">Latest Music</a>
-          <a class="btn btn-red" href="#hub">Artist Growth Hub</a>
-        </div>
+    <div class="container hero-content">
+      <div class="eyebrow">
+        <span class="pulse"></span>
+        <span>Official Artist Hub</span>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-head">
-          <span>Latest Single</span>
-          <span>Spotify</span>
+      <h1>SERIOUS<br>FINCH</h1>
+
+      <div class="hero-actions">
+        <a class="btn btn-white" href="#latest">Latest Drop</a>
+        <a class="btn btn-red" href="#hub">Artist Growth Hub</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="bio" class="section">
+    <div class="container">
+      <div class="bio-wrap">
+        <div class="card card-pad">
+          <h2 style="font-size:clamp(38px,6vw,68px);margin:0 0 20px;color:var(--red);line-height:.92;text-transform:uppercase;letter-spacing:-.05em;">Serious Finch</h2>
+          <p class="sub" style="font-size:20px;color:#fff;max-width:none;">
+            Serious Finch is a hip-hop artist and songwriter from Brooklyn, New York.
+            Known for gritty street-style rap and collaborations with artists like
+            Nature Finch and Khyian Wayne, he has appeared on songs such as
+            “Work Week,” “Where You From,” and “Finch Boys Freestyle.”
+          </p>
+
+          <div style="margin-top:24px;background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:22px;padding:22px;">
+            <h3 style="font-size:28px;">Popular Songs</h3>
+            <div class="songs-list">
+              <div class="song-item"><span class="song-num">1</span><span>Work Week</span></div>
+              <div class="song-item"><span class="song-num">2</span><span>Where You From</span></div>
+              <div class="song-item"><span class="song-num">3</span><span>Where I Come From</span></div>
+              <div class="song-item"><span class="song-num">4</span><span>Finch Boys Freestyle Pt.1</span></div>
+              <div class="song-item"><span class="song-num">5</span><span>No Contact</span></div>
+              <div class="song-item"><span class="song-num">6</span><span>Get A Loaf</span></div>
+            </div>
+          </div>
         </div>
-        <div class="embed-shell">
-          <iframe
-            src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B?utm_source=generator&theme=0"
-            height="352"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            title="Serious Finch Latest Single">
-          </iframe>
+
+        <div class="card card-pad">
+          <h3 style="font-size:30px;line-height:1.05;">Finch Music<br><span style="color:var(--red)">Network</span></h3>
+          <div style="margin-top:20px;font-size:18px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;">Sons of Gunsmoke</div>
+          <div class="network-list">
+            <div class="network-item"><span class="network-symbol">├</span><span>Serious Finch</span></div>
+            <div class="network-item"><span class="network-symbol">├</span><span>Nature Finch</span></div>
+            <div class="network-item"><span class="network-symbol">├</span><span>Canei Finch</span></div>
+            <div class="network-item"><span class="network-symbol">├</span><span>Khyian Wayne</span></div>
+            <div class="network-item"><span class="network-symbol">├</span><span>Sunny Bishop</span></div>
+            <div class="network-item"><span class="network-symbol">├</span><span>adye</span></div>
+            <div class="network-item"><span class="network-symbol">└</span><span>Skrewface</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="latest" class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="label">Latest On YouTube</div>
+          <h2>Newest<br>Visuals</h2>
+        </div>
+
+        <a class="btn btn-red" href="https://youtube.com/@seriousf1nch?si=hk56qafuFBkiqPJW" target="_blank" rel="noopener noreferrer">Subscribe To Channel</a>
+      </div>
+
+      <div class="grid-12">
+        <div class="card" style="grid-column:span 8;">
+          <div class="embed-shell">
+            <iframe
+              src="https://www.youtube.com/embed/3VUL8YdMftg?controls=1"
+              height="460"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy"
+              title="Serious Finch Latest Video">
+            </iframe>
+          </div>
+          <div class="card-pad">
+            <h3>Official Music Video</h3>
+            <p class="sub">Streaming now on the main channel.</p>
+          </div>
+        </div>
+
+        <div class="card card-pad" style="grid-column:span 4;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+          <h3>Watch Full Catalog</h3>
+          <p class="sub" style="margin-bottom:18px;">Explore more videos, interviews, and behind the scenes.</p>
+          <a class="btn btn-red" href="https://youtube.com/@seriousf1nch?si=hk56qafuFBkiqPJW" target="_blank" rel="noopener noreferrer">View Channel</a>
         </div>
       </div>
     </div>
@@ -479,76 +698,148 @@
     <div class="container">
       <div class="section-head">
         <div>
-          <h2>Latest Music</h2>
+          <h2>Stream<br>Everywhere</h2>
         </div>
-        <p>
-          Music and visual layout styled closer to the original page structure you gave me.
-        </p>
+        <p>Available on major platforms. Add to your library and never miss a drop.</p>
       </div>
 
       <div class="grid grid-2">
-        <div class="card">
-          <div class="card-pad">
-            <h3>Artist Profile</h3>
-            <p class="sub">Spotify artist profile embed.</p>
+        <div>
+          <div class="social-actions" style="margin-bottom:20px;">
+            <a class="spotify-btn" href="https://open.spotify.com/artist/4VpzaKpPTA5vqK3HllPAdd" target="_blank" rel="noopener noreferrer">Follow Spotify</a>
+            <a class="spotify-btn" href="https://open.spotify.com/artist/2Nil52pQrjFepfxOi8aYY0?si=wpAZWOOSS26webHsyDodMw" target="_blank" rel="noopener noreferrer">Follow Finch Brothers</a>
+            <a class="yt-btn" href="https://youtube.com/@seriousf1nch?si=hk56qafuFBkiqPJW" target="_blank" rel="noopener noreferrer">Subscribe Serious Finch</a>
+            <a class="white-btn" href="https://www.tiktok.com/@serious_finch?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer">Follow TikTok</a>
           </div>
-          <div class="embed-shell">
-            <iframe
-              src="https://open.spotify.com/embed/artist/2Nil52pQrjFepfxOi8aYY0?utm_source=generator&theme=0"
-              height="352"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              title="Spotify Artist Profile">
-            </iframe>
+
+          <div class="card">
+            <div class="card-pad">
+              <h3>Artist Profile</h3>
+              <p class="sub">Finch Brothers Spotify profile.</p>
+            </div>
+            <div class="embed-shell">
+              <iframe
+                src="https://open.spotify.com/embed/artist/2Nil52pQrjFepfxOi8aYY0?utm_source=generator&theme=0"
+                height="352"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                title="Spotify Artist Embed">
+              </iframe>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px;">
+            <div class="card-pad">
+              <h3>Latest Single</h3>
+              <p class="sub">Serious Finch featured single.</p>
+            </div>
+            <div class="embed-shell">
+              <iframe
+                src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B?utm_source=generator&theme=0"
+                height="352"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                title="Spotify Single Embed">
+              </iframe>
+            </div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-pad">
-            <h3>Latest Video</h3>
-            <p class="sub">Official music video section.</p>
+        <div>
+          <div class="card">
+            <div class="card-pad">
+              <h3>Where Da Sauce At</h3>
+              <p class="sub">Nature Finch feature.</p>
+            </div>
+            <div class="embed-shell">
+              <iframe
+                src="https://embed.music.apple.com/us/album/where-da-sauce-at-feat-nature-finch/1802715879"
+                height="450"
+                allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                loading="lazy"
+                title="Where Da Sauce At">
+              </iframe>
+            </div>
           </div>
-          <div class="embed-shell">
-            <iframe
-              src="https://www.youtube.com/embed/3VUL8YdMftg?controls=1"
-              height="352"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-              loading="lazy"
-              title="Latest Video">
-            </iframe>
+
+          <div class="card" style="margin-top:20px;">
+            <div class="card-pad">
+              <h3>Work Week</h3>
+              <p class="sub">Canei Finch & Serious Finch.</p>
+            </div>
+            <div class="embed-shell">
+              <iframe
+                src="https://embed.music.apple.com/us/album/work-week-feat-canei-finch-serious-finch-khyian-wayne/1646510352"
+                height="450"
+                allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                loading="lazy"
+                title="Work Week">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="shorts">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="label">The Finch Brothers</div>
+          <h2>Scroll<br>The Vision</h2>
+        </div>
+        <p>Watch the latest short-form videos, studio sessions, and behind the scenes from the artists.</p>
+      </div>
+
+      <div class="grid grid-4 short-grid">
+        <iframe src="https://www.youtube.com/embed/36dmFgGrglg?controls=1&rel=0&playsinline=1&modestbranding=1" title="Short 1" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://www.youtube.com/embed/3TUuY2WnLvg?controls=1&rel=0&playsinline=1&modestbranding=1" title="Short 2" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://www.youtube.com/embed/8RtybrFZb5U?controls=1&rel=0&playsinline=1&modestbranding=1" title="Short 3" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://www.youtube.com/embed/9ZBHn_4nRac?controls=1&rel=0&playsinline=1&modestbranding=1" title="Short 4" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="books">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="label">Literature</div>
+          <h2>Mental<br>Warfare</h2>
+        </div>
+        <a class="btn btn-red" href="https://a.co/d/0h5iGehy" target="_blank" rel="noopener noreferrer">Order On Amazon</a>
+      </div>
+
+      <div class="book-wrap">
+        <div class="book-cover">
+          <div class="book-cover-inner">
+            <h3>Mental<br>Warfare</h3>
+            <p>By Cerean Lassiter</p>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-pad">
-            <h3>Nature Finch Feature</h3>
-            <p class="sub">Apple Music feature embed.</p>
-          </div>
-          <div class="embed-shell">
-            <iframe
-              src="https://embed.music.apple.com/us/album/where-da-sauce-at-feat-nature-finch/1802715879"
-              height="450"
-              allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-              loading="lazy"
-              title="Where Da Sauce At">
-            </iframe>
-          </div>
-        </div>
+        <div class="card card-pad">
+          <h3>About The Book</h3>
+          <p class="sub" style="font-size:18px;">
+            “Mental Warfare” explores the intense psychological battles fought behind closed doors.
+            Cerean Lassiter delivers a gripping narrative that blurs the lines between reality
+            and the mind’s darkest creations.
+          </p>
 
-        <div class="card">
-          <div class="card-pad">
-            <h3>Work Week</h3>
-            <p class="sub">Apple Music embed for Work Week.</p>
-          </div>
-          <div class="embed-shell">
-            <iframe
-              src="https://embed.music.apple.com/us/album/work-week-feat-canei-finch-serious-finch-khyian-wayne/1646510352"
-              height="450"
-              allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-              loading="lazy"
-              title="Work Week">
-            </iframe>
+          <div class="metric-row">
+            <div class="metric">
+              <strong>Cerean Lassiter</strong>
+              <span>Author</span>
+            </div>
+            <div class="metric">
+              <strong>Paperback</strong>
+              <span>Format</span>
+            </div>
+            <div class="metric">
+              <strong>Kindle</strong>
+              <span>Also Available</span>
+            </div>
           </div>
         </div>
       </div>
@@ -559,78 +850,116 @@
     <div class="container">
       <div class="section-head">
         <div>
-          <h2>Artist Growth Hub</h2>
+          <div class="label">Artist Growth Hub</div>
+          <h2>Build. Submit.<br>Grow.</h2>
         </div>
-        <p>
-          Official tasks, tips, artist board, music feed, analytics, sign-up, playlist submission,
-          and working top stations — all in one page.
-        </p>
+        <p>Official growth tools added under the original site style, with saved tasks, forms, music feed, artist board, analytics, and working radio.</p>
       </div>
 
-      <div class="hub-wrap">
+      <div class="hub-header">
+        <div class="card card-pad">
+          <h3>Growth Dashboard</h3>
+          <p class="sub">Track your progress, build visibility, and keep your artists moving inside one hub.</p>
+
+          <div class="metric-row">
+            <div class="metric">
+              <strong id="taskMetric">0/5</strong>
+              <span>Tasks Done</span>
+            </div>
+            <div class="metric">
+              <strong id="feedMetric">0</strong>
+              <span>Feed Posts</span>
+            </div>
+            <div class="metric">
+              <strong id="artistMetric">0</strong>
+              <span>Artists Added</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-pad">
+          <h3>Official Growth Tasks</h3>
+
+          <label class="task"><input type="checkbox" class="growth-task" onchange="saveTasks()"><span>Upload new music weekly</span></label>
+          <label class="task"><input type="checkbox" class="growth-task" onchange="saveTasks()"><span>Post 3 TikTok / Reels promoting your song</span></label>
+          <label class="task"><input type="checkbox" class="growth-task" onchange="saveTasks()"><span>Engage with 10 fans daily</span></label>
+          <label class="task"><input type="checkbox" class="growth-task" onchange="saveTasks()"><span>Collaborate with another artist monthly</span></label>
+          <label class="task"><input type="checkbox" class="growth-task" onchange="saveTasks()"><span>Submit your music to playlists and radio</span></label>
+        </div>
+      </div>
+
+      <div class="hub-grid">
         <div>
           <div class="card card-pad">
-            <h3>Official Growth Tasks</h3>
-
-            <label class="task"><input type="checkbox" onclick="saveTasks()"><span>Upload new music weekly</span></label>
-            <label class="task"><input type="checkbox" onclick="saveTasks()"><span>Post TikTok / Reels promoting your song</span></label>
-            <label class="task"><input type="checkbox" onclick="saveTasks()"><span>Engage with fans daily</span></label>
-            <label class="task"><input type="checkbox" onclick="saveTasks()"><span>Collaborate with another artist</span></label>
-            <label class="task"><input type="checkbox" onclick="saveTasks()"><span>Submit music to playlists</span></label>
-            <label class="task"><input type="checkbox" onclick="saveTasks()"><span>Promote Spotify saves</span></label>
-          </div>
-
-          <div class="card card-pad">
-            <h3>Promotion Tips</h3>
-            <div class="tip">Use the strongest 10 to 15 second part of your song for short-form content.</div>
-            <div class="tip">Push Spotify saves in the first 48 hours after release.</div>
-            <div class="tip">Reply to every serious comment and message.</div>
-            <div class="tip">Collaborate with artists who already fit your style.</div>
+            <h3>Artist Promotion Tips</h3>
+            <div class="tip">Post the strongest 10–15 second moment from your record, not the whole song.</div>
+            <div class="tip">Push Spotify saves and shares hardest in the first 48 hours.</div>
+            <div class="tip">Reply to serious comments quickly so listeners turn into supporters.</div>
+            <div class="tip">Use one main song at a time instead of splitting attention.</div>
           </div>
 
           <div class="card card-pad">
             <h3>Artist Analytics</h3>
-            <input id="streams" type="text" placeholder="Monthly Streams">
-            <button class="submit-btn" onclick="calculateGrowth()">Estimate Growth</button>
-            <div class="metric" id="result">Estimated next month streams will show here.</div>
-          </div>
-        </div>
-
-        <div>
-          <div class="card card-pad">
-            <h3>Music Feed</h3>
-            <input id="spotify" type="url" placeholder="Paste Spotify track link">
-            <button class="submit-btn" onclick="addSong()">Submit Track</button>
-            <div id="feed"></div>
-          </div>
-
-          <div class="card card-pad">
-            <h3>Artist Profiles Board</h3>
-            <input id="artistName" type="text" placeholder="Artist Name">
-            <input id="artistGenre" type="text" placeholder="Genre">
-            <button class="submit-btn" onclick="addArtist()">Add Artist</button>
-            <div id="artistBoard"></div>
+            <input id="streams" class="field" placeholder="Monthly Streams">
+            <div class="submit-row">
+              <button class="btn btn-red" onclick="calculateGrowth()">Estimate Growth</button>
+            </div>
+            <div class="status" id="result">Estimated next month streams will show here.</div>
           </div>
 
           <div class="card card-pad">
             <h3>Top Radio Stations</h3>
 
             <div class="station">
-              <span>Hot 97 New York</span>
-              <button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFM.mp3')">Play</button>
+              <div>
+                <div class="station-title">Hot 97 New York</div>
+                <div class="station-sub">Hip-Hop / Urban</div>
+              </div>
+              <button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFM.mp3','Hot 97 New York')">Play</button>
             </div>
 
             <div class="station">
-              <span>Power 105.1 New York</span>
-              <button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFM.mp3')">Play</button>
+              <div>
+                <div class="station-title">Power 105.1 New York</div>
+                <div class="station-sub">Hip-Hop / Urban</div>
+              </div>
+              <button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFM.mp3','Power 105.1 New York')">Play</button>
             </div>
 
             <div class="station">
-              <span>KIIS FM Los Angeles</span>
-              <button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KIISFM.mp3')">Play</button>
+              <div>
+                <div class="station-title">KIIS FM Los Angeles</div>
+                <div class="station-sub">Major U.S. Radio</div>
+              </div>
+              <button onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/KIISFM.mp3','KIIS FM Los Angeles')">Play</button>
             </div>
 
-            <button class="submit-btn stop-btn" onclick="stopRadio()">Stop Radio</button>
+            <div class="submit-row">
+              <button class="btn btn-red" onclick="stopRadio()">Stop Radio</button>
+            </div>
+
+            <div class="status" id="radioStatus">No station playing.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card card-pad">
+            <h3>Music Feed</h3>
+            <input id="spotify" class="field" placeholder="Paste Spotify track / album / artist link">
+            <div class="submit-row">
+              <button class="btn btn-red" onclick="addSong()">Submit Track</button>
+            </div>
+            <div id="feed"></div>
+          </div>
+
+          <div class="card card-pad">
+            <h3>Artist Profiles Board</h3>
+            <input id="artistName" class="field" placeholder="Artist Name">
+            <input id="artistGenre" class="field" placeholder="Genre">
+            <div class="submit-row">
+              <button class="btn btn-red" onclick="addArtist()">Add Artist</button>
+            </div>
+            <div id="artistBoard"></div>
           </div>
         </div>
       </div>
@@ -641,84 +970,117 @@
     <div class="container">
       <div class="section-head">
         <div>
-          <h2>Join The Hub</h2>
+          <div class="label">Join The Hub</div>
+          <h2>Artist Sign-Up<br>& Playlist Submission</h2>
         </div>
-        <p>
-          Artist sign-up and playlist submission forms using your Formspree endpoint.
-        </p>
+        <p>Both forms are wired to your Formspree endpoint so people can actually submit.</p>
       </div>
 
       <div class="grid grid-2">
         <div class="card card-pad">
           <h3>Artist Sign-Up</h3>
+
           <form action="https://formspree.io/f/mjgaajoq" method="POST">
-            <input name="artist_name" type="text" placeholder="Artist Name" required>
-            <input name="email" type="email" placeholder="Email Address" required>
-            <input name="spotify" type="url" placeholder="Spotify Link">
-            <input name="youtube" type="url" placeholder="YouTube Channel">
-            <textarea name="message" placeholder="Tell us about your music"></textarea>
-            <button class="submit-btn" type="submit">Join Hub</button>
+            <input name="artist_name" class="field" placeholder="Artist Name" required>
+            <input name="email" type="email" class="field" placeholder="Email Address" required>
+            <input name="spotify" type="url" class="field" placeholder="Spotify Link">
+            <input name="youtube" type="url" class="field" placeholder="YouTube Channel">
+            <textarea name="message" class="field" placeholder="Tell us about your music"></textarea>
+            <button class="btn btn-red" type="submit">Join Hub</button>
           </form>
         </div>
 
         <div class="card card-pad">
           <h3>Playlist Submission</h3>
+
           <form action="https://formspree.io/f/mjgaajoq" method="POST">
-            <input name="artist" type="text" placeholder="Artist Name">
-            <input name="song" type="text" placeholder="Song Title">
-            <input name="spotify" type="url" placeholder="Spotify Link">
-            <textarea name="notes" placeholder="Why this song should be considered"></textarea>
-            <button class="submit-btn" type="submit">Submit To Playlist</button>
+            <input name="artist" class="field" placeholder="Artist Name">
+            <input name="song" class="field" placeholder="Song Title">
+            <input name="spotify" type="url" class="field" placeholder="Spotify Link">
+            <textarea name="notes" class="field" placeholder="Why this song should be considered"></textarea>
+            <button class="btn btn-red" type="submit">Submit Song</button>
           </form>
         </div>
       </div>
     </div>
   </section>
 
-  <footer>
+  <div class="footer">
     © 2026 Serious Finch
-  </footer>
+  </div>
 
   <script>
+    function normalizeSpotifyEmbed(link){
+      if(!link) return "";
+      const cleaned = link.trim().split("?")[0];
+      if(cleaned.includes("/embed/")) return cleaned;
+      const types = ["track","artist","album","playlist","episode","show"];
+      for(const type of types){
+        const marker = "/" + type + "/";
+        if(cleaned.includes(marker)){
+          const id = cleaned.split(marker)[1].split("/")[0];
+          return "https://open.spotify.com/embed/" + type + "/" + id;
+        }
+      }
+      return cleaned.replace("open.spotify.com","open.spotify.com/embed");
+    }
+
+    function updateMetrics(){
+      const tasks = document.querySelectorAll(".growth-task");
+      let done = 0;
+      tasks.forEach(t => { if(t.checked) done++; });
+      document.getElementById("taskMetric").textContent = done + "/5";
+
+      const songs = JSON.parse(localStorage.getItem("songs") || "[]");
+      const artists = JSON.parse(localStorage.getItem("artists") || "[]");
+
+      document.getElementById("feedMetric").textContent = songs.length;
+      document.getElementById("artistMetric").textContent = artists.length;
+    }
+
     function saveTasks(){
-      let checks = document.querySelectorAll("#hub input[type='checkbox']");
-      let data = [];
+      const checks = document.querySelectorAll(".growth-task");
+      const data = [];
       checks.forEach(c => data.push(c.checked));
       localStorage.setItem("tasks", JSON.stringify(data));
+      updateMetrics();
     }
 
     function loadTasks(){
-      let data = JSON.parse(localStorage.getItem("tasks") || "[]");
-      let checks = document.querySelectorAll("#hub input[type='checkbox']");
+      const data = JSON.parse(localStorage.getItem("tasks") || "[]");
+      const checks = document.querySelectorAll(".growth-task");
       checks.forEach((c,i) => {
         if(data[i]) c.checked = true;
       });
     }
 
     function addSong(){
-      let link = document.getElementById("spotify").value.trim();
+      const input = document.getElementById("spotify");
+      const link = input.value.trim();
       if(!link) return;
 
-      let list = JSON.parse(localStorage.getItem("songs") || "[]");
-      list.push(link);
+      const list = JSON.parse(localStorage.getItem("songs") || "[]");
+      list.unshift(link);
       localStorage.setItem("songs", JSON.stringify(list));
-      document.getElementById("spotify").value = "";
+      input.value = "";
       renderFeed();
+      updateMetrics();
     }
 
     function renderFeed(){
-      let container = document.getElementById("feed");
+      const container = document.getElementById("feed");
       container.innerHTML = "";
-
-      let list = JSON.parse(localStorage.getItem("songs") || "[]");
+      const list = JSON.parse(localStorage.getItem("songs") || "[]");
 
       list.forEach(link => {
-        let item = document.createElement("div");
+        const item = document.createElement("div");
         item.className = "feed-item";
 
-        let frame = document.createElement("iframe");
-        frame.src = link.replace("open.spotify.com","open.spotify.com/embed");
-        frame.height = "90";
+        const frame = document.createElement("iframe");
+        frame.src = normalizeSpotifyEmbed(link);
+        frame.height = frame.src.includes("/artist/") ? "352" : "90";
+        frame.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+        frame.loading = "lazy";
 
         item.appendChild(frame);
         container.appendChild(item);
@@ -726,27 +1088,30 @@
     }
 
     function addArtist(){
-      let name = document.getElementById("artistName").value.trim();
-      let genre = document.getElementById("artistGenre").value.trim();
+      const nameInput = document.getElementById("artistName");
+      const genreInput = document.getElementById("artistGenre");
+
+      const name = nameInput.value.trim();
+      const genre = genreInput.value.trim();
       if(!name || !genre) return;
 
-      let list = JSON.parse(localStorage.getItem("artists") || "[]");
-      list.push({name, genre});
+      const list = JSON.parse(localStorage.getItem("artists") || "[]");
+      list.unshift({name,genre});
       localStorage.setItem("artists", JSON.stringify(list));
 
-      document.getElementById("artistName").value = "";
-      document.getElementById("artistGenre").value = "";
+      nameInput.value = "";
+      genreInput.value = "";
       renderArtists();
+      updateMetrics();
     }
 
     function renderArtists(){
-      let board = document.getElementById("artistBoard");
+      const board = document.getElementById("artistBoard");
       board.innerHTML = "";
-
-      let list = JSON.parse(localStorage.getItem("artists") || "[]");
+      const list = JSON.parse(localStorage.getItem("artists") || "[]");
 
       list.forEach(a => {
-        let div = document.createElement("div");
+        const div = document.createElement("div");
         div.className = "profile-item";
         div.innerHTML = "<strong>" + a.name + "</strong><br><span style='color:#aab7e8'>" + a.genre + "</span>";
         board.appendChild(div);
@@ -754,26 +1119,35 @@
     }
 
     function calculateGrowth(){
-      let streams = parseFloat(document.getElementById("streams").value || "0");
-      let result = Math.round(streams * 1.3);
+      const raw = parseFloat(document.getElementById("streams").value || "0");
+      const result = Math.round(raw * 1.3);
       document.getElementById("result").textContent = "Estimated next month streams: " + result;
     }
 
-    let audio;
-    function playRadio(url){
-      if(audio) audio.pause();
-      audio = new Audio(url);
-      audio.play();
+    let radioAudio = null;
+
+    function playRadio(url,name){
+      if(radioAudio){
+        radioAudio.pause();
+        radioAudio.currentTime = 0;
+      }
+      radioAudio = new Audio(url);
+      radioAudio.play();
+      document.getElementById("radioStatus").textContent = "Now playing: " + name;
     }
 
     function stopRadio(){
-      if(audio) audio.pause();
+      if(radioAudio){
+        radioAudio.pause();
+        radioAudio.currentTime = 0;
+      }
+      document.getElementById("radioStatus").textContent = "No station playing.";
     }
 
     loadTasks();
     renderFeed();
     renderArtists();
+    updateMetrics();
   </script>
-
 </body>
             </html>
