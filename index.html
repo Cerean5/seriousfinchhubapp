@@ -3,37 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FinchStream</title>
+
+<title>Serious Finch Hub</title>
 
 <style>
+:root{
+--bg1:#070b1a;
+--bg2:#0c173a;
+--card:#111c45;
+--text:#ffffff;
+--accent:#ff2a2a;
+}
+
+*{box-sizing:border-box;}
+
 body{
 margin:0;
-font-family:Arial;
-background:#070f1c;
-color:#fff;
+font-family:Arial, Helvetica, sans-serif;
+color:var(--text);
+background:linear-gradient(180deg,var(--bg1),var(--bg2));
 }
 
-.container{width:92%;margin:auto}
+/* NAV */
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 20px;
+background:#000;
+position:sticky;
+top:0;
+z-index:100;
+}
 
-h1,h2{margin:10px 0}
+nav a{
+color:#fff;
+text-decoration:none;
+margin-left:15px;
+font-weight:bold;
+}
 
+/* HERO */
+.hero{
+padding:50px 20px;
+text-align:center;
+}
+
+.hero h1{
+margin:0;
+font-size:32px;
+}
+
+/* SECTION */
+.section{
+padding:30px 20px;
+max-width:1100px;
+margin:auto;
+}
+
+/* CARD */
 .card{
-background:#121c3f;
+background:rgba(255,255,255,0.05);
 padding:20px;
-margin:15px 0;
 border-radius:12px;
+margin-bottom:20px;
 }
 
+/* BUTTON */
 button{
-padding:12px;
+background:var(--accent);
 border:none;
+padding:10px 15px;
+color:white;
 border-radius:8px;
-background:#ff3c5c;
-color:#fff;
 cursor:pointer;
 }
 
-input,textarea{
+/* INPUT */
+input, textarea{
 width:100%;
 padding:10px;
 margin:5px 0;
@@ -41,244 +88,144 @@ border-radius:6px;
 border:none;
 }
 
-.song{
-background:#1a2550;
-padding:12px;
-margin:8px 0;
-border-radius:8px;
+/* AUDIO */
+audio{
+width:100%;
 }
 
-.radio-btn{
-background:#222;
-padding:10px;
-margin:5px;
-display:inline-block;
-cursor:pointer;
-border-radius:6px;
-}
-
+/* GRID */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:10px;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
 }
 
-.small{color:#aaa;font-size:12px}
+/* FOOTER */
+footer{
+text-align:center;
+padding:20px;
+opacity:0.7;
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- NAV -->
+<nav>
+<div><strong>Serious Finch Hub</strong></div>
+<div>
+<a href="#artists">Artists</a>
+<a href="#radio">Radio</a>
+<a href="#submit">Submit</a>
+<a href="#gunsmoke">Gunsmoke</a>
+</div>
+</nav>
 
-<h1>🔥 FinchStream</h1>
+<!-- HERO -->
+<div class="hero">
+<h1>🚀 Artist Growth Hub</h1>
+<p>Upload your music. Grow your fanbase. Get heard.</p>
+</div>
+
+<!-- ARTISTS -->
+<div id="artists" class="section">
+<h2>🔥 Featured Artists</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Sons of Gunsmoke</h3>
+<p>Official group rising</p>
+<button onclick="goTo('gunsmoke')">View Profile</button>
+</div>
+
+<div class="card">
+<h3>Serious Finch</h3>
+<p>Independent Artist</p>
+<p>Streams: 120K | Followers: 3K</p>
+</div>
+
+</div>
+</div>
 
 <!-- RADIO -->
-<div class="card">
+<div id="radio" class="section">
 <h2>📻 Live Radio</h2>
 
-<h3 id="nowPlaying">Select a station</h3>
-<audio id="player" controls style="width:100%"></audio>
-<p id="radioStatus" class="small">Ready</p>
+<div class="card">
+<p>Hot 97</p>
+<audio controls>
+<source src="https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFM.mp3">
+</audio>
+</div>
 
-<h3>Play Inside Site</h3>
-<div id="radioStreams" class="grid"></div>
+<div class="card">
+<p>Power 105.1</p>
+<audio controls>
+<source src="https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFM.mp3">
+</audio>
+</div>
 
-<h3 style="margin-top:20px;">Official Stations</h3>
-<div class="grid">
-<a href="https://www.hot97.com/listen-live/" target="_blank" class="radio-btn">HOT 97</a>
-<a href="https://power1051.iheart.com/" target="_blank" class="radio-btn">Power 105</a>
-<a href="https://z100.iheart.com/" target="_blank" class="radio-btn">Z100</a>
-<a href="https://www.siriusxm.com/channels/shade-45" target="_blank" class="radio-btn">Shade 45</a>
+<div class="card">
+<p>Hip Hop Radio</p>
+<audio controls>
+<source src="https://stream.revma.ihrhls.com/zc1841">
+</audio>
 </div>
 
 </div>
 
 <!-- SUBMIT -->
+<div id="submit" class="section">
+<h2>🎤 Submit Your Music</h2>
+
 <div class="card">
-<h2>🎵 Submit Song</h2>
-<form id="songForm" action="https://formspree.io/f/mjgaajoq" method="POST">
-<input name="artist" id="artist" placeholder="Artist Name" required>
-<input name="title" id="title" placeholder="Song Title" required>
-<input name="link" id="link" placeholder="Song Link" required>
-<textarea name="notes" placeholder="Notes"></textarea>
+<form action="https://formspree.io/f/mjgaajoq" method="POST">
+
+<input type="text" name="artist" placeholder="Artist Name" required>
+<input type="url" name="music" placeholder="Spotify / YouTube Link" required>
+<textarea name="message" placeholder="Tell us about your music"></textarea>
+
 <button type="submit">Submit</button>
+
 </form>
 </div>
+</div>
 
-<!-- ARTIST SIGNUP -->
+<!-- GUNSMOKE -->
+<div id="gunsmoke" class="section">
+<h2>🔥 Sons of Gunsmoke</h2>
+
 <div class="card">
-<h2>👤 Artist Sign-Up</h2>
-<form id="artistForm" action="https://formspree.io/f/mjgaajoq" method="POST">
-<input name="name" id="artistName" placeholder="Artist Name" required>
-<input name="email" placeholder="Email" required>
-<input name="city" placeholder="City" required>
-<input name="link" placeholder="Music Link" required>
-<textarea name="bio" placeholder="Bio"></textarea>
-<button type="submit">Join</button>
-</form>
+
+<div style="width:100%; height:500px; overflow:hidden; border-radius:10px;">
+<iframe 
+src="https://goodgirlbadgirl.org/sons-of-gunsmoke/" 
+style="width:100%; height:100%; border:none;">
+</iframe>
 </div>
 
-<!-- DASHBOARD -->
-<div class="card">
-<h2>📊 Stats</h2>
-<div id="stats"></div>
-</div>
-
-<!-- TRENDING -->
-<div class="card">
-<h2>🔥 Trending</h2>
-<div id="trending"></div>
-</div>
-
-<!-- FEED -->
-<div class="card">
-<h2>🎧 Music Feed</h2>
-<div id="feed"></div>
-</div>
-
-<!-- ARTIST BOARD -->
-<div class="card">
-<h2>🎤 Artist Board</h2>
-<div id="artists"></div>
+<div style="margin-top:15px;">
+<a href="https://goodgirlbadgirl.org/sons-of-gunsmoke/" target="_blank"
+style="background:#ff2a2a; padding:10px 15px; border-radius:8px; color:white; text-decoration:none;">
+Open Full Page
+</a>
 </div>
 
 </div>
+</div>
 
+<!-- FOOTER -->
+<footer>
+Serious Finch Hub © 2026
+</footer>
+
+<!-- SCRIPT -->
 <script>
-
-// STORAGE
-let songs = JSON.parse(localStorage.getItem("songs")||"[]");
-let artists = JSON.parse(localStorage.getItem("artists")||"[]");
-
-// RADIO STREAMS (REAL WORKING)
-const streams = [
-{name:"Hip-Hop",url:"https://listen.181fm.com/181-beat_128k.mp3"},
-{name:"Trap",url:"https://stream.zeno.fm/0r0xa792kwzuv"},
-{name:"Rap",url:"https://stream.zeno.fm/4wqre23sk2zuv"},
-{name:"Urban",url:"https://streaming.live365.com/a57782"}
-];
-
-function renderRadio(){
-const box=document.getElementById("radioStreams");
-
-streams.forEach(st=>{
-let btn=document.createElement("div");
-btn.className="radio-btn";
-btn.innerText=st.name;
-
-btn.onclick=()=>{
-player.src=st.url;
-player.play();
-nowPlaying.innerText="Now Playing: "+st.name;
-radioStatus.innerText="Playing";
-};
-
-box.appendChild(btn);
-});
+function goTo(id){
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
 }
-
-// SONG SUBMIT
-songForm.onsubmit = async (e)=>{
-e.preventDefault();
-
-let data={
-artist:artist.value,
-title:title.value,
-link:link.value,
-plays:0
-};
-
-songs.unshift(data);
-localStorage.setItem("songs",JSON.stringify(songs));
-
-renderAll();
-
-fetch(songForm.action,{
-method:"POST",
-body:new FormData(songForm),
-headers:{Accept:"application/json"}
-});
-
-songForm.reset();
-};
-
-// ARTIST SUBMIT
-artistForm.onsubmit = async (e)=>{
-e.preventDefault();
-
-let data={
-name:artistName.value
-};
-
-artists.unshift(data);
-localStorage.setItem("artists",JSON.stringify(artists));
-
-renderArtists();
-
-fetch(artistForm.action,{
-method:"POST",
-body:new FormData(artistForm),
-headers:{Accept:"application/json"}
-});
-
-artistForm.reset();
-};
-
-// PLAY SONG
-function playSong(i){
-songs[i].plays++;
-localStorage.setItem("songs",JSON.stringify(songs));
-player.src=songs[i].link;
-player.play();
-renderTrending();
-}
-
-// FEED
-function renderFeed(){
-feed.innerHTML="";
-songs.forEach((s,i)=>{
-feed.innerHTML+=`
-<div class="song">
-<strong>${s.artist}</strong><br>
-${s.title}<br>
-<button onclick="playSong(${i})">Play</button>
-</div>`;
-});
-}
-
-// TRENDING
-function renderTrending(){
-trending.innerHTML="";
-[...songs].sort((a,b)=>b.plays-a.plays).slice(0,5).forEach(s=>{
-trending.innerHTML+=`
-<div class="song">${s.artist} - ${s.title} (${s.plays})</div>`;
-});
-}
-
-// ARTISTS
-function renderArtists(){
-artists.innerHTML="";
-artists.forEach(a=>{
-artists.innerHTML+=`<div class="song">${a.name}</div>`;
-});
-}
-
-// STATS
-function renderStats(){
-stats.innerHTML="Songs: "+songs.length+"<br>Artists: "+artists.length;
-}
-
-function renderAll(){
-renderFeed();
-renderTrending();
-renderStats();
-renderArtists();
-}
-
-renderRadio();
-renderAll();
-
 </script>
 
 </body>
