@@ -2,209 +2,238 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Neon Finch Mobile FPS</title>
+<title>Sons of Gunsmoke: Neon City</title>
 
 <style>
-body{margin:0;overflow:hidden;background:#000;color:#fff;font-family:Arial}
+body{margin:0;background:#000;color:#fff;font-family:Arial;overflow:hidden}
+canvas{display:block}
 
 /* HUD */
-#hud{
-position:fixed;
-top:10px;left:10px;
-z-index:10;
-font-size:14px;
-}
+#hud{position:fixed;top:10px;left:10px;z-index:10}
+#controls{position:fixed;bottom:20px;width:100%}
 
-/* CROSSHAIR */
-#crosshair{
-position:fixed;
-top:50%;left:50%;
-width:20px;height:20px;
-margin-left:-10px;margin-top:-10px;
-border:2px solid #fff;
-border-radius:50%;
-}
-
-/* JOYSTICK */
-#joy{
-position:fixed;
-bottom:40px;left:30px;
-width:120px;height:120px;
-background:rgba(255,255,255,.1);
-border-radius:50%;
-}
-#stick{
+/* Buttons */
+.btn{
 position:absolute;
-width:50px;height:50px;
-background:#fff;
 border-radius:50%;
-left:35px;top:35px;
-}
-
-/* BUTTONS */
-#shoot{
-position:fixed;
-bottom:60px;right:30px;
-width:80px;height:80px;
-border-radius:50%;
-background:red;
 display:flex;align-items:center;justify-content:center;
 font-weight:bold;
 }
 
-#bass{
-position:fixed;
-bottom:150px;right:30px;
-width:60px;height:60px;
-border-radius:50%;
-background:cyan;
-color:#000;
-display:flex;align-items:center;justify-content:center;
-font-weight:bold;
-}
+#shoot{right:20px;bottom:20px;width:80px;height:80px;background:red}
+#drop{right:30px;bottom:110px;width:60px;height:60px;background:cyan;color:#000}
+#act{right:110px;bottom:70px;width:60px;height:60px;background:yellow;color:#000}
 
-/* MUSIC BUTTON */
-#play{
-position:fixed;
-top:10px;right:10px;
+/* joystick */
+#joy{position:absolute;left:20px;bottom:20px;width:120px;height:120px;background:rgba(255,255,255,.1);border-radius:50%}
+#stick{position:absolute;width:50px;height:50px;background:#fff;border-radius:50%;left:35px;top:35px}
+
+/* overlay */
+#overlay{
+position:fixed;inset:0;
+background:#000;
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;
 z-index:20;
-padding:10px;
-background:#0ff;
-color:#000;
-border:none;
-border-radius:10px;
-font-weight:bold;
 }
+
+.char{
+border:1px solid #444;
+padding:10px;
+margin:5px;
+cursor:pointer;
+}
+
+.active{border-color:cyan}
 </style>
 </head>
 
 <body>
 
-<div id="hud">Level 1 | Beat x1</div>
-<div id="crosshair"></div>
+<div id="overlay">
+<h2>Select Character</h2>
+<div id="chars"></div>
+<button onclick="startGame()">START</button>
+</div>
 
+<div id="hud"></div>
+
+<div id="controls">
 <div id="joy"><div id="stick"></div></div>
-<div id="shoot">FIRE</div>
-<div id="bass">DROP</div>
+<div id="shoot" class="btn">FIRE</div>
+<div id="drop" class="btn">DROP</div>
+<div id="act" class="btn">ACT</div>
+</div>
 
-<button id="play" onclick="startMusic()">PLAY</button>
-<audio id="music" src="your-song.mp3" loop></audio>
+<input type="file" id="upload" accept="audio/*" style="position:fixed;top:10px;right:10px;z-index:20">
+<audio id="music" loop></audio>
 
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
-const renderer = new THREE.WebGLRenderer();
+/* =========================
+   SECURITY SYSTEM
+========================= */
+let lastAction=0;
+function safeAction(delay=200){
+  if(Date.now()-lastAction<delay) return false;
+  lastAction=Date.now();
+  return true;
+}
+
+/* =========================
+   CHARACTERS + AVATARS
+========================= */
+const characters=[
+{name:"Serious Finch",power:1.3,speed:1.1,color:0xff0000},
+{name:"Canei Finch",power:1.2,speed:1.0,color:0x00ffff},
+{name:"Naturé Finch",power:1.1,speed:1.0,color:0xff00ff},
+{name:"Khyian Wayne",power:1.2,speed:1.2,color:0xffff00},
+{name:"Skrewface",power:1.4,speed:0.9,color:0xff5500},
+{name:"Sharief Finch",power:1.2,speed:1.0,color:0x00ffcc},
+{name:"Sunny Bishop",power:1.0,speed:1.3,color:0xffffff},
+{name:"Ade’",power:1.3,speed:1.0,color:0x9999ff},
+{name:"Rahman Wilson",power:1.2,speed:1.1,color:0x00ff00}
+];
+
+let playerChar=characters[0];
+
+const charsDiv=document.getElementById("chars");
+characters.forEach((c,i)=>{
+let d=document.createElement("div");
+d.className="char";
+d.innerText=c.name;
+d.onclick=()=>{
+document.querySelectorAll(".char").forEach(x=>x.classList.remove("active"));
+d.classList.add("active");
+playerChar=c;
+};
+charsDiv.appendChild(d);
+});
+
+/* =========================
+   GAME SETUP
+========================= */
+let scene,camera,renderer;
+let level=1,health=100,credits=0;
+let beatPower=1;
+let targets=[];
+
+/* =========================
+   START GAME
+========================= */
+window.startGame=()=>{
+document.getElementById("overlay").style.display="none";
+
+scene=new THREE.Scene();
+camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
+renderer=new THREE.WebGLRenderer();
 renderer.setSize(innerWidth,innerHeight);
 document.body.appendChild(renderer.domElement);
 
 camera.position.set(0,2,5);
 
-// LIGHT
+// light
 scene.add(new THREE.HemisphereLight(0xffffff,0x444444));
 
-// FLOOR
-const floor = new THREE.Mesh(
+// floor
+let floor=new THREE.Mesh(
 new THREE.PlaneGeometry(200,200),
 new THREE.MeshBasicMaterial({color:0x111111})
 );
-floor.rotation.x = -Math.PI/2;
+floor.rotation.x=-Math.PI/2;
 scene.add(floor);
 
-// BUILDINGS
-for(let i=0;i<20;i++){
-const b = new THREE.Mesh(
-new THREE.BoxGeometry(2,Math.random()*10+2,2),
+// city
+for(let x=-80;x<=80;x+=30){
+for(let z=-80;z<=80;z+=30){
+if(Math.abs(x)<15||Math.abs(z)<15) continue;
+let h=Math.random()*20+10;
+let b=new THREE.Mesh(
+new THREE.BoxGeometry(15,h,15),
 new THREE.MeshBasicMaterial({color:0x222244})
 );
-b.position.set(Math.random()*50-25,b.geometry.parameters.height/2,Math.random()*50-25);
+b.position.set(x,h/2,z);
 scene.add(b);
 }
+}
 
-// STATE
-let level=1;
-let targets=[];
-let beatPower=1;
-let beatTimer=0;
+// spawn
+spawn();
 
-// AUDIO
-let audioCtx, analyser, dataArray;
-let music = document.getElementById("music");
-
-window.startMusic = function(){
-audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const source = audioCtx.createMediaElementSource(music);
-analyser = audioCtx.createAnalyser();
-analyser.fftSize = 256;
-source.connect(analyser);
-analyser.connect(audioCtx.destination);
-dataArray = new Uint8Array(analyser.frequencyBinCount);
-music.play();
+animate();
 };
 
-// SPAWN
+/* =========================
+   ENEMIES
+========================= */
 function spawn(){
 targets.forEach(t=>scene.remove(t));
 targets=[];
+
 for(let i=0;i<level*3;i++){
-const t = new THREE.Mesh(
+let t=new THREE.Mesh(
 new THREE.SphereGeometry(1,16,16),
 new THREE.MeshBasicMaterial({color:0x00ffff})
 );
 t.position.set(Math.random()*40-20,2,Math.random()*40-20);
-t.userData={health:level};
+t.userData={health:level*2,speed:0.01+level*0.003};
 scene.add(t);
 targets.push(t);
 }
 }
 
-// BEAT SYSTEM (REAL)
+/* =========================
+   MUSIC SYSTEM
+========================= */
+let analyser,dataArray;
+const music=document.getElementById("music");
+
+document.getElementById("upload").onchange=e=>{
+let file=e.target.files[0];
+music.src=URL.createObjectURL(file);
+
+let ctx=new (window.AudioContext||window.webkitAudioContext)();
+let src=ctx.createMediaElementSource(music);
+analyser=ctx.createAnalyser();
+src.connect(analyser);
+analyser.connect(ctx.destination);
+
+dataArray=new Uint8Array(analyser.frequencyBinCount);
+music.play();
+};
+
 function updateBeat(){
 if(!analyser) return;
 
 analyser.getByteFrequencyData(dataArray);
 
-let sum=0;
-for(let i=0;i<dataArray.length;i++){
-sum+=dataArray[i];
+let avg=dataArray.reduce((a,b)=>a+b)/dataArray.length;
+
+if(avg>150) beatPower=3;
+else if(avg>100) beatPower=2;
+else beatPower=1;
 }
 
-let avg=sum/dataArray.length;
-
-if(avg>140){
-beatPower=2.5;
-document.body.style.transform="scale(1.02)";
-}else if(avg>100){
-beatPower=2;
-document.body.style.transform="scale(1.01)";
-}else{
-beatPower=1;
-document.body.style.transform="scale(1)";
-}
-
-document.getElementById("hud").innerText =
-"Level "+level+" | Beat x"+beatPower.toFixed(1);
-
-// AUTO BASS DROP
-if(avg>160){
-bassDrop();
-}
-}
-
-// SHOOT
+/* =========================
+   SHOOT
+========================= */
 function shoot(){
-const ray=new THREE.Raycaster();
+if(!safeAction()) return;
+
+let ray=new THREE.Raycaster();
 ray.setFromCamera(new THREE.Vector2(0,0),camera);
-const hit=ray.intersectObjects(targets);
+
+let hit=ray.intersectObjects(targets);
 
 if(hit.length){
 let e=hit[0].object;
-e.userData.health-=beatPower;
+e.userData.health-=beatPower*playerChar.power;
 
 if(e.userData.health<=0){
 scene.remove(e);
 targets=targets.filter(t=>t!==e);
+credits+=20;
 }
 
 if(targets.length==0){
@@ -214,72 +243,56 @@ spawn();
 }
 }
 
-// BASS DROP
+/* =========================
+   BASS DROP
+========================= */
 function bassDrop(){
+if(!safeAction(2000)) return;
+
 targets.forEach(t=>scene.remove(t));
 targets=[];
+credits+=100;
 level++;
 spawn();
-alert("💥 BASS DROP!");
 }
 
-// CONTROLS
-let moveX=0,moveY=0;
-const joy=document.getElementById("joy");
-const stick=document.getElementById("stick");
-
-joy.addEventListener("touchmove",e=>{
-const rect=joy.getBoundingClientRect();
-let x=e.touches[0].clientX-rect.left-60;
-let y=e.touches[0].clientY-rect.top-60;
-
-const dist=Math.sqrt(x*x+y*y);
-if(dist>50){x*=50/dist;y*=50/dist;}
-
-stick.style.left=(x+60-25)+"px";
-stick.style.top=(y+60-25)+"px";
-
-moveX=x/50;
-moveY=y/50;
-});
-
-joy.addEventListener("touchend",()=>{
-moveX=0;moveY=0;
-stick.style.left="35px";
-stick.style.top="35px";
-});
-
-// LOOK
-let lastX=0,lastY=0;
-window.addEventListener("touchmove",e=>{
-let t=e.touches[0];
-if(t.clientX>innerWidth/2){
-camera.rotation.y-=(t.clientX-lastX)*0.002;
-camera.rotation.x-=(t.clientY-lastY)*0.002;
-}
-lastX=t.clientX;
-lastY=t.clientY;
-});
-
-// BUTTONS
+/* =========================
+   CONTROLS
+========================= */
 document.getElementById("shoot").ontouchstart=shoot;
-document.getElementById("bass").ontouchstart=bassDrop;
+document.getElementById("drop").ontouchstart=bassDrop;
 
-// LOOP
+/* =========================
+   LOOP
+========================= */
 function animate(){
 requestAnimationFrame(animate);
 
 updateBeat();
 
-camera.position.x+=moveX*0.3;
-camera.position.z+=moveY*0.3;
+// enemy AI
+targets.forEach(t=>{
+let dx=camera.position.x-t.position.x;
+let dz=camera.position.z-t.position.z;
+
+t.position.x+=dx*t.userData.speed;
+t.position.z+=dz*t.userData.speed;
+
+if(Math.abs(dx)<1 && Math.abs(dz)<1){
+health-=0.2;
+}
+});
+
+if(health<=0){
+alert("Game Over");
+health=100;level=1;spawn();
+}
+
+document.getElementById("hud").innerText=
+"Lv:"+level+" HP:"+Math.floor(health)+" $:"+credits+" Beat:"+beatPower;
 
 renderer.render(scene,camera);
 }
-
-spawn();
-animate();
-
 </script>
 </body>
 </html>
