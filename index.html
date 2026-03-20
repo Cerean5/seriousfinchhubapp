@@ -1,298 +1,1331 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Sons of Gunsmoke: Neon City</title>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>Sons of Gunsmoke: Neon Life City</title>
+  <style>
+    :root{
+      --panel: rgba(8,12,22,.76);
+      --line: rgba(255,255,255,.12);
+      --text: #f5f8ff;
+      --muted: #9db0d8;
+    }
 
-<style>
-body{margin:0;background:#000;color:#fff;font-family:Arial;overflow:hidden}
-canvas{display:block}
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select:none;
+    }
 
-/* HUD */
-#hud{position:fixed;top:10px;left:10px;z-index:10}
-#controls{position:fixed;bottom:20px;width:100%}
+    html,body{
+      margin:0;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      background:#000;
+      color:var(--text);
+      font-family:Arial,Helvetica,sans-serif;
+      touch-action:none;
+    }
 
-/* Buttons */
-.btn{
-position:absolute;
-border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-font-weight:bold;
-}
+    canvas{ display:block; }
 
-#shoot{right:20px;bottom:20px;width:80px;height:80px;background:red}
-#drop{right:30px;bottom:110px;width:60px;height:60px;background:cyan;color:#000}
-#act{right:110px;bottom:70px;width:60px;height:60px;background:yellow;color:#000}
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:16px;
+      backdrop-filter: blur(10px);
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
 
-/* joystick */
-#joy{position:absolute;left:20px;bottom:20px;width:120px;height:120px;background:rgba(255,255,255,.1);border-radius:50%}
-#stick{position:absolute;width:50px;height:50px;background:#fff;border-radius:50%;left:35px;top:35px}
+    #hud{
+      position:fixed;
+      top:10px;
+      left:10px;
+      z-index:30;
+      padding:10px 12px;
+      font-size:14px;
+      line-height:1.45;
+      max-width:56vw;
+    }
 
-/* overlay */
-#overlay{
-position:fixed;inset:0;
-background:#000;
-display:flex;flex-direction:column;
-align-items:center;justify-content:center;
-z-index:20;
-}
+    #msg{
+      position:fixed;
+      top:10px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:30;
+      padding:9px 12px;
+      font-size:13px;
+      max-width:88vw;
+      text-align:center;
+    }
 
-.char{
-border:1px solid #444;
-padding:10px;
-margin:5px;
-cursor:pointer;
-}
+    #crosshair{
+      position:fixed;
+      left:50%;
+      top:50%;
+      width:22px;
+      height:22px;
+      transform:translate(-50%,-50%);
+      z-index:20;
+      pointer-events:none;
+      filter:drop-shadow(0 0 8px rgba(255,255,255,.75));
+    }
+    #crosshair::before,#crosshair::after{
+      content:"";
+      position:absolute;
+      background:#fff;
+    }
+    #crosshair::before{ left:10px; top:0; width:2px; height:22px; }
+    #crosshair::after{ left:0; top:10px; width:22px; height:2px; }
 
-.active{border-color:cyan}
-</style>
+    #uploadWrap{
+      position:fixed;
+      top:10px;
+      right:10px;
+      z-index:30;
+    }
+    #uploadLabel{
+      display:inline-block;
+      padding:10px 12px;
+      background:#00e5ff;
+      color:#041018;
+      border-radius:12px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 10px 25px rgba(0,0,0,.35);
+    }
+    #upload{ display:none; }
+
+    #joyBase{
+      position:fixed;
+      left:18px;
+      bottom:18px;
+      width:128px;
+      height:128px;
+      border-radius:50%;
+      background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.12);
+      z-index:30;
+    }
+    #joyStick{
+      position:absolute;
+      width:50px;
+      height:50px;
+      left:39px;
+      top:39px;
+      border-radius:50%;
+      background:rgba(255,255,255,.76);
+    }
+
+    .btn{
+      position:fixed;
+      z-index:30;
+      border:none;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      box-shadow:0 10px 25px rgba(0,0,0,.35);
+      color:#fff;
+    }
+    #shoot{ right:20px; bottom:24px; width:84px; height:84px; background:#ff334d; }
+    #drop{ right:32px; bottom:124px; width:62px; height:62px; background:#00e5ff; color:#061018; }
+    #act{ right:108px; bottom:86px; width:64px; height:64px; background:#ffd54d; color:#111; }
+
+    #lookPad{
+      position:fixed;
+      right:0;
+      top:0;
+      width:58vw;
+      height:100vh;
+      z-index:10;
+      background:transparent;
+    }
+
+    #overlay{
+      position:fixed;
+      inset:0;
+      z-index:50;
+      background:linear-gradient(180deg, rgba(0,0,0,.82), rgba(0,0,0,.94));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    #overlayCard{
+      width:min(980px,100%);
+      max-height:90vh;
+      overflow:auto;
+      padding:18px;
+    }
+
+    #overlayCard h1{
+      margin:0 0 8px;
+      font-size:1.4rem;
+    }
+
+    .sub{
+      color:var(--muted);
+      line-height:1.45;
+      margin-bottom:14px;
+    }
+
+    #charGrid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .char{
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.03);
+      cursor:pointer;
+    }
+
+    .char.active{
+      outline:2px solid #00e5ff;
+      background:rgba(0,229,255,.08);
+    }
+
+    .char h3{
+      margin:0 0 6px;
+      font-size:1rem;
+    }
+
+    .char p{
+      margin:0;
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.35;
+    }
+
+    .char .meta{
+      margin-top:8px;
+      font-size:.82rem;
+      color:#dfe8ff;
+    }
+
+    #startBtn{
+      width:100%;
+      margin-top:16px;
+      padding:14px;
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg,#10bfd9,#00e5ff);
+      color:#051018;
+      font-weight:800;
+      font-size:1rem;
+      cursor:pointer;
+    }
+
+    @media (max-width: 820px){
+      #charGrid{ grid-template-columns:1fr; }
+      #hud{ max-width:64vw; }
+    }
+  </style>
 </head>
-
 <body>
+  <canvas id="game"></canvas>
 
-<div id="overlay">
-<h2>Select Character</h2>
-<div id="chars"></div>
-<button onclick="startGame()">START</button>
-</div>
+  <div id="hud" class="panel">Loading...</div>
+  <div id="msg" class="panel">Move left. Look right. ACT to use places. FIRE to shoot. DROP clears a wave.</div>
+  <div id="crosshair"></div>
 
-<div id="hud"></div>
+  <div id="uploadWrap">
+    <label id="uploadLabel" for="upload">UPLOAD MUSIC</label>
+    <input id="upload" type="file" accept="audio/*" />
+  </div>
 
-<div id="controls">
-<div id="joy"><div id="stick"></div></div>
-<div id="shoot" class="btn">FIRE</div>
-<div id="drop" class="btn">DROP</div>
-<div id="act" class="btn">ACT</div>
-</div>
+  <div id="joyBase"><div id="joyStick"></div></div>
+  <button id="shoot" class="btn">FIRE</button>
+  <button id="drop" class="btn">DROP</button>
+  <button id="act" class="btn">ACT</button>
+  <div id="lookPad"></div>
 
-<input type="file" id="upload" accept="audio/*" style="position:fixed;top:10px;right:10px;z-index:20">
-<audio id="music" loop></audio>
+  <div id="overlay">
+    <div id="overlayCard" class="panel">
+      <h1>Sons of Gunsmoke: Neon Life City</h1>
+      <div class="sub">
+        Pick a character build, then enter the city. Your matching character image is used as fantasy portrait art on the 3D body. Outside is combat and progression. HOME works like a life-sim interior where you can sleep, recover, and use the studio.
+      </div>
+      <div id="charGrid"></div>
+      <button id="startBtn">START GAME</button>
+    </div>
+  </div>
 
-<script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+  <audio id="music" loop></audio>
 
-/* =========================
-   SECURITY SYSTEM
-========================= */
-let lastAction=0;
-function safeAction(delay=200){
-  if(Date.now()-lastAction<delay) return false;
-  lastAction=Date.now();
-  return true;
-}
+  <script type="module">
+    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
-/* =========================
-   CHARACTERS + AVATARS
-========================= */
-const characters=[
-{name:"Serious Finch",power:1.3,speed:1.1,color:0xff0000},
-{name:"Canei Finch",power:1.2,speed:1.0,color:0x00ffff},
-{name:"Naturé Finch",power:1.1,speed:1.0,color:0xff00ff},
-{name:"Khyian Wayne",power:1.2,speed:1.2,color:0xffff00},
-{name:"Skrewface",power:1.4,speed:0.9,color:0xff5500},
-{name:"Sharief Finch",power:1.2,speed:1.0,color:0x00ffcc},
-{name:"Sunny Bishop",power:1.0,speed:1.3,color:0xffffff},
-{name:"Ade’",power:1.3,speed:1.0,color:0x9999ff},
-{name:"Rahman Wilson",power:1.2,speed:1.1,color:0x00ff00}
-];
+    // -----------------------------
+    // Data
+    // -----------------------------
+    const CHARACTERS = [
+      { id:"serious",  name:"Serious Finch",  style:"Lead Frontline", color:0xff4d5d, stats:{damage:1.28,speed:1.06,beat:1.08,studio:1.00}, desc:"Strong direct combat and steady pressure." },
+      { id:"canei",    name:"Canei Finch",    style:"Producer General", color:0x00e5ff, stats:{damage:1.14,speed:1.00,beat:1.22,studio:1.15}, desc:"Balanced build with strong music scaling." },
+      { id:"nature",   name:"Naturé Finch",   style:"Engineer / Builder", color:0xff2dd1, stats:{damage:1.08,speed:1.03,beat:1.30,studio:1.22}, desc:"Best studio and beat synergy." },
+      { id:"khyian",   name:"Khyian Wayne",   style:"Fast Striker", color:0xffc400, stats:{damage:1.18,speed:1.15,beat:1.05,studio:1.00}, desc:"Fast movement and sharp offense." },
+      { id:"skrewface",name:"Skrewface",      style:"Street Tank", color:0xff7a2d, stats:{damage:1.24,speed:0.93,beat:1.00,studio:0.95}, desc:"Heavy street power with slower movement." },
+      { id:"sharief",  name:"Sharief Finch",  style:"Precision Bars", color:0x61ffd1, stats:{damage:1.16,speed:1.00,beat:1.10,studio:1.00}, desc:"Reliable damage and control." },
+      { id:"sunny",    name:"Sunny Bishop",   style:"Wave Runner", color:0xffffff, stats:{damage:1.02,speed:1.20,beat:1.12,studio:1.00}, desc:"Fastest movement and smooth repositioning." },
+      { id:"ade",      name:"Ade’",           style:"Technical Lyricist", color:0x8ea7ff, stats:{damage:1.21,speed:1.04,beat:1.10,studio:1.00}, desc:"High-skill damage build." },
+      { id:"rahman",   name:"Rahman Wilson",  style:"Grit Control", color:0x5bff8a, stats:{damage:1.14,speed:1.03,beat:1.06,studio:1.05}, desc:"Balanced pressure and survivability." }
+    ];
 
-let playerChar=characters[0];
+    const THEMES = [
+      { name:"Midnight District", bg:0x09111a, road:0x070a12, building:0x1a2436, neon:0x00e5ff, accent:0x8fe8ff },
+      { name:"Neon Strip",        bg:0x120917, road:0x0e0812, building:0x2a1731, neon:0xff2dd1, accent:0xff9bea },
+      { name:"Red Zone",          bg:0x17090a, road:0x120808, building:0x32151d, neon:0xff4d5d, accent:0xffa0a8 },
+      { name:"Gold Heights",      bg:0x171309, road:0x131008, building:0x322918, neon:0xffc400, accent:0xffef9c }
+    ];
+    const getTheme = level => THEMES[Math.floor((level - 1) / 3) % THEMES.length];
 
-const charsDiv=document.getElementById("chars");
-characters.forEach((c,i)=>{
-let d=document.createElement("div");
-d.className="char";
-d.innerText=c.name;
-d.onclick=()=>{
-document.querySelectorAll(".char").forEach(x=>x.classList.remove("active"));
-d.classList.add("active");
-playerChar=c;
-};
-charsDiv.appendChild(d);
-});
+    // -----------------------------
+    // DOM
+    // -----------------------------
+    const canvas = document.getElementById("game");
+    const hud = document.getElementById("hud");
+    const msg = document.getElementById("msg");
+    const overlay = document.getElementById("overlay");
+    const charGrid = document.getElementById("charGrid");
+    const startBtn = document.getElementById("startBtn");
+    const joyBase = document.getElementById("joyBase");
+    const joyStick = document.getElementById("joyStick");
+    const musicEl = document.getElementById("music");
+    const uploadEl = document.getElementById("upload");
 
-/* =========================
-   GAME SETUP
-========================= */
-let scene,camera,renderer;
-let level=1,health=100,credits=0;
-let beatPower=1;
-let targets=[];
+    // -----------------------------
+    // Three setup
+    // -----------------------------
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
+    camera.rotation.order = "YXZ";
+    camera.position.set(0, 2.4, 8);
 
-/* =========================
-   START GAME
-========================= */
-window.startGame=()=>{
-document.getElementById("overlay").style.display="none";
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:false });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
 
-scene=new THREE.Scene();
-camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
-renderer=new THREE.WebGLRenderer();
-renderer.setSize(innerWidth,innerHeight);
-document.body.appendChild(renderer.domElement);
+    const hemi = new THREE.HemisphereLight(0xa8ebff, 0x191b27, 1.25);
+    scene.add(hemi);
 
-camera.position.set(0,2,5);
+    const dir = new THREE.DirectionalLight(0xffffff, 0.55);
+    dir.position.set(18, 30, 12);
+    scene.add(dir);
 
-// light
-scene.add(new THREE.HemisphereLight(0xffffff,0x444444));
+    // -----------------------------
+    // State
+    // -----------------------------
+    let selectedChar = CHARACTERS[0];
 
-// floor
-let floor=new THREE.Mesh(
-new THREE.PlaneGeometry(200,200),
-new THREE.MeshBasicMaterial({color:0x111111})
-);
-floor.rotation.x=-Math.PI/2;
-scene.add(floor);
+    const state = {
+      started: false,
+      level: 1,
+      day: 1,
+      health: 100,
+      energy: 100,
+      credits: 0,
+      baseBeatPower: 1,
+      beatPower: 1,
+      songBoost: 1,
 
-// city
-for(let x=-80;x<=80;x+=30){
-for(let z=-80;z<=80;z+=30){
-if(Math.abs(x)<15||Math.abs(z)<15) continue;
-let h=Math.random()*20+10;
-let b=new THREE.Mesh(
-new THREE.BoxGeometry(15,h,15),
-new THREE.MeshBasicMaterial({color:0x222244})
-);
-b.position.set(x,h/2,z);
-scene.add(b);
-}
-}
+      playerX: 0,
+      playerZ: 8,
+      yaw: 0,
+      pitch: 0,
 
-// spawn
-spawn();
+      moveX: 0,
+      moveY: 0,
 
-animate();
-};
+      enemies: [],
+      bossActive: false,
+      inHome: false,
+      nearPlace: null,
+      places: [],
+      homeZones: [],
 
-/* =========================
-   ENEMIES
-========================= */
-function spawn(){
-targets.forEach(t=>scene.remove(t));
-targets=[];
+      cityObjects: [],
+      placeObjects: [],
+      homeInteriorObjects: [],
+      themeLights: [],
+      blockers: [],
 
-for(let i=0;i<level*3;i++){
-let t=new THREE.Mesh(
-new THREE.SphereGeometry(1,16,16),
-new THREE.MeshBasicMaterial({color:0x00ffff})
-);
-t.position.set(Math.random()*40-20,2,Math.random()*40-20);
-t.userData={health:level*2,speed:0.01+level*0.003};
-scene.add(t);
-targets.push(t);
-}
-}
+      lastShot: 0,
+      lastDrop: 0,
+      lastHit: 0,
+      lastAct: 0
+    };
 
-/* =========================
-   MUSIC SYSTEM
-========================= */
-let analyser,dataArray;
-const music=document.getElementById("music");
+    // -----------------------------
+    // Helpers
+    // -----------------------------
+    const textureLoader = new THREE.TextureLoader();
 
-document.getElementById("upload").onchange=e=>{
-let file=e.target.files[0];
-music.src=URL.createObjectURL(file);
+    function removeObjects(arr){
+      arr.forEach(o => scene.remove(o));
+      arr.length = 0;
+    }
 
-let ctx=new (window.AudioContext||window.webkitAudioContext)();
-let src=ctx.createMediaElementSource(music);
-analyser=ctx.createAnalyser();
-src.connect(analyser);
-analyser.connect(ctx.destination);
+    function resetBlockers(){
+      state.blockers.length = 0;
+    }
 
-dataArray=new Uint8Array(analyser.frequencyBinCount);
-music.play();
-};
+    function makeStdMat(color, roughness=.85, metalness=.08, emissive=0x000000, emissiveIntensity=0){
+      return new THREE.MeshStandardMaterial({ color, roughness, metalness, emissive, emissiveIntensity });
+    }
 
-function updateBeat(){
-if(!analyser) return;
+    function addBlocker(mesh, pad=1){
+      const box = new THREE.Box3().setFromObject(mesh);
+      box.min.x -= pad;
+      box.max.x += pad;
+      box.min.z -= pad;
+      box.max.z += pad;
+      state.blockers.push(box);
+    }
 
-analyser.getByteFrequencyData(dataArray);
+    function isBlocked(nx, nz){
+      const box = new THREE.Box3(
+        new THREE.Vector3(nx - 0.8, 0, nz - 0.8),
+        new THREE.Vector3(nx + 0.8, 3.6, nz + 0.8)
+      );
+      return state.blockers.some(b => b.intersectsBox(box));
+    }
 
-let avg=dataArray.reduce((a,b)=>a+b)/dataArray.length;
+    function setMessage(text){
+      msg.textContent = text;
+    }
 
-if(avg>150) beatPower=3;
-else if(avg>100) beatPower=2;
-else beatPower=1;
-}
+    function clamp(v, min, max){
+      return Math.max(min, Math.min(max, v));
+    }
 
-/* =========================
-   SHOOT
-========================= */
-function shoot(){
-if(!safeAction()) return;
+    function safeColor(hex, fallback=0xffffff){
+      return Number.isFinite(hex) ? hex : fallback;
+    }
 
-let ray=new THREE.Raycaster();
-ray.setFromCamera(new THREE.Vector2(0,0),camera);
+    // -----------------------------
+    // Character portraits from assets
+    // -----------------------------
+    function createCharacterPortrait(id, width=0.95, height=1.15){
+      const texture = textureLoader.load(
+        `assets/characters/${id}.png`,
+        undefined,
+        undefined,
+        () => {}
+      );
 
-let hit=ray.intersectObjects(targets);
+      const material = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        depthWrite: false
+      });
 
-if(hit.length){
-let e=hit[0].object;
-e.userData.health-=beatPower*playerChar.power;
+      const plane = new THREE.Mesh(new THREE.PlaneGeometry(width, height), material);
+      plane.position.y = 2.08;
 
-if(e.userData.health<=0){
-scene.remove(e);
-targets=targets.filter(t=>t!==e);
-credits+=20;
-}
+      plane.onBeforeRender = function(renderer, scene, camera){
+        plane.lookAt(camera.position);
+      };
 
-if(targets.length==0){
-level++;
-spawn();
-}
-}
-}
+      return plane;
+    }
 
-/* =========================
-   BASS DROP
-========================= */
-function bassDrop(){
-if(!safeAction(2000)) return;
+    // -----------------------------
+    // Character select UI
+    // -----------------------------
+    function renderChars(){
+      charGrid.innerHTML = "";
+      CHARACTERS.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "char" + (selectedChar.id === c.id ? " active" : "");
+        card.innerHTML = `
+          <h3>${c.name}</h3>
+          <p>${c.desc}</p>
+          <div class="meta">${c.style}</div>
+        `;
+        card.onclick = () => {
+          selectedChar = c;
+          renderChars();
+          updatePlayerAppearance();
+        };
+        charGrid.appendChild(card);
+      });
+    }
+    renderChars();
 
-targets.forEach(t=>scene.remove(t));
-targets=[];
-credits+=100;
-level++;
-spawn();
-}
+    // -----------------------------
+    // Player build
+    // -----------------------------
+    const playerGroup = new THREE.Group();
 
-/* =========================
-   CONTROLS
-========================= */
-document.getElementById("shoot").ontouchstart=shoot;
-document.getElementById("drop").ontouchstart=bassDrop;
+    const playerBody = new THREE.Mesh(
+      new THREE.CapsuleGeometry(0.34, 0.95, 6, 12),
+      makeStdMat(0x10141d, .75, .1)
+    );
+    playerBody.position.y = 1.12;
+    playerGroup.add(playerBody);
 
-/* =========================
-   LOOP
-========================= */
-function animate(){
-requestAnimationFrame(animate);
+    const playerHeadOrb = new THREE.Mesh(
+      new THREE.SphereGeometry(0.31, 18, 18),
+      makeStdMat(0x8d5f4a, .9, 0)
+    );
+    playerHeadOrb.position.y = 2.0;
+    playerHeadOrb.visible = false;
+    playerGroup.add(playerHeadOrb);
 
-updateBeat();
+    const playerVisor = new THREE.Mesh(
+      new THREE.BoxGeometry(0.42, 0.08, 0.08),
+      new THREE.MeshBasicMaterial({ color:selectedChar.color })
+    );
+    playerVisor.position.set(0, 2.02, 0.24);
+    playerGroup.add(playerVisor);
 
-// enemy AI
-targets.forEach(t=>{
-let dx=camera.position.x-t.position.x;
-let dz=camera.position.z-t.position.z;
+    const playerAura = new THREE.Mesh(
+      new THREE.SphereGeometry(1.1, 16, 16),
+      new THREE.MeshBasicMaterial({
+        color: selectedChar.color,
+        transparent: true,
+        opacity: 0.10
+      })
+    );
+    playerAura.position.y = 1.5;
+    playerGroup.add(playerAura);
 
-t.position.x+=dx*t.userData.speed;
-t.position.z+=dz*t.userData.speed;
+    let playerPortrait = createCharacterPortrait(selectedChar.id);
+    playerGroup.add(playerPortrait);
 
-if(Math.abs(dx)<1 && Math.abs(dz)<1){
-health-=0.2;
-}
-});
+    scene.add(playerGroup);
 
-if(health<=0){
-alert("Game Over");
-health=100;level=1;spawn();
-}
+    function updatePlayerAppearance(){
+      playerVisor.material.color.setHex(safeColor(selectedChar.color));
+      playerAura.material.color.setHex(safeColor(selectedChar.color));
 
-document.getElementById("hud").innerText=
-"Lv:"+level+" HP:"+Math.floor(health)+" $:"+credits+" Beat:"+beatPower;
+      if(playerPortrait){
+        playerGroup.remove(playerPortrait);
+      }
+      playerPortrait = createCharacterPortrait(selectedChar.id);
+      playerGroup.add(playerPortrait);
+    }
 
-renderer.render(scene,camera);
-}
-</script>
+    // -----------------------------
+    // Lighting per theme
+    // -----------------------------
+    function setThemeLighting(theme){
+      removeObjects(state.themeLights);
+
+      const lightData = [
+        [-28,9,-22,theme.neon],
+        [28,9,-22,theme.accent],
+        [-28,9,22,theme.accent],
+        [28,9,22,theme.neon],
+        [-82,9,-82,0x57ffae],
+        [82,9,82,0xffd54d]
+      ];
+
+      lightData.forEach(([x,y,z,color]) => {
+        const l = new THREE.PointLight(color, 4.5, 34);
+        l.position.set(x,y,z);
+        scene.add(l);
+        state.themeLights.push(l);
+      });
+    }
+
+    // -----------------------------
+    // City build
+    // -----------------------------
+    function buildCity(){
+      removeObjects(state.cityObjects);
+      removeObjects(state.placeObjects);
+      removeObjects(state.homeInteriorObjects);
+      resetBlockers();
+
+      const theme = getTheme(state.level);
+      scene.fog = new THREE.Fog(theme.bg, 35, 230);
+      renderer.setClearColor(theme.bg);
+      setThemeLighting(theme);
+
+      const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(360,360),
+        makeStdMat(0x10161f, .96, .02)
+      );
+      ground.rotation.x = -Math.PI / 2;
+      scene.add(ground);
+      state.cityObjects.push(ground);
+
+      function road(x,z,w,h){
+        const m = new THREE.Mesh(
+          new THREE.PlaneGeometry(w,h),
+          new THREE.MeshBasicMaterial({ color: theme.road })
+        );
+        m.rotation.x = -Math.PI / 2;
+        m.position.set(x,0.02,z);
+        scene.add(m);
+        state.cityObjects.push(m);
+      }
+
+      function laneMark(x,z,w,h,color){
+        const m = new THREE.Mesh(
+          new THREE.PlaneGeometry(w,h),
+          new THREE.MeshBasicMaterial({ color, transparent:true, opacity:.58 })
+        );
+        m.rotation.x = -Math.PI / 2;
+        m.position.set(x,0.03,z);
+        scene.add(m);
+        state.cityObjects.push(m);
+      }
+
+      road(0,0,22,300);
+      road(0,0,300,22);
+      road(-80,0,18,300);
+      road(80,0,18,300);
+      road(0,-80,300,18);
+      road(0,80,300,18);
+
+      for(let z=-136; z<=136; z+=14){
+        laneMark(0,z,.35,7,theme.neon);
+        laneMark(-80,z,.35,7,theme.accent);
+        laneMark(80,z,.35,7,theme.accent);
+      }
+      for(let x=-136; x<=136; x+=14){
+        laneMark(x,0,7,.35,theme.neon);
+        laneMark(x,-80,7,.35,theme.accent);
+        laneMark(x,80,7,.35,theme.accent);
+      }
+
+      function building(x,z,w,h,d,bodyColor,neonColor){
+        const body = new THREE.Mesh(
+          new THREE.BoxGeometry(w,h,d),
+          makeStdMat(bodyColor, .82, .16, neonColor, .10)
+        );
+        body.position.set(x,h/2,z);
+        scene.add(body);
+        state.cityObjects.push(body);
+
+        const trim = new THREE.Mesh(
+          new THREE.BoxGeometry(w * .90, 0.26, 0.26),
+          new THREE.MeshBasicMaterial({ color: neonColor })
+        );
+        trim.position.set(x, h - 1.2, z + d/2 + .2);
+        scene.add(trim);
+        state.cityObjects.push(trim);
+
+        for(let y=4; y<h-2; y+=4){
+          for(let wx=-w/2+2.5; wx<=w/2-2.5; wx+=3.6){
+            const win = new THREE.Mesh(
+              new THREE.BoxGeometry(1.3,1.1,.18),
+              new THREE.MeshBasicMaterial({
+                color: Math.random() > .35 ? neonColor : 0xffffef,
+                transparent:true,
+                opacity:.85
+              })
+            );
+            win.position.set(x + wx, y, z + d/2 + .12);
+            scene.add(win);
+            state.cityObjects.push(win);
+          }
+        }
+
+        addBlocker(body, 1);
+      }
+
+      const blocks = [
+        [-34,-34,20,28,20], [34,-34,20,22,20], [-34,34,20,20,20], [34,34,20,30,20],
+        [-112,-34,20,25,20], [-112,34,20,19,20], [112,-34,20,23,20], [112,34,20,31,20],
+        [-34,-112,20,21,20], [34,-112,20,18,20], [-34,112,20,27,20], [34,112,20,22,20]
+      ];
+      blocks.forEach(([x,z,w,h,d]) => building(x,z,w,h,d,theme.building,theme.neon));
+
+      function makePlace(name,x,z,color){
+        const base = new THREE.Mesh(
+          new THREE.CylinderGeometry(5.2,5.2,.45,24),
+          new THREE.MeshBasicMaterial({ color, transparent:true, opacity:.72 })
+        );
+        base.rotation.x = -Math.PI / 2;
+        base.position.set(x,.22,z);
+        scene.add(base);
+        state.placeObjects.push(base);
+
+        const marker = new THREE.Mesh(
+          new THREE.BoxGeometry(8,6,8),
+          makeStdMat(0x141a27, .6, .12, color, .5)
+        );
+        marker.position.set(x,3,z);
+        scene.add(marker);
+        state.placeObjects.push(marker);
+
+        const glow = new THREE.PointLight(color, 3, 20);
+        glow.position.set(x,7,z);
+        scene.add(glow);
+        state.placeObjects.push(glow);
+
+        return { name, x, z, radius:7 };
+      }
+
+      state.places = [
+        makePlace("HOME", -80, -80, 0x57ffae),
+        makePlace("CLUB", 80, -80, theme.neon),
+        makePlace("STUDIO", -80, 80, theme.accent),
+        makePlace("RADIO", 80, 80, 0xffd54d)
+      ];
+
+      setMessage(`${theme.name}. ACT to use places. HOME opens your interior.`);
+    }
+
+    // -----------------------------
+    // Home interior
+    // -----------------------------
+    function enterHome(){
+      state.inHome = true;
+      removeObjects(state.cityObjects);
+      removeObjects(state.placeObjects);
+      resetBlockers();
+      removeObjects(state.homeInteriorObjects);
+      state.places = [];
+      state.nearPlace = null;
+
+      state.enemies.forEach(e => scene.remove(e.group));
+      state.enemies = [];
+      state.bossActive = false;
+
+      scene.fog = new THREE.Fog(0x121016, 10, 80);
+      renderer.setClearColor(0x121016);
+
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(48,48),
+        makeStdMat(0x2a1f1a, .96, .02)
+      );
+      floor.rotation.x = -Math.PI / 2;
+      scene.add(floor);
+      state.homeInteriorObjects.push(floor);
+
+      const wallMat = makeStdMat(0x251f2d, .9, .02);
+      const walls = [
+        new THREE.Mesh(new THREE.BoxGeometry(48,8,1), wallMat),
+        new THREE.Mesh(new THREE.BoxGeometry(48,8,1), wallMat),
+        new THREE.Mesh(new THREE.BoxGeometry(1,8,48), wallMat),
+        new THREE.Mesh(new THREE.BoxGeometry(1,8,48), wallMat)
+      ];
+      walls[0].position.set(0,4,-24);
+      walls[1].position.set(0,4,24);
+      walls[2].position.set(-24,4,0);
+      walls[3].position.set(24,4,0);
+      walls.forEach(w => {
+        scene.add(w);
+        state.homeInteriorObjects.push(w);
+        addBlocker(w, 0);
+      });
+
+      const bed = new THREE.Mesh(
+        new THREE.BoxGeometry(9,1.2,5),
+        makeStdMat(0x3a2f46, .8, .03)
+      );
+      bed.position.set(-12,0.6,-8);
+      scene.add(bed);
+      state.homeInteriorObjects.push(bed);
+
+      const desk = new THREE.Mesh(
+        new THREE.BoxGeometry(7,1.2,3),
+        makeStdMat(0x222832, .8, .03)
+      );
+      desk.position.set(10,0.6,-6);
+      scene.add(desk);
+      state.homeInteriorObjects.push(desk);
+
+      const screen = new THREE.Mesh(
+        new THREE.BoxGeometry(2.2,1.4,.2),
+        new THREE.MeshBasicMaterial({ color:0x00e5ff })
+      );
+      screen.position.set(10,2,-4.6);
+      scene.add(screen);
+      state.homeInteriorObjects.push(screen);
+
+      const table = new THREE.Mesh(
+        new THREE.BoxGeometry(4,1.1,4),
+        makeStdMat(0x2d2420, .8, .03)
+      );
+      table.position.set(0,0.55,8);
+      scene.add(table);
+      state.homeInteriorObjects.push(table);
+
+      const lamp = new THREE.PointLight(0xffb36b, 2.4, 24);
+      lamp.position.set(0,6,0);
+      scene.add(lamp);
+      state.homeInteriorObjects.push(lamp);
+
+      function zoneMesh(x,z,color,radius=3.5){
+        const m = new THREE.Mesh(
+          new THREE.CylinderGeometry(radius,radius,.35,20),
+          new THREE.MeshBasicMaterial({ color, transparent:true, opacity:.65 })
+        );
+        m.rotation.x = -Math.PI / 2;
+        m.position.set(x,.21,z);
+        scene.add(m);
+        state.homeInteriorObjects.push(m);
+      }
+
+      zoneMesh(0,18,0xffd54d,3.8);
+      zoneMesh(-12,-8,0x57ffae,3.4);
+      zoneMesh(10,-6,0x00e5ff,3.4);
+
+      state.homeZones = [
+        { name:"EXIT HOME", x:0, z:18, radius:4 },
+        { name:"SLEEP", x:-12, z:-8, radius:4 },
+        { name:"HOME STUDIO", x:10, z:-6, radius:4 }
+      ];
+
+      state.playerX = 0;
+      state.playerZ = 12;
+      state.yaw = Math.PI;
+      state.pitch = 0;
+      setMessage("Home mode. ACT to sleep, use studio, or exit.");
+    }
+
+    function exitHome(){
+      state.inHome = false;
+      removeObjects(state.homeInteriorObjects);
+      buildCity();
+      state.playerX = -72;
+      state.playerZ = -72;
+      state.yaw = 0.8;
+      state.pitch = 0;
+      spawnWave();
+      setMessage("Back outside.");
+    }
+
+    // -----------------------------
+    // Enemy creation
+    // -----------------------------
+    function randomPalette(){
+      const skins = [0x8d5f4a,0xb9856a,0x6d4432,0xc79a7a];
+      const jackets = [0x111111,0x1a1f2f,0x2a1631,0x17243a,0x3a171f,0x152b26];
+      const accents = [0x00e5ff,0xff2dd1,0xffc400,0xffffff,0xff4d5d,0x5bff8a];
+      const pants = [0x10131a,0x20263a,0x2e2e2e,0x1a1a22,0x252525];
+      return {
+        skin: skins[Math.floor(Math.random()*skins.length)],
+        jacket: jackets[Math.floor(Math.random()*jackets.length)],
+        shirt: accents[Math.floor(Math.random()*accents.length)],
+        pants: pants[Math.floor(Math.random()*pants.length)],
+        shoes: accents[Math.floor(Math.random()*accents.length)]
+      };
+    }
+
+    function makeHumanEnemy(scale=1, palette=null, characterId="serious", boss=false){
+      const p = palette || randomPalette();
+      const group = new THREE.Group();
+
+      const headOrb = new THREE.Mesh(
+        new THREE.SphereGeometry(0.31, 18, 18),
+        makeStdMat(p.skin, .9, 0)
+      );
+      headOrb.position.y = 2.0;
+      headOrb.visible = false;
+      group.add(headOrb);
+
+      const torso = new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.33, 0.85, 6, 12),
+        makeStdMat(p.jacket, .75, .1)
+      );
+      torso.position.y = 1.15;
+      group.add(torso);
+
+      const chest = new THREE.Mesh(
+        new THREE.BoxGeometry(0.18, 0.42, 0.37),
+        new THREE.MeshBasicMaterial({ color:p.shirt })
+      );
+      chest.position.set(0,1.18,0.18);
+      group.add(chest);
+
+      function limb(w,h,d,color){
+        return new THREE.Mesh(new THREE.BoxGeometry(w,h,d), makeStdMat(color, .86, .04));
+      }
+
+      const leftArm = limb(0.16,0.72,0.16,p.jacket);
+      const rightArm = limb(0.16,0.72,0.16,p.jacket);
+      leftArm.position.set(-0.42,1.18,0);
+      rightArm.position.set(0.42,1.18,0);
+      group.add(leftArm,rightArm);
+
+      const leftLeg = limb(0.18,0.84,0.18,p.pants);
+      const rightLeg = limb(0.18,0.84,0.18,p.pants);
+      leftLeg.position.set(-0.16,0.35,0);
+      rightLeg.position.set(0.16,0.35,0);
+      group.add(leftLeg,rightLeg);
+
+      const leftShoe = limb(0.22,0.10,0.34,p.shoes);
+      const rightShoe = limb(0.22,0.10,0.34,p.shoes);
+      leftShoe.position.set(-0.16,-0.12,0.05);
+      rightShoe.position.set(0.16,-0.12,0.05);
+      group.add(leftShoe,rightShoe);
+
+      const visor = new THREE.Mesh(
+        new THREE.BoxGeometry(0.42,0.08,0.08),
+        new THREE.MeshBasicMaterial({ color:p.shirt })
+      );
+      visor.position.set(0,2.02,0.24);
+      group.add(visor);
+
+      const portrait = createCharacterPortrait(characterId);
+      group.add(portrait);
+
+      const aura = new THREE.Mesh(
+        new THREE.SphereGeometry(boss ? 1.5 : 1.15, 16, 16),
+        new THREE.MeshBasicMaterial({
+          color: boss ? 0xff334d : p.shirt,
+          transparent: true,
+          opacity: boss ? 0.15 : 0.09
+        })
+      );
+      aura.position.y = 1.5;
+      group.add(aura);
+
+      if(boss){
+        const bossGlow = new THREE.PointLight(0xff334d, 4.8, 18);
+        bossGlow.position.y = 3.1;
+        group.add(bossGlow);
+      }
+
+      group.scale.setScalar(scale);
+      group.userData.parts = { leftArm, rightArm, leftLeg, rightLeg, headOrb };
+      return group;
+    }
+
+    function enemyCount(level){
+      if(level % 5 === 0) return 1 + Math.floor(level / 10);
+      return Math.min(4 + level * 2, 28);
+    }
+
+    function spawnWave(){
+      state.enemies.forEach(e => scene.remove(e.group));
+      state.enemies = [];
+      state.bossActive = state.level % 5 === 0;
+
+      if(state.inHome) return;
+
+      const count = enemyCount(state.level);
+      for(let i=0;i<count;i++){
+        const boss = state.bossActive;
+        const scale = boss ? 1.6 + state.level * .03 : .95 + Math.random() * .18;
+        const palette = randomPalette();
+        const characterId = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)].id;
+        const group = makeHumanEnemy(scale, palette, characterId, boss);
+
+        let x = (Math.random() * 230) - 115;
+        let z = (Math.random() * 230) - 115;
+        if(Math.hypot(x - state.playerX, z - state.playerZ) < 24){
+          x += 28;
+          z -= 28;
+        }
+        group.position.set(x,0.2,z);
+        scene.add(group);
+
+        state.enemies.push({
+          group,
+          health: boss ? 25 + state.level * 5 : 4 + state.level * 1.35,
+          speed: boss ? 0.010 + state.level * 0.0007 : 0.014 + state.level * 0.0008,
+          boss,
+          strideOffset: Math.random() * Math.PI * 2,
+          hitPower: boss ? 12 + state.level * .5 : 4 + state.level * .25
+        });
+      }
+
+      setMessage(
+        state.bossActive
+          ? `Boss level ${state.level}. Bigger enemy outside.`
+          : `Level ${state.level}. Street pressure is active.`
+      );
+    }
+
+    // -----------------------------
+    // Places and interactions
+    // -----------------------------
+    function detectNearPlace(){
+      state.nearPlace = null;
+
+      if(state.inHome){
+        for(const z of state.homeZones){
+          if(Math.hypot(state.playerX - z.x, state.playerZ - z.z) < z.radius){
+            state.nearPlace = z.name;
+            setMessage(`ACT: ${z.name}`);
+            return;
+          }
+        }
+        setMessage("Home mode. ACT to use nearby spots.");
+        return;
+      }
+
+      for(const p of state.places){
+        if(Math.hypot(state.playerX - p.x, state.playerZ - p.z) < p.radius){
+          state.nearPlace = p.name;
+          setMessage(`ACT: ${p.name}`);
+          return;
+        }
+      }
+
+      setMessage(`${getTheme(state.level).name}. Go home, club, studio, or radio.`);
+    }
+
+    function act(){
+      const now = performance.now();
+      if(now - state.lastAct < 700) return;
+      state.lastAct = now;
+
+      if(state.inHome){
+        if(state.nearPlace === "SLEEP"){
+          state.day += 1;
+          state.health = Math.min(100, state.health + 45);
+          state.energy = Math.min(100, state.energy + 65);
+          setMessage("You slept and recovered.");
+          return;
+        }
+        if(state.nearPlace === "HOME STUDIO"){
+          state.credits += 60;
+          state.songBoost += 0.18 * selectedChar.stats.studio;
+          setMessage("Home studio boosted your sound.");
+          return;
+        }
+        if(state.nearPlace === "EXIT HOME"){
+          exitHome();
+        }
+        return;
+      }
+
+      if(state.nearPlace === "HOME"){
+        enterHome();
+        return;
+      }
+      if(state.nearPlace === "CLUB"){
+        state.credits += 120;
+        state.level += 1;
+        buildCity();
+        spawnWave();
+        setMessage("Club run leveled you up.");
+        return;
+      }
+      if(state.nearPlace === "STUDIO"){
+        state.songBoost += 0.22 * selectedChar.stats.studio;
+        state.credits += 80;
+        setMessage("Studio sharpened your sound.");
+        return;
+      }
+      if(state.nearPlace === "RADIO"){
+        state.credits += 180;
+        state.level += 1;
+        buildCity();
+        spawnWave();
+        setMessage("Radio exposure pushed the city forward.");
+      }
+    }
+
+    // -----------------------------
+    // Music sync
+    // -----------------------------
+    let audioCtx = null;
+    let analyser = null;
+    let dataArray = null;
+
+    uploadEl.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if(!file) return;
+
+      musicEl.src = URL.createObjectURL(file);
+
+      if(!audioCtx){
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const src = audioCtx.createMediaElementSource(musicEl);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        src.connect(analyser);
+        analyser.connect(audioCtx.destination);
+      }
+
+      if(audioCtx.state === "suspended") await audioCtx.resume();
+      await musicEl.play().catch(() => {});
+      setMessage("Music loaded. Stronger beats increase your damage.");
+    });
+
+    function updateBeat(){
+      if(!analyser){
+        state.baseBeatPower = 1;
+      } else {
+        analyser.getByteFrequencyData(dataArray);
+        let sum = 0;
+        for(let i=0;i<dataArray.length;i++) sum += dataArray[i];
+        const avg = sum / dataArray.length;
+
+        if(avg > 155) state.baseBeatPower = 3.0;
+        else if(avg > 125) state.baseBeatPower = 2.3;
+        else if(avg > 95) state.baseBeatPower = 1.7;
+        else state.baseBeatPower = 1.1;
+      }
+
+      state.beatPower = state.baseBeatPower * selectedChar.stats.beat * state.songBoost;
+    }
+
+    // -----------------------------
+    // Combat
+    // -----------------------------
+    function shoot(){
+      if(state.inHome) return;
+
+      const now = performance.now();
+      if(now - state.lastShot < 180) return;
+      state.lastShot = now;
+
+      const ray = new THREE.Raycaster();
+      ray.setFromCamera(new THREE.Vector2(0,0), camera);
+      const hit = ray.intersectObjects(state.enemies.map(e => e.group), true);
+
+      if(hit.length){
+        const obj = hit[0].object;
+        const enemy = state.enemies.find(e => e.group === obj.parent || e.group.children.includes(obj));
+        if(enemy){
+          enemy.health -= state.beatPower * selectedChar.stats.damage;
+          if(enemy.health <= 0){
+            scene.remove(enemy.group);
+            state.enemies = state.enemies.filter(e => e !== enemy);
+            state.credits += enemy.boss ? 300 + state.level * 25 : 25 + state.level * 4;
+
+            if(state.enemies.length === 0){
+              state.level += 1;
+              buildCity();
+              spawnWave();
+            }
+          }
+        }
+      }
+    }
+
+    function bassDrop(){
+      if(state.inHome) return;
+
+      const now = performance.now();
+      if(now - state.lastDrop < 7000) return;
+      state.lastDrop = now;
+
+      state.enemies.forEach(e => scene.remove(e.group));
+      state.credits += 100 * state.level;
+      state.level += 1;
+      buildCity();
+      spawnWave();
+    }
+
+    // -----------------------------
+    // Controls
+    // -----------------------------
+    document.getElementById("shoot").addEventListener("touchstart", e => {
+      e.preventDefault();
+      shoot();
+    }, { passive:false });
+
+    document.getElementById("drop").addEventListener("touchstart", e => {
+      e.preventDefault();
+      bassDrop();
+    }, { passive:false });
+
+    document.getElementById("act").addEventListener("touchstart", e => {
+      e.preventDefault();
+      act();
+    }, { passive:false });
+
+    let leftTouchId = null;
+    let rightTouchId = null;
+    let lastLookX = 0;
+    let lastLookY = 0;
+
+    window.addEventListener("touchstart", e => {
+      for(const t of e.changedTouches){
+        if(leftTouchId === null && t.clientX < innerWidth * .45){
+          leftTouchId = t.identifier;
+        } else if(rightTouchId === null && t.clientX >= innerWidth * .45){
+          rightTouchId = t.identifier;
+          lastLookX = t.clientX;
+          lastLookY = t.clientY;
+        }
+      }
+    }, { passive:false });
+
+    window.addEventListener("touchmove", e => {
+      e.preventDefault();
+      for(const t of e.touches){
+        if(t.identifier === leftTouchId){
+          const rect = joyBase.getBoundingClientRect();
+          let x = t.clientX - rect.left - 64;
+          let y = t.clientY - rect.top - 64;
+          const d = Math.hypot(x,y);
+          if(d > 44){
+            x *= 44 / d;
+            y *= 44 / d;
+          }
+          joyStick.style.left = (x + 64 - 25) + "px";
+          joyStick.style.top = (y + 64 - 25) + "px";
+          state.moveX = x / 44;
+          state.moveY = y / 44;
+        }
+
+        if(t.identifier === rightTouchId){
+          const dx = t.clientX - lastLookX;
+          const dy = t.clientY - lastLookY;
+          state.yaw -= dx * 0.0045;
+          state.pitch -= dy * 0.0032;
+          state.pitch = clamp(state.pitch, -1.1, 1.1);
+          lastLookX = t.clientX;
+          lastLookY = t.clientY;
+        }
+      }
+    }, { passive:false });
+
+    window.addEventListener("touchend", e => {
+      for(const t of e.changedTouches){
+        if(t.identifier === leftTouchId){
+          leftTouchId = null;
+          state.moveX = 0;
+          state.moveY = 0;
+          joyStick.style.left = "39px";
+          joyStick.style.top = "39px";
+        }
+        if(t.identifier === rightTouchId){
+          rightTouchId = null;
+        }
+      }
+    }, { passive:false });
+
+    // -----------------------------
+    // Update loops
+    // -----------------------------
+    function updatePlayer(delta){
+      const speedBase = state.inHome ? 4.6 : 5.5;
+      const beatBonus = (!state.inHome && state.beatPower > 2 ? 1.0 : 0);
+      const moveSpeed = (speedBase + beatBonus) * selectedChar.stats.speed * delta * 8.5;
+
+      const forwardX = Math.sin(state.yaw);
+      const forwardZ = Math.cos(state.yaw);
+      const rightX = Math.cos(state.yaw);
+      const rightZ = -Math.sin(state.yaw);
+
+      let vx = 0;
+      let vz = 0;
+      vx += forwardX * (-state.moveY) * moveSpeed;
+      vz += forwardZ * (-state.moveY) * moveSpeed;
+      vx += rightX * state.moveX * moveSpeed;
+      vz += rightZ * state.moveX * moveSpeed;
+
+      const nx = state.playerX + vx;
+      const nz = state.playerZ + vz;
+      if(!isBlocked(nx, nz)){
+        state.playerX = nx;
+        state.playerZ = nz;
+      }
+
+      camera.position.set(state.playerX, 2.4, state.playerZ);
+      camera.rotation.y = state.yaw;
+      camera.rotation.x = state.pitch;
+
+      playerGroup.position.set(state.playerX, 0, state.playerZ);
+      playerGroup.rotation.y = state.yaw + Math.PI;
+      updatePlayerAppearance();
+    }
+
+    function updateEnemies(time){
+      if(state.inHome) return;
+
+      for(const e of state.enemies){
+        const dx = state.playerX - e.group.position.x;
+        const dz = state.playerZ - e.group.position.z;
+        const d = Math.hypot(dx, dz) || 1;
+
+        e.group.position.x += (dx / d) * e.speed;
+        e.group.position.z += (dz / d) * e.speed;
+        e.group.lookAt(state.playerX, 1.2, state.playerZ);
+
+        const stride = Math.sin(time * 0.007 + e.strideOffset);
+        const p = e.group.userData.parts;
+        if(p){
+          p.leftArm.rotation.x = stride * 0.7;
+          p.rightArm.rotation.x = -stride * 0.7;
+          p.leftLeg.rotation.x = -stride * 0.9;
+          p.rightLeg.rotation.x = stride * 0.9;
+        }
+
+        if(d < 1.75 && time - state.lastHit > 550){
+          state.health -= e.hitPower;
+          state.energy = Math.max(0, state.energy - 4);
+          state.lastHit = time;
+
+          if(state.health <= 0){
+            state.health = 100;
+            state.energy = 70;
+            state.credits = Math.max(0, state.credits - 100);
+            enterHome();
+            setMessage("You got dropped outside. Back home to recover.");
+            return;
+          }
+        }
+      }
+    }
+
+    function updateHUD(){
+      const theme = getTheme(state.level);
+      hud.innerHTML =
+        `Character: ${selectedChar.name}<br>` +
+        `District: ${state.inHome ? "Home Interior" : theme.name}<br>` +
+        `Level: ${state.level}<br>` +
+        `Day: ${state.day}<br>` +
+        `Health: ${Math.max(0, Math.floor(state.health))}<br>` +
+        `Energy: ${Math.max(0, Math.floor(state.energy))}<br>` +
+        `Credits: $${Math.floor(state.credits)}<br>` +
+        `Power: x${state.beatPower.toFixed(1)}<br>` +
+        `Enemies: ${state.enemies.length}` +
+        (state.bossActive && !state.inHome ? `<br>Boss: YES` : ``);
+    }
+
+    function startGame(){
+      state.started = true;
+      overlay.style.display = "none";
+      buildCity();
+      spawnWave();
+      setMessage(`${selectedChar.name} entered the city.`);
+    }
+
+    startBtn.onclick = startGame;
+
+    let lastTime = performance.now();
+    function animate(time){
+      requestAnimationFrame(animate);
+      const delta = Math.min((time - lastTime) / 1000, 0.03);
+      lastTime = time;
+
+      if(state.started){
+        updateBeat();
+        updatePlayer(delta);
+        updateEnemies(time);
+        detectNearPlace();
+        updateHUD();
+      }
+
+      renderer.render(scene, camera);
+    }
+    animate(performance.now());
+
+    // -----------------------------
+    // Resize
+    // -----------------------------
+    window.addEventListener("resize", () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+  </script>
 </body>
 </html>
