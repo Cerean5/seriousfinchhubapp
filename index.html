@@ -1,232 +1,285 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Serious Finch Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Neon Finch Mobile FPS</title>
 
 <style>
-:root{
---bg1:#070b1a;
---bg2:#0c173a;
---card:#111c45;
---text:#ffffff;
---accent:#ff2a2a;
+body{margin:0;overflow:hidden;background:#000;color:#fff;font-family:Arial}
+
+/* HUD */
+#hud{
+position:fixed;
+top:10px;left:10px;
+z-index:10;
+font-size:14px;
 }
 
-*{box-sizing:border-box;}
-
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-color:var(--text);
-background:linear-gradient(180deg,var(--bg1),var(--bg2));
+/* CROSSHAIR */
+#crosshair{
+position:fixed;
+top:50%;left:50%;
+width:20px;height:20px;
+margin-left:-10px;margin-top:-10px;
+border:2px solid #fff;
+border-radius:50%;
 }
 
-/* NAV */
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 20px;
-background:#000;
-position:sticky;
-top:0;
-z-index:100;
+/* JOYSTICK */
+#joy{
+position:fixed;
+bottom:40px;left:30px;
+width:120px;height:120px;
+background:rgba(255,255,255,.1);
+border-radius:50%;
+}
+#stick{
+position:absolute;
+width:50px;height:50px;
+background:#fff;
+border-radius:50%;
+left:35px;top:35px;
 }
 
-nav a{
-color:#fff;
-text-decoration:none;
-margin-left:15px;
+/* BUTTONS */
+#shoot{
+position:fixed;
+bottom:60px;right:30px;
+width:80px;height:80px;
+border-radius:50%;
+background:red;
+display:flex;align-items:center;justify-content:center;
 font-weight:bold;
 }
 
-/* HERO */
-.hero{
-padding:50px 20px;
-text-align:center;
+#bass{
+position:fixed;
+bottom:150px;right:30px;
+width:60px;height:60px;
+border-radius:50%;
+background:cyan;
+color:#000;
+display:flex;align-items:center;justify-content:center;
+font-weight:bold;
 }
 
-.hero h1{
-margin:0;
-font-size:32px;
-}
-
-/* SECTION */
-.section{
-padding:30px 20px;
-max-width:1100px;
-margin:auto;
-}
-
-/* CARD */
-.card{
-background:rgba(255,255,255,0.05);
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
-}
-
-/* BUTTON */
-button{
-background:var(--accent);
-border:none;
-padding:10px 15px;
-color:white;
-border-radius:8px;
-cursor:pointer;
-}
-
-/* INPUT */
-input, textarea{
-width:100%;
+/* MUSIC BUTTON */
+#play{
+position:fixed;
+top:10px;right:10px;
+z-index:20;
 padding:10px;
-margin:5px 0;
-border-radius:6px;
+background:#0ff;
+color:#000;
 border:none;
-}
-
-/* AUDIO */
-audio{
-width:100%;
-}
-
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
-
-/* FOOTER */
-footer{
-text-align:center;
-padding:20px;
-opacity:0.7;
+border-radius:10px;
+font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<nav>
-<div><strong>Serious Finch Hub</strong></div>
-<div>
-<a href="#artists">Artists</a>
-<a href="#radio">Radio</a>
-<a href="#submit">Submit</a>
-<a href="#gunsmoke">Gunsmoke</a>
-</div>
-</nav>
+<div id="hud">Level 1 | Beat x1</div>
+<div id="crosshair"></div>
 
-<!-- HERO -->
-<div class="hero">
-<h1>🚀 Artist Growth Hub</h1>
-<p>Upload your music. Grow your fanbase. Get heard.</p>
-</div>
+<div id="joy"><div id="stick"></div></div>
+<div id="shoot">FIRE</div>
+<div id="bass">DROP</div>
 
-<!-- ARTISTS -->
-<div id="artists" class="section">
-<h2>🔥 Featured Artists</h2>
+<button id="play" onclick="startMusic()">PLAY</button>
+<audio id="music" src="your-song.mp3" loop></audio>
 
-<div class="grid">
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
-<div class="card">
-<h3>Sons of Gunsmoke</h3>
-<p>Official group rising</p>
-<button onclick="goTo('gunsmoke')">View Profile</button>
-</div>
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(innerWidth,innerHeight);
+document.body.appendChild(renderer.domElement);
 
-<div class="card">
-<h3>Serious Finch</h3>
-<p>Independent Artist</p>
-<p>Streams: 120K | Followers: 3K</p>
-</div>
+camera.position.set(0,2,5);
 
-</div>
-</div>
+// LIGHT
+scene.add(new THREE.HemisphereLight(0xffffff,0x444444));
 
-<!-- RADIO -->
-<div id="radio" class="section">
-<h2>📻 Live Radio</h2>
+// FLOOR
+const floor = new THREE.Mesh(
+new THREE.PlaneGeometry(200,200),
+new THREE.MeshBasicMaterial({color:0x111111})
+);
+floor.rotation.x = -Math.PI/2;
+scene.add(floor);
 
-<div class="card">
-<p>Hot 97</p>
-<audio controls>
-<source src="https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFM.mp3">
-</audio>
-</div>
-
-<div class="card">
-<p>Power 105.1</p>
-<audio controls>
-<source src="https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFM.mp3">
-</audio>
-</div>
-
-<div class="card">
-<p>Hip Hop Radio</p>
-<audio controls>
-<source src="https://stream.revma.ihrhls.com/zc1841">
-</audio>
-</div>
-
-</div>
-
-<!-- SUBMIT -->
-<div id="submit" class="section">
-<h2>🎤 Submit Your Music</h2>
-
-<div class="card">
-<form action="https://formspree.io/f/mjgaajoq" method="POST">
-
-<input type="text" name="artist" placeholder="Artist Name" required>
-<input type="url" name="music" placeholder="Spotify / YouTube Link" required>
-<textarea name="message" placeholder="Tell us about your music"></textarea>
-
-<button type="submit">Submit</button>
-
-</form>
-</div>
-</div>
-
-<!-- GUNSMOKE -->
-<div id="gunsmoke" class="section">
-<h2>🔥 Sons of Gunsmoke</h2>
-
-<div class="card">
-
-<div style="width:100%; height:500px; overflow:hidden; border-radius:10px;">
-<iframe 
-src="https://goodgirlbadgirl.org/sons-of-gunsmoke/" 
-style="width:100%; height:100%; border:none;">
-</iframe>
-</div>
-
-<div style="margin-top:15px;">
-<a href="https://goodgirlbadgirl.org/sons-of-gunsmoke/" target="_blank"
-style="background:#ff2a2a; padding:10px 15px; border-radius:8px; color:white; text-decoration:none;">
-Open Full Page
-</a>
-</div>
-
-</div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-Serious Finch Hub © 2026
-</footer>
-
-<!-- SCRIPT -->
-<script>
-function goTo(id){
-document.getElementById(id).scrollIntoView({behavior:"smooth"});
+// BUILDINGS
+for(let i=0;i<20;i++){
+const b = new THREE.Mesh(
+new THREE.BoxGeometry(2,Math.random()*10+2,2),
+new THREE.MeshBasicMaterial({color:0x222244})
+);
+b.position.set(Math.random()*50-25,b.geometry.parameters.height/2,Math.random()*50-25);
+scene.add(b);
 }
-</script>
 
+// STATE
+let level=1;
+let targets=[];
+let beatPower=1;
+let beatTimer=0;
+
+// AUDIO
+let audioCtx, analyser, dataArray;
+let music = document.getElementById("music");
+
+window.startMusic = function(){
+audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const source = audioCtx.createMediaElementSource(music);
+analyser = audioCtx.createAnalyser();
+analyser.fftSize = 256;
+source.connect(analyser);
+analyser.connect(audioCtx.destination);
+dataArray = new Uint8Array(analyser.frequencyBinCount);
+music.play();
+};
+
+// SPAWN
+function spawn(){
+targets.forEach(t=>scene.remove(t));
+targets=[];
+for(let i=0;i<level*3;i++){
+const t = new THREE.Mesh(
+new THREE.SphereGeometry(1,16,16),
+new THREE.MeshBasicMaterial({color:0x00ffff})
+);
+t.position.set(Math.random()*40-20,2,Math.random()*40-20);
+t.userData={health:level};
+scene.add(t);
+targets.push(t);
+}
+}
+
+// BEAT SYSTEM (REAL)
+function updateBeat(){
+if(!analyser) return;
+
+analyser.getByteFrequencyData(dataArray);
+
+let sum=0;
+for(let i=0;i<dataArray.length;i++){
+sum+=dataArray[i];
+}
+
+let avg=sum/dataArray.length;
+
+if(avg>140){
+beatPower=2.5;
+document.body.style.transform="scale(1.02)";
+}else if(avg>100){
+beatPower=2;
+document.body.style.transform="scale(1.01)";
+}else{
+beatPower=1;
+document.body.style.transform="scale(1)";
+}
+
+document.getElementById("hud").innerText =
+"Level "+level+" | Beat x"+beatPower.toFixed(1);
+
+// AUTO BASS DROP
+if(avg>160){
+bassDrop();
+}
+}
+
+// SHOOT
+function shoot(){
+const ray=new THREE.Raycaster();
+ray.setFromCamera(new THREE.Vector2(0,0),camera);
+const hit=ray.intersectObjects(targets);
+
+if(hit.length){
+let e=hit[0].object;
+e.userData.health-=beatPower;
+
+if(e.userData.health<=0){
+scene.remove(e);
+targets=targets.filter(t=>t!==e);
+}
+
+if(targets.length==0){
+level++;
+spawn();
+}
+}
+}
+
+// BASS DROP
+function bassDrop(){
+targets.forEach(t=>scene.remove(t));
+targets=[];
+level++;
+spawn();
+alert("💥 BASS DROP!");
+}
+
+// CONTROLS
+let moveX=0,moveY=0;
+const joy=document.getElementById("joy");
+const stick=document.getElementById("stick");
+
+joy.addEventListener("touchmove",e=>{
+const rect=joy.getBoundingClientRect();
+let x=e.touches[0].clientX-rect.left-60;
+let y=e.touches[0].clientY-rect.top-60;
+
+const dist=Math.sqrt(x*x+y*y);
+if(dist>50){x*=50/dist;y*=50/dist;}
+
+stick.style.left=(x+60-25)+"px";
+stick.style.top=(y+60-25)+"px";
+
+moveX=x/50;
+moveY=y/50;
+});
+
+joy.addEventListener("touchend",()=>{
+moveX=0;moveY=0;
+stick.style.left="35px";
+stick.style.top="35px";
+});
+
+// LOOK
+let lastX=0,lastY=0;
+window.addEventListener("touchmove",e=>{
+let t=e.touches[0];
+if(t.clientX>innerWidth/2){
+camera.rotation.y-=(t.clientX-lastX)*0.002;
+camera.rotation.x-=(t.clientY-lastY)*0.002;
+}
+lastX=t.clientX;
+lastY=t.clientY;
+});
+
+// BUTTONS
+document.getElementById("shoot").ontouchstart=shoot;
+document.getElementById("bass").ontouchstart=bassDrop;
+
+// LOOP
+function animate(){
+requestAnimationFrame(animate);
+
+updateBeat();
+
+camera.position.x+=moveX*0.3;
+camera.position.z+=moveY*0.3;
+
+renderer.render(scene,camera);
+}
+
+spawn();
+animate();
+
+</script>
 </body>
 </html>
