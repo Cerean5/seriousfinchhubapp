@@ -7,17 +7,18 @@
 
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#00e5ff">
-<link rel="icon" href="./icon-192.png">
 
 <style>
 body{margin:0;overflow:hidden;background:#000;color:#fff;font-family:sans-serif}
 canvas{display:block}
+
 #hud,#msg{
 position:fixed;background:rgba(0,0,0,.7);
 padding:10px;border-radius:10px;z-index:10
 }
 #hud{top:10px;left:10px}
 #msg{top:10px;left:50%;transform:translateX(-50%)}
+
 #crosshair{
 position:fixed;left:50%;top:50%;
 width:20px;height:20px;transform:translate(-50%,-50%);
@@ -27,12 +28,14 @@ content:"";position:absolute;background:#fff;
 }
 #crosshair:before{width:2px;height:20px;left:9px}
 #crosshair:after{width:20px;height:2px;top:9px}
+
 .btn{
 position:fixed;border-radius:50%;
 padding:18px;font-weight:bold
 }
 #shoot{right:20px;bottom:20px;background:red}
 #act{right:100px;bottom:20px;background:yellow;color:#000}
+
 #upload{position:fixed;top:10px;right:10px}
 </style>
 </head>
@@ -41,7 +44,7 @@ padding:18px;font-weight:bold
 
 <canvas id="game"></canvas>
 <div id="hud"></div>
-<div id="msg">Explore • Fight • Take Cover • Enter Buildings</div>
+<div id="msg">Explore • Fight • Enter Buildings • Boss Inside</div>
 <div id="crosshair"></div>
 
 <button id="shoot" class="btn">FIRE</button>
@@ -51,7 +54,15 @@ padding:18px;font-weight:bold
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
-/* BASIC VERSION (CLEAN + WORKING) */
+/* ========= CHARACTER IMAGES ========= */
+
+const CHARS=[
+"https://goodgirlbadgirl.org/sons-of-gunsmoke/wp-content/uploads/2024/03/seriousfinch.jpg",
+"https://goodgirlbadgirl.org/sons-of-gunsmoke/wp-content/uploads/2024/03/caneifinch.jpg",
+"https://goodgirlbadgirl.org/sons-of-gunsmoke/wp-content/uploads/2024/03/naturefinch.jpg"
+];
+
+/* ========= SCENE ========= */
 
 const renderer=new THREE.WebGLRenderer({canvas:game});
 renderer.setSize(innerWidth,innerHeight);
@@ -61,18 +72,37 @@ const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,1000);
 
 scene.add(new THREE.HemisphereLight(0xffffff,0x222233,1.2));
 
-let px=0,pz=10,level=1,enemies=[];
+/* ========= STATE ========= */
 
-function build(){
+let px=0,pz=10,level=1,enemies=[],boss=null,inBoss=false;
+
+/* ========= LOAD ========= */
+
+const loader=new THREE.TextureLoader();
+
+function character(img){
+let t=loader.load(img);
+let m=new THREE.Mesh(new THREE.PlaneGeometry(2,3),
+new THREE.MeshBasicMaterial({map:t,transparent:true}));
+m.position.y=2;
+m.onBeforeRender=(r,s,c)=>m.lookAt(c.position);
+return m;
+}
+
+/* ========= BUILD CITY ========= */
+
+function city(){
 scene.clear();
+inBoss=false;
+boss=null;
 
-let g=new THREE.Mesh(
-new THREE.PlaneGeometry(200,200),
-new THREE.MeshStandardMaterial({color:0x111})
-);
+/* ground */
+let g=new THREE.Mesh(new THREE.PlaneGeometry(200,200),
+new THREE.MeshStandardMaterial({color:0x111}));
 g.rotation.x=-Math.PI/2;
 scene.add(g);
 
+/* buildings */
 for(let i=0;i<50;i++){
 let b=new THREE.Mesh(
 new THREE.BoxGeometry(4,10+Math.random()*20,4),
@@ -82,29 +112,77 @@ b.position.set(Math.random()*100-50,b.geometry.parameters.height/2,Math.random()
 scene.add(b);
 }
 
+/* boss zone */
+zone=new THREE.Mesh(
+new THREE.CylinderGeometry(6,6,.3,20),
+new THREE.MeshBasicMaterial({color:0xff0000,transparent:true,opacity:.6})
+);
+zone.rotation.x=-Math.PI/2;
+zone.position.set(0,0,60);
+scene.add(zone);
+
+/* player */
+player=character(CHARS[0]);
+scene.add(player);
+
 spawn();
 }
+
+/* ========= SPAWN ========= */
 
 function spawn(){
 enemies.forEach(e=>scene.remove(e));
 enemies=[];
 
 for(let i=0;i<5+level;i++){
-let e=new THREE.Mesh(
-new THREE.BoxGeometry(1,2,1),
-new THREE.MeshStandardMaterial({color:0xff3333})
-);
-e.position.set(Math.random()*40-20,1,Math.random()*40-20);
+let e=character(CHARS[Math.floor(Math.random()*CHARS.length)]);
+e.position.set(Math.random()*40-20,2,Math.random()*40-20);
 scene.add(e);
 enemies.push(e);
 }
 }
 
+/* ========= BOSS ========= */
+
+function enterBoss(){
+scene.clear();
+inBoss=true;
+
+/* room */
+let f=new THREE.Mesh(new THREE.PlaneGeometry(60,60),
+new THREE.MeshStandardMaterial({color:0x111}));
+f.rotation.x=-Math.PI/2;
+scene.add(f);
+
+/* boss */
+boss=new THREE.Mesh(
+new THREE.CapsuleGeometry(1.5,3,8,16),
+new THREE.MeshStandardMaterial({color:0xff0000,emissive:0xff0000})
+);
+boss.position.set(0,2,0);
+scene.add(boss);
+}
+
+/* ========= SHOOT ========= */
+
 shoot.onclick=()=>{
+
 let ray=new THREE.Raycaster();
 ray.setFromCamera(new THREE.Vector2(0,0),camera);
-let hit=ray.intersectObjects(enemies);
 
+if(inBoss){
+let hit=ray.intersectObject(boss);
+if(hit.length){
+boss.scale.multiplyScalar(0.98);
+if(boss.scale.x<0.5){
+city();
+level++;
+}
+return;
+}
+}
+
+let hit=ray.intersectObjects(enemies);
 if(hit.length){
 scene.remove(hit[0].object);
 enemies=enemies.filter(x=>x!==hit[0].object);
@@ -112,30 +190,53 @@ if(enemies.length===0){level++;spawn();}
 }
 };
 
+/* ========= ACT ========= */
+
+act.onclick=()=>{
+if(Math.hypot(px-0,pz-60)<6){
+enterBoss();
+}
+};
+
+/* ========= MOVE ========= */
+
 window.addEventListener("touchmove",e=>{
 let t=e.touches[0];
 px+=(t.clientX-innerWidth/2)/300;
 pz+=(t.clientY-innerHeight/2)/300;
 });
 
+/* ========= LOOP ========= */
+
 function loop(){
 requestAnimationFrame(loop);
 
-camera.position.set(px,2,pz+8);
+camera.position.set(px,3,pz+8);
+
+if(player)player.position.set(px,2,pz);
 
 enemies.forEach(e=>{
 let dx=px-e.position.x;
 let dz=pz-e.position.z;
 let d=Math.hypot(dx,dz);
-e.position.x+=dx/d*0.03;
-e.position.z+=dz/d*0.03;
+e.position.x+=dx/d*0.02;
+e.position.z+=dz/d*0.02;
 });
 
-hud.innerHTML="Level "+level+"<br>Enemies "+enemies.length;
+if(inBoss && boss){
+let dx=px-boss.position.x;
+let dz=pz-boss.position.z;
+let d=Math.hypot(dx,dz);
+boss.position.x+=dx/d*0.05;
+boss.position.z+=dz/d*0.05;
+}
+
+hud.innerHTML="Level: "+level+"<br>Enemies: "+enemies.length;
 
 renderer.render(scene,camera);
 }
-build();
+
+city();
 loop();
 </script>
 
