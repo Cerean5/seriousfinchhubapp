@@ -1,10 +1,10 @@
 {
-  "name": "Neon Warlords: Siege City",
-  "short_name": "Siege City",
+  "name": "Neon District",
+  "short_name": "NeonDistrict",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#00e5ff",
+  "theme_color": "#00d4ff",
   "orientation": "landscape",
   "icons": [
     {
