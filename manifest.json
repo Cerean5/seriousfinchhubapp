@@ -1,11 +1,14 @@
 {
-  "name": "Neon District",
-  "short_name": "NeonDistrict",
+  "name": "Serious Finch Platform",
+  "short_name": "SeriousFinch",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#00d4ff",
-  "orientation": "landscape",
+  "theme_color": "#ff0000",
+  "orientation": "portrait",
+  "description": "Stream Serious Finch. Discover music. Tap in.",
+
   "icons": [
     {
       "src": "./icon-192.png",
