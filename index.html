@@ -1,283 +1,221 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Serious Finch Hub</title>
-<meta name="description" content="Stream Serious Finch – Where Da Sauce At¿. Available on Spotify, TIDAL, and SoundCloud. Submit music and join the platform.">
-<meta name="theme-color" content="#050505">
-<meta property="og:title" content="Serious Finch – Where Da Sauce At¿">
-<meta property="og:description" content="Tap in. Real music. Stream now.">
-<meta property="og:image" content="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://cerean5.github.io/seriousfinchhubapp/">
-<meta name="twitter:card" content="summary_large_image"><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MRTH8F2B');</script><!-- End Google Tag Manager --><style>
-:root{
-  --bg:#050505;
-  --panel:#111111;
-  --panel-2:#171717;
-  --text:#ffffff;
-  --muted:#b8b8b8;
-  --line:#1f1f1f;
-  --accent:#e50914;
-  --accent-2:#a3040d;
-  --radius:14px;
-  --max:1020px;
-  --shadow:0 12px 30px rgba(0,0,0,.35);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serious Finch Engine</title>
+
+<style>
 body{
-  font-family:Inter,system-ui,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.5;
+margin:0;
+background:#000;
+color:#fff;
+font-family:Arial;
+text-align:center;
+overflow-x:hidden;
 }
-a{color:inherit}
-img{display:block;max-width:100%}
-button,input,textarea{font:inherit}
-.container{max-width:var(--max);margin:auto;padding:0 20px}
-header{
-  position:sticky;top:0;z-index:50;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:15px 20px;border-bottom:1px solid var(--line);
-  background:rgba(5,5,5,.92);backdrop-filter:blur(10px)
-}
-header h1{font-size:18px;letter-spacing:2px}
-nav{display:flex;flex-wrap:wrap;gap:14px}
-nav a{color:#aaa;text-decoration:none;font-size:14px}
-nav a:hover{color:#fff}
+
+/* HERO */
 .hero{
-  min-height:88vh;display:flex;align-items:center;justify-content:center;text-align:center;
-  background:linear-gradient(rgba(0,0,0,.78),rgba(0,0,0,.88)),url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1600&q=80') center/cover;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:
+linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.95)),
+url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a') center/cover;
 }
-.hero-inner{padding:40px 20px}
-.hero h2{font-size:clamp(34px,6vw,60px);letter-spacing:1px;line-height:1}
-.hero p{color:#d0d0d0;margin:14px 0 18px;font-size:18px}
-.hero-buttons,.share-buttons,.social-links,.platform-buttons{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+h1{font-size:50px}
+
 .btn{
-  padding:12px 18px;border:none;background:var(--accent);color:#fff;border-radius:8px;cursor:pointer;
-  text-decoration:none;display:inline-flex;align-items:center;justify-content:center;transition:.2s ease;box-shadow:var(--shadow)
+display:block;
+width:90%;
+max-width:400px;
+margin:10px auto;
+padding:15px;
+background:red;
+border:none;
+color:#fff;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
 }
-.btn:hover{transform:translateY(-1px)}
-.btn.secondary{background:#222;border:1px solid #333;box-shadow:none}
-section{padding:34px 0}
-.section-title{font-size:28px;margin-bottom:14px}
-.section-text{color:var(--muted);margin-bottom:16px}
+
 .card{
-  background:var(--panel);padding:18px;margin:10px 0;border-radius:var(--radius);
-  border:1px solid var(--line);box-shadow:var(--shadow)
-}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-.release-card{overflow:hidden;border-radius:12px;background:var(--panel-2);border:1px solid var(--line)}
-.release-card img{width:100%;height:220px;object-fit:cover}
-.release-card div{padding:12px}
-.platform-list a,.social-list a{display:block;color:#fff;text-decoration:none;padding:8px 0;border-bottom:1px solid #1c1c1c}
-.platform-list a:last-child,.social-list a:last-child{border-bottom:none}
-audio{width:100%;margin-bottom:14px}
-.station-buttons{display:flex;gap:10px;flex-wrap:wrap}
-form{display:grid;gap:10px}
-input,textarea{
-  width:100%;padding:12px;border-radius:10px;border:1px solid #2a2a2a;background:#0b0b0b;color:#fff
-}
-textarea{min-height:110px;resize:vertical}
-.share-row{display:flex;gap:10px;flex-wrap:wrap}
-footer{padding:26px 20px 40px;color:#aaa;text-align:center;border-top:1px solid var(--line);margin-top:10px}
-.floating-traffic{
-  position:fixed;bottom:20px;left:20px;background:var(--accent);color:#fff;padding:12px 18px;border-radius:25px;
-  cursor:pointer;z-index:9999;box-shadow:0 0 15px rgba(229,9,20,.45);font-size:14px;max-width:280px
-}
-.live-popup{
-  position:fixed;bottom:74px;left:20px;background:#000;color:#fff;padding:10px 12px;border-radius:10px;
-  opacity:.94;font-size:12px;z-index:9998;border:1px solid #202020
-}
-@media (max-width:760px){
-  header{flex-direction:column;align-items:flex-start;gap:10px}
-  .hero p{font-size:16px}
-  .floating-traffic{left:12px;right:12px;max-width:none}
-  .live-popup{left:12px;right:12px}
-}
-</style></head><body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRTH8F2B"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) --><header>
-  <h1>SERIOUS FINCH</h1>
-  <nav>
-    <a href="#music">Music</a>
-    <a href="#links">Links</a>
-    <a href="#radio">Radio</a>
-    <a href="#submit">Submit</a>
-    <a href="#share">Share</a>
-    <a href="#social">Social</a>
-  </nav>
-</header><section class="hero">
-  <div class="hero-inner container">
-    <h2>WHERE DA SAUCE AT¿</h2>
-    <p>Serious Finch</p>
-    <div class="hero-buttons">
-      <a class="btn" href="https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B?si=yft_Gc7fQbG5lhSOPYJWhw" target="_blank" rel="noopener noreferrer" onclick="track('spotify')">Spotify</a>
-      <a class="btn secondary" href="https://tidal.com/track/249962630/u" target="_blank" rel="noopener noreferrer" onclick="track('tidal_track')">TIDAL</a>
-      <a class="btn secondary" href="https://on.soundcloud.com/KGizTKf05XbbIIH5VD" target="_blank" rel="noopener noreferrer" onclick="track('soundcloud')">SoundCloud</a>
-    </div>
-  </div>
-</section><section id="music">
-  <div class="container">
-    <h2 class="section-title">Featured</h2>
-    <p class="section-text">Featured track embedded directly on the site.</p>
-    <div class="card">
-      <iframe src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-    </div>
-  </div>
-</section><section id="links">
-  <div class="container">
-    <h2 class="section-title">All Platforms</h2>
-    <p class="section-text">Give every listener a platform they already use.</p>
-    <div class="card platform-list">
-      <a href="https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B?si=yft_Gc7fQbG5lhSOPYJWhw" target="_blank" rel="noopener noreferrer" onclick="track('spotify_link')">Spotify Track</a>
-      <a href="https://tidal.com/artist/19525593/u" target="_blank" rel="noopener noreferrer" onclick="track('tidal_artist')">TIDAL Artist</a>
-      <a href="https://tidal.com/album/390971171/u" target="_blank" rel="noopener noreferrer" onclick="track('tidal_album')">TIDAL Album</a>
-      <a href="https://tidal.com/track/249962630/u" target="_blank" rel="noopener noreferrer" onclick="track('tidal_track_1')">TIDAL Track 1</a>
-      <a href="https://tidal.com/track/424726649/u" target="_blank" rel="noopener noreferrer" onclick="track('tidal_track_2')">TIDAL Track 2</a>
-      <a href="https://on.soundcloud.com/KGizTKf05XbbIIH5VD" target="_blank" rel="noopener noreferrer" onclick="track('soundcloud_link')">SoundCloud</a>
-    </div>
-  </div>
-</section><section id="releases">
-  <div class="container">
-    <h2 class="section-title">Releases</h2>
-    <p class="section-text">Swap these placeholder images with your real cover art for a fully branded look.</p>
-    <div class="grid">
-      <a class="release-card" href="https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B?si=yft_Gc7fQbG5lhSOPYJWhw" target="_blank" rel="noopener noreferrer" onclick="track('release_spotify')">
-        <img src="https://picsum.photos/500/500?1" alt="Release 1">
-        <div><strong>Where Da Sauce At¿</strong></div>
-      </a>
-      <a class="release-card" href="https://tidal.com/album/390971171/u" target="_blank" rel="noopener noreferrer" onclick="track('release_tidal_album')">
-        <img src="https://picsum.photos/500/500?2" alt="Release 2">
-        <div><strong>TIDAL Album</strong></div>
-      </a>
-      <a class="release-card" href="https://tidal.com/track/249962630/u" target="_blank" rel="noopener noreferrer" onclick="track('release_tidal_track')">
-        <img src="https://picsum.photos/500/500?3" alt="Release 3">
-        <div><strong>TIDAL Track</strong></div>
-      </a>
-    </div>
-  </div>
-</section><section id="radio">
-  <div class="container">
-    <h2 class="section-title">Radio</h2>
-    <p class="section-text">Live stations for extra discovery and listening time.</p>
-    <div class="card">
-      <audio id="radio" controls></audio>
-      <div class="station-buttons">
-        <button class="btn secondary" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFMAAC.aac'); track('radio_hot97')">Hot 97</button>
-        <button class="btn secondary" onclick="playRadio('https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFMAAC.aac'); track('radio_power105')">Power 105</button>
-      </div>
-    </div>
-  </div>
-</section><section id="submit">
-  <div class="container">
-    <h2 class="section-title">Submit Music</h2>
-    <p class="section-text">Artists can submit tracks directly to Serious Finch Hub.</p>
-    <div class="card">
-      <form action="https://formspree.io/f/mjgaajoq" method="POST" onsubmit="track('submission_form')">
-        <input type="text" name="artist" placeholder="Artist Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="spotify" placeholder="Spotify Link" required>
-        <textarea name="message" placeholder="Tell us about your music"></textarea>
-        <button class="btn" type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-</section><section id="share">
-  <div class="container">
-    <h2 class="section-title">Share</h2>
-    <p class="section-text">Use these tools to spread the site faster.</p>
-    <div class="card">
-      <div class="share-row">
-        <button class="btn" onclick="shareSite(); track('share_native')">📤 Share This</button>
-        <button class="btn secondary" onclick="shareFacebook(); track('share_facebook')">Facebook</button>
-        <button class="btn secondary" onclick="shareTwitter(); track('share_twitter')">Twitter</button>
-      </div>
-    </div>
-  </div>
-</section><section id="social">
-  <div class="container">
-    <h2 class="section-title">Social</h2>
-    <p class="section-text">Keep fans moving deeper into your world.</p>
-    <div class="card social-list">
-      <a href="https://www.instagram.com/serious_finch?igsh=MWFmdG42anI0d2ttcQ==" target="_blank" rel="noopener noreferrer" onclick="track('instagram')">Instagram</a>
-      <a href="https://www.facebook.com/share/1L3xM3P1y7/" target="_blank" rel="noopener noreferrer" onclick="track('facebook')">Facebook</a>
-      <a href="https://www.tiktok.com/@serious_finch?_r=1&_t=ZP-95CxRXOCCVi" target="_blank" rel="noopener noreferrer" onclick="track('tiktok')">TikTok</a>
-    </div>
-  </div>
-</section><footer>
-  Serious Finch Hub · streaming hub · traffic engine · submission system
-</footer><script>
-function playRadio(url){
-  document.getElementById('radio').src=url;
+background:#111;
+margin:20px;
+padding:15px;
+border-radius:10px;
 }
 
-function track(type){
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event:'click',
-    type:type
-  });
+.task{
+background:#222;
+padding:10px;
+margin:8px;
+border-radius:8px;
 }
 
-function shareSite(){
-  if(navigator.share){
-    navigator.share({
-      title:'Serious Finch – Where Da Sauce At¿',
-      text:'Tap in 🔥',
-      url:window.location.href
-    });
-  } else {
-    alert('Copy this link: ' + window.location.href);
-  }
+/* FLOAT CTA */
+.float{
+position:fixed;
+bottom:20px;
+left:20px;
+background:red;
+padding:12px;
+border-radius:20px;
+cursor:pointer;
+animation:pulse 1.5s infinite;
 }
 
-function shareFacebook(){
-  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), '_blank');
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.1)}
+100%{transform:scale(1)}
 }
 
-function shareTwitter(){
-  window.open('https://twitter.com/intent/tweet?url=' + encodeURIComponent(location.href), '_blank');
+/* LIVE FEED */
+.feed{
+position:fixed;
+top:20px;
+right:20px;
+background:#111;
+padding:10px;
+border-radius:10px;
+font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+<h1>WHY SO SERIOUS?</h1>
+<p>Serious Finch Traffic Engine</p>
+
+<button class="btn" onclick="goSpotify()">Spotify</button>
+<button class="btn" onclick="goTidal()">TIDAL</button>
+<button class="btn" onclick="goSound()">SoundCloud</button>
+</div>
+
+<!-- MUSIC -->
+<div class="card">
+<h2>Featured Track</h2>
+<iframe src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B"
+width="100%" height="300"></iframe>
+</div>
+
+<!-- THINK TANK -->
+<div class="card" id="think">
+<h2>Think Tank</h2>
+<div id="tasks"></div>
+<button class="btn" onclick="generate()">New Strategy</button>
+</div>
+
+<!-- VIRAL CAPTION ENGINE -->
+<div class="card">
+<h2>Viral Caption</h2>
+<p id="caption">Tap in now</p>
+<button class="btn" onclick="captionGen()">Generate Caption</button>
+</div>
+
+<!-- STATS -->
+<div class="card">
+<h2>Stats</h2>
+<p id="clicks">Clicks: 0</p>
+<p id="actions">Actions: 0</p>
+</div>
+
+<!-- LIVE ACTIVITY -->
+<div class="feed" id="feed">Someone just tapped in</div>
+
+<script>
+let clicks=0;
+let actions=0;
+
+function goSpotify(){
+clicks++;update();
+window.open("https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B");
 }
 
-// Smart traffic engine
-const trafficMessages=[
-  '🔥 This track different... tap in',
-  '🎧 Don\'t just hear it — save it',
-  '🚨 New drop — pressure music only',
-  '💯 Real ones know... play this twice',
-  '🎶 If you found this, you\'re early'
+function goTidal(){
+clicks++;update();
+window.open("https://tidal.com/track/249962630/u");
+}
+
+function goSound(){
+clicks++;update();
+window.open("https://on.soundcloud.com/KGizTKf05XbbIIH5VD");
+}
+
+function update(){
+document.getElementById("clicks").innerText="Clicks: "+clicks;
+}
+
+/* THINK TANK */
+function generate(){
+actions++;
+document.getElementById("actions").innerText="Actions: "+actions;
+
+const moves=[
+"Post in 5 Facebook groups",
+"Drop 3 TikToks today",
+"Comment on 20 hip-hop posts",
+"Send link to 10 people",
+"Post IG story + link",
+"Share in Discord servers",
+"Drop late night post",
+"Reply to every comment",
+"Find trending sound and remix it",
+"Post snippet with hook"
 ];
-const trafficLinks=[
-  'https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B?si=yft_Gc7fQbG5lhSOPYJWhw',
-  'https://tidal.com/track/249962630/u',
-  'https://on.soundcloud.com/KGizTKf05XbbIIH5VD'
-];
-const trafficBtn=document.createElement('div');
-trafficBtn.className='floating-traffic';
-trafficBtn.innerHTML=trafficMessages[Math.floor(Math.random()*trafficMessages.length)];
-trafficBtn.onclick=function(){
-  const link=trafficLinks[Math.floor(Math.random()*trafficLinks.length)];
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({event:'music_click',link:link});
-  window.open(link,'_blank');
-};
-document.body.appendChild(trafficBtn);
 
-// Light engagement popup
-setTimeout(()=>{
-  const popup=document.createElement('div');
-  popup.className='live-popup';
-  popup.innerHTML='🔥 New visitors are tapping in...';
-  document.body.appendChild(popup);
-  setTimeout(()=>popup.remove(),4000);
-},5000);
-</script></body>
+let html="";
+moves.sort(()=>0.5-Math.random()).slice(0,5).forEach(m=>{
+html+=`<div class="task">${m}</div>`;
+});
+
+document.getElementById("tasks").innerHTML=html;
+}
+generate();
+
+/* CAPTION ENGINE */
+function captionGen(){
+const caps=[
+"they not ready for this… tap in now 🔥",
+"real music still exists… press play 🎧",
+"if you see this you early 🚀",
+"this one different… no skips",
+"run this up if you hear it 💯"
+];
+
+document.getElementById("caption").innerText=
+caps[Math.floor(Math.random()*caps.length)];
+}
+
+/* LIVE FEED */
+const activity=[
+"Someone from NY tapped in",
+"New listener just pressed play",
+"Track just got replayed",
+"Someone shared your link",
+"New visitor on your page"
+];
+
+setInterval(()=>{
+document.getElementById("feed").innerText=
+activity[Math.floor(Math.random()*activity.length)];
+},3000);
+
+/* FLOAT BUTTON */
+const box=document.createElement("div");
+box.className="float";
+box.innerHTML="TAP IN";
+box.onclick=goSpotify;
+document.body.appendChild(box);
+</script>
+
+</body>
 </html>
