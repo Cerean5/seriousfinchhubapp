@@ -1,21 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Serious Finch Engine</title>
 
 <style>
-body{
-margin:0;
-background:#000;
-color:#fff;
-font-family:Arial;
-text-align:center;
-overflow-x:hidden;
-}
+body{margin:0;background:#000;color:#fff;font-family:Arial;text-align:center}
 
-/* HERO */
 .hero{
 height:100vh;
 display:flex;
@@ -25,196 +17,191 @@ align-items:center;
 background:
 linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.95)),
 url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a') center/cover;
+animation:zoom 20s infinite alternate;
 }
 
-h1{font-size:50px}
+@keyframes zoom{from{background-size:100%}to{background-size:110%}}
+
+h1{font-size:50px;text-shadow:0 0 25px red}
 
 .btn{
-display:block;
-width:90%;
-max-width:400px;
-margin:10px auto;
-padding:15px;
-background:red;
-border:none;
-color:#fff;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
+width:90%;max-width:400px;margin:10px auto;padding:15px;
+background:red;border:none;color:#fff;border-radius:10px;cursor:pointer;
+transition:.2s;
 }
+
+.btn:hover{transform:scale(1.05);box-shadow:0 0 20px red}
 
 .card{
-background:#111;
-margin:20px;
-padding:15px;
-border-radius:10px;
+background:#111;margin:20px;padding:15px;border-radius:12px;
+box-shadow:0 0 20px rgba(255,0,0,.2)
 }
 
-.task{
-background:#222;
-padding:10px;
-margin:8px;
-border-radius:8px;
-}
+.plan-item{background:#222;margin:6px;padding:10px;border-radius:8px}
 
-/* FLOAT CTA */
-.float{
-position:fixed;
-bottom:20px;
-left:20px;
-background:red;
-padding:12px;
-border-radius:20px;
-cursor:pointer;
-animation:pulse 1.5s infinite;
-}
+.low{box-shadow:0 0 100px red inset}
 
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.1)}
-100%{transform:scale(1)}
-}
-
-/* LIVE FEED */
-.feed{
-position:fixed;
-top:20px;
-right:20px;
-background:#111;
-padding:10px;
-border-radius:10px;
-font-size:12px;
+#cta{
+position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+background:red;padding:12px 20px;border-radius:50px;cursor:pointer;
+box-shadow:0 0 20px red;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
 <div class="hero">
 <h1>WHY SO SERIOUS?</h1>
-<p>Serious Finch Traffic Engine</p>
 
-<button class="btn" onclick="goSpotify()">Spotify</button>
-<button class="btn" onclick="goTidal()">TIDAL</button>
-<button class="btn" onclick="goSound()">SoundCloud</button>
+<button class="btn" onclick="go('spotify')">Spotify</button>
+<button class="btn" onclick="go('tidal')">TIDAL</button>
+<button class="btn" onclick="go('sound')">SoundCloud</button>
 </div>
 
-<!-- MUSIC -->
 <div class="card">
-<h2>Featured Track</h2>
-<iframe src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B"
-width="100%" height="300"></iframe>
+<h2>🎯 Mission</h2>
+<div id="mission"></div>
 </div>
 
-<!-- THINK TANK -->
-<div class="card" id="think">
+<div class="card">
+<h2>🧠 Brain</h2>
+<div id="brain"></div>
+</div>
+
+<div class="card">
+<h2>📈 Score</h2>
+<div id="score"></div>
+</div>
+
+<div class="card">
+<h2>🚀 Loop Engine</h2>
+<div id="loop"></div>
+</div>
+
+<div class="card">
 <h2>Think Tank</h2>
-<div id="tasks"></div>
-<button class="btn" onclick="generate()">New Strategy</button>
+<div id="plan"></div>
+<button class="btn" onclick="plan()">New Plan</button>
 </div>
 
-<!-- VIRAL CAPTION ENGINE -->
 <div class="card">
-<h2>Viral Caption</h2>
-<p id="caption">Tap in now</p>
-<button class="btn" onclick="captionGen()">Generate Caption</button>
+<h2>📊 Stats</h2>
+<p id="stats"></p>
 </div>
 
-<!-- STATS -->
-<div class="card">
-<h2>Stats</h2>
-<p id="clicks">Clicks: 0</p>
-<p id="actions">Actions: 0</p>
-</div>
-
-<!-- LIVE ACTIVITY -->
-<div class="feed" id="feed">Someone just tapped in</div>
+<div id="cta" onclick="go('spotify')">TAP IN</div>
 
 <script>
-let clicks=0;
-let actions=0;
 
-function goSpotify(){
-clicks++;update();
-window.open("https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B");
+// LINKS
+const L={
+spotify:"https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B",
+tidal:"https://tidal.com/track/249962630/u",
+sound:"https://on.soundcloud.com/KGizTKf05XbbIIH5VD"
+};
+
+// STATE
+let S=JSON.parse(localStorage.getItem("sf"))||{
+clicks:0,spotify:0,tidal:0,sound:0,plans:0,streak:1
+};
+
+function save(){localStorage.setItem("sf",JSON.stringify(S));}
+
+// ACTION
+function go(t){
+S.clicks++;S[t]++;save();
+window.open(L[t]);
 }
 
-function goTidal(){
-clicks++;update();
-window.open("https://tidal.com/track/249962630/u");
-}
-
-function goSound(){
-clicks++;update();
-window.open("https://on.soundcloud.com/KGizTKf05XbbIIH5VD");
-}
-
-function update(){
-document.getElementById("clicks").innerText="Clicks: "+clicks;
-}
-
-/* THINK TANK */
-function generate(){
-actions++;
-document.getElementById("actions").innerText="Actions: "+actions;
-
+// PLAN
 const moves=[
-"Post in 5 Facebook groups",
-"Drop 3 TikToks today",
-"Comment on 20 hip-hop posts",
-"Send link to 10 people",
-"Post IG story + link",
-"Share in Discord servers",
-"Drop late night post",
-"Reply to every comment",
-"Find trending sound and remix it",
-"Post snippet with hook"
+"Post TikTok",
+"IG story",
+"Send 10 DMs",
+"Comment 20 posts",
+"FB groups",
+"Drop snippet",
+"Reply to comments"
 ];
 
-let html="";
-moves.sort(()=>0.5-Math.random()).slice(0,5).forEach(m=>{
-html+=`<div class="task">${m}</div>`;
-});
-
-document.getElementById("tasks").innerHTML=html;
-}
-generate();
-
-/* CAPTION ENGINE */
-function captionGen(){
-const caps=[
-"they not ready for this… tap in now 🔥",
-"real music still exists… press play 🎧",
-"if you see this you early 🚀",
-"this one different… no skips",
-"run this up if you hear it 💯"
-];
-
-document.getElementById("caption").innerText=
-caps[Math.floor(Math.random()*caps.length)];
+function plan(){
+S.plans++;save();
+let p=moves.sort(()=>0.5-Math.random()).slice(0,5)
+.map(x=>"<div class='plan-item'>"+x+"</div>").join("");
+document.getElementById("plan").innerHTML=p;
 }
 
-/* LIVE FEED */
-const activity=[
-"Someone from NY tapped in",
-"New listener just pressed play",
-"Track just got replayed",
-"Someone shared your link",
-"New visitor on your page"
-];
+// BRAIN V2
+function brain(){
 
+let best="Spotify";
+if(S.tidal>S.spotify) best="TIDAL";
+if(S.sound>S.spotify) best="SoundCloud";
+
+let energy="LOW";
+if(S.clicks>15) energy="HIGH";
+else if(S.clicks>5) energy="MID";
+
+return `
+<div class='plan-item'>Energy: ${energy}</div>
+<div class='plan-item'>Focus: ${best}</div>
+<div class='plan-item'>Action: Post + Push</div>
+`;
+}
+
+// SCORE SYSTEM
+function score(){
+let sc=Math.min(100,S.clicks*5);
+return "Daily Score: "+sc+"%";
+}
+
+// MISSION
+function mission(){
+if(S.clicks<5) return "⚠️ Get first 5 clicks NOW";
+if(S.clicks<15) return "🚀 Reach 15 clicks";
+return "🔥 Dominate today";
+}
+
+// LOOP ENGINE
+function loop(){
+return `
+<div class='plan-item'>Post → Click → Repeat</div>
+<div class='plan-item'>Push same link again</div>
+<div class='plan-item'>Reply → Repost</div>
+`;
+}
+
+// RENDER
+function render(){
+document.getElementById("brain").innerHTML=brain();
+document.getElementById("score").innerText=score();
+document.getElementById("mission").innerText=mission();
+document.getElementById("loop").innerHTML=loop();
+document.getElementById("stats").innerText="Clicks: "+S.clicks;
+}
+
+// PRESSURE
+function pressure(){
+if(S.clicks<5) document.body.classList.add("low");
+else document.body.classList.remove("low");
+}
+
+// LOOP
 setInterval(()=>{
-document.getElementById("feed").innerText=
-activity[Math.floor(Math.random()*activity.length)];
+render();
+pressure();
 },3000);
 
-/* FLOAT BUTTON */
-const box=document.createElement("div");
-box.className="float";
-box.innerHTML="TAP IN";
-box.onclick=goSpotify;
-document.body.appendChild(box);
+// AUTO PUSH
+setInterval(()=>{
+console.log("POST AGAIN 🔥");
+},15000);
+
+// INIT
+render();
+plan();
+
 </script>
 
 </body>
