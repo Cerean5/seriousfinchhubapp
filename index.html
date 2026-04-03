@@ -1,1028 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Serious Finch x Sons of Gunsmoke | OUT NOW</title>
-  <meta name="description" content="Serious Finch and Sons of Gunsmoke official rollout page. Stream now on Spotify, TIDAL, SoundCloud, and watch on YouTube." />
-  <meta name="theme-color" content="#07080c" />
-  <meta name="referrer" content="no-referrer" />
-
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icon-192.png" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
-
-  <meta property="og:title" content="Serious Finch x Sons of Gunsmoke | OUT NOW" />
-  <meta property="og:description" content="Official rollout page. Tap in now." />
-  <meta property="og:image" content="image-hero-2.jpg" />
-  <meta property="og:url" content="https://cerean5.github.io/seriousfinchhubapp/" />
-  <meta property="og:type" content="website" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Serious Finch x Sons of Gunsmoke | OUT NOW" />
-  <meta name="twitter:description" content="Official rollout page. Tap in now." />
-  <meta name="twitter:image" content="image-hero-2.jpg" />
-
-  <style>
-    :root{
-      --bg:#05060a;
-      --bg2:#0c0e16;
-      --panel:rgba(255,255,255,.07);
-      --panel2:rgba(255,255,255,.1);
-      --line:rgba(255,255,255,.08);
-      --text:#f5f7fb;
-      --muted:#adb5c5;
-      --soft:#7e8696;
-      --red:#ff2348;
-      --red2:#9b1026;
-      --gold:#d8b15f;
-      --shadow:0 24px 60px rgba(0,0,0,.42);
-      --radius:24px;
-      --max:1260px;
-    }
-
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter,Arial,Helvetica,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at 12% 12%, rgba(255,35,72,.13), transparent 22%),
-        radial-gradient(circle at 88% 14%, rgba(216,177,95,.07), transparent 18%),
-        linear-gradient(180deg,#040509,#090b12 50%,#040509 100%);
-      overflow-x:hidden;
-    }
-
-    a{text-decoration:none;color:inherit}
-    button{font:inherit}
-    .container{width:min(var(--max),calc(100% - 28px));margin:0 auto}
-
-    .header{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      background:rgba(6,7,10,.68);
-      backdrop-filter:blur(16px);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-
-    .header-inner{
-      min-height:78px;
-      display:flex;align-items:center;justify-content:space-between;gap:18px;
-    }
-
-    .brand{display:flex;align-items:center;gap:14px}
-    .brand-mark{
-      width:46px;height:46px;border-radius:14px;
-      display:grid;place-items:center;
-      font-weight:900;letter-spacing:.14em;
-      background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.12);
-    }
-    .brand-title{
-      font-size:.92rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
-    }
-    .brand-sub{
-      font-size:.78rem;color:var(--soft);
-    }
-
-    .nav{display:flex;gap:18px;flex-wrap:wrap}
-    .nav a{font-size:.92rem;color:var(--muted)}
-    .nav a:hover{color:#fff}
-
-    .hero{
-      position:relative;
-      min-height:100svh;
-      display:flex;
-      align-items:end;
-      overflow:hidden;
-      isolation:isolate;
-    }
-
-    .hero-bg,.hero-bg-2{
-      position:absolute;inset:0;z-index:-4;
-      background-size:cover;background-position:center;
-      transition:opacity 1.15s ease, transform 7s ease;
-      transform:scale(1.05);
-    }
-
-    .hero-bg{
-      opacity:1;
-      background-image:
-        linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.88)),
-        url('image-hero-2.jpg');
-    }
-
-    .hero-bg-2{opacity:0}
-
-    .hero-overlay{
-      position:absolute;inset:0;z-index:-3;
-      background:
-        radial-gradient(circle at 20% 48%, rgba(255,35,72,.18), transparent 20%),
-        radial-gradient(circle at 78% 20%, rgba(216,177,95,.08), transparent 18%),
-        radial-gradient(circle at center, transparent 38%, rgba(0,0,0,.38) 70%, rgba(0,0,0,.95) 100%);
-    }
-
-    .hero-content{width:100%;padding:130px 0 44px}
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.08fr .92fr;
-      gap:28px;
-      align-items:end;
-    }
-
-    .eyebrow{
-      display:inline-flex;align-items:center;gap:10px;
-      padding:8px 12px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.05);
-      font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
-      margin-bottom:18px;
-    }
-
-    h1{
-      margin:0;
-      font-size:clamp(3.4rem,7vw,7rem);
-      line-height:.84;
-      letter-spacing:-.06em;
-      text-transform:uppercase;
-      max-width:8ch;
-      text-shadow:0 0 26px rgba(255,35,72,.16);
-    }
-
-    h1 span{
-      display:block;
-      background:linear-gradient(180deg,#fff 10%,#ffdbe1 82%);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      text-shadow:0 0 18px rgba(255,35,72,.24);
-    }
-
-    .hero-copy{
-      margin-top:18px;
-      max-width:64ch;
-      color:#d3d8e2;
-      line-height:1.75;
-      font-size:1.04rem;
-    }
-
-    .hero-actions,.chip-row,.quick-actions,.toolbar,.radio-buttons,.share-buttons{
-      display:flex;gap:12px;flex-wrap:wrap;
-    }
-
-    .hero-actions{margin-top:26px}
-    .chip-row{margin-top:18px}
-    .quick-actions{margin-top:20px}
-
-    .chip{
-      padding:9px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.1);
-      background:rgba(255,255,255,.04);
-      color:#d9dde7;
-      font-size:.82rem;
-    }
-
-    .btn{
-      border:0;
-      border-radius:999px;
-      padding:14px 20px;
-      font-weight:700;
-      cursor:pointer;
-      transition:.2s ease;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-    }
-
-    .btn:hover{transform:translateY(-1px)}
-
-    .btn-primary{
-      color:#fff;
-      background:linear-gradient(135deg,var(--red),var(--red2));
-      box-shadow:0 12px 32px rgba(157,16,39,.35);
-    }
-
-    .btn-secondary{
-      color:#fff;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.11);
-    }
-
-    .btn-gold{
-      color:#151515;
-      background:linear-gradient(135deg,#f0d9a3,var(--gold));
-      box-shadow:0 12px 30px rgba(216,177,95,.24);
-    }
-
-    .btn-ghost{
-      color:#fff;
-      background:rgba(0,0,0,.24);
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .panel{
-      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(14px);
-      padding:18px;
-    }
-
-    .panel-top{
-      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;
-    }
-
-    .panel-kicker{
-      color:var(--muted);
-      font-size:.8rem;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-    }
-
-    .panel-title{
-      margin-top:6px;
-      font-size:1.18rem;
-      font-weight:800;
-      line-height:1.1;
-    }
-
-    .pill{
-      padding:8px 10px;
-      border-radius:999px;
-      background:rgba(255,35,72,.12);
-      border:1px solid rgba(255,35,72,.18);
-      color:#ffdce2;
-      font-size:.75rem;
-      white-space:nowrap;
-    }
-
-    .hero-spotlight{display:grid;gap:14px}
-
-    .hero-visual{
-      position:relative;
-      overflow:hidden;
-      border-radius:22px;
-      min-height:580px;
-      border:1px solid rgba(255,255,255,.1);
-      box-shadow:var(--shadow);
-      background:#090b10;
-    }
-
-    .hero-visual img{
-      width:100%;height:100%;object-fit:cover;display:block;
-      filter:brightness(.88) contrast(1.02);
-    }
-
-    .hero-visual::after{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(180deg,transparent 38%,rgba(0,0,0,.92) 100%);
-    }
-
-    .hero-visual-copy{
-      position:absolute;left:0;right:0;bottom:0;z-index:1;padding:22px;
-    }
-
-    .hero-visual-copy h3{
-      margin:0;
-      font-size:1.55rem;
-      letter-spacing:-.03em;
-    }
-
-    .hero-visual-copy p{
-      margin:8px 0 0;
-      color:#d0d6e0;
-      max-width:34ch;
-      line-height:1.55;
-    }
-
-    .hero-mini-row{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-    }
-
-    .hero-mini{
-      padding:14px;
-      border-radius:18px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .hero-mini strong{
-      display:block;
-      font-size:1rem;
-      margin-bottom:4px;
-    }
-
-    .hero-mini span{
-      font-size:.83rem;
-      color:var(--soft);
-      line-height:1.35;
-    }
-
-    .section{padding:40px 0}
-
-    .section-head{
-      display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:18px;
-    }
-
-    .section-head h2{
-      margin:0;
-      font-size:clamp(1.4rem,3vw,2.1rem);
-      line-height:1;
-      letter-spacing:-.03em;
-      text-transform:uppercase;
-    }
-
-    .section-head p{
-      margin:8px 0 0;
-      color:var(--muted);
-      max-width:60ch;
-      line-height:1.58;
-    }
-
-    .grid{display:grid;gap:14px}
-    .grid.two{grid-template-columns:1fr 1fr}
-    .grid.three{grid-template-columns:repeat(3,1fr)}
-    .grid.split{grid-template-columns:1.02fr .98fr}
-
-    .release{
-      position:relative;
-      min-height:360px;
-      border-radius:22px;
-      overflow:hidden;
-      background:#090a0e;
-      border:1px solid rgba(255,255,255,.09);
-      box-shadow:0 18px 50px rgba(0,0,0,.35);
-    }
-
-    .release::after{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.94) 100%);
-    }
-
-    .release img{
-      width:100%;height:100%;object-fit:cover;display:block;
-      filter:saturate(.95) contrast(1.03) brightness(.84);
-    }
-
-    .release-info{
-      position:absolute;left:0;right:0;bottom:0;z-index:1;padding:16px;
-    }
-
-    .release-kicker{
-      color:#f0dde2;
-      font-size:.72rem;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      opacity:.94;
-    }
-
-    .release-title{
-      margin-top:8px;
-      font-weight:800;
-      font-size:1rem;
-    }
-
-    .release-sub{
-      margin-top:6px;
-      color:#c3cad7;
-      font-size:.84rem;
-    }
-
-    .stack{display:grid;gap:12px}
-
-    .plan-item,.brain-item,.note-item,.support-item,.mission-item{
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:16px;
-      padding:14px;
-      text-align:left;
-    }
-
-    .caption-box{
-      min-height:110px;
-      padding:16px;
-      border-radius:18px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      text-align:left;
-      line-height:1.6;
-    }
-
-    .stats-row{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
-    }
-
-    .stat{
-      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:18px;
-      text-align:center;
-    }
-
-    .stat strong{
-      display:block;
-      font-size:1.9rem;
-      margin-bottom:6px;
-    }
-
-    .stat span{
-      color:var(--muted);
-      font-size:.9rem;
-    }
-
-    .spotify-embed{
-      border-radius:14px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .radio-player{width:100%}
-    .share-status,.muted{color:var(--muted);line-height:1.6}
-
-    .footer{
-      padding:28px 0 42px;
-      color:var(--soft);
-    }
-
-    .footer-inner{
-      border-top:1px solid rgba(255,255,255,.08);
-      padding-top:20px;
-      display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-    }
-
-    #cta{
-      position:fixed;
-      bottom:20px;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:60;
-      background:linear-gradient(135deg,var(--red),var(--red2));
-      color:#fff;
-      padding:12px 24px;
-      border-radius:40px;
-      cursor:pointer;
-      box-shadow:0 0 20px rgba(255,35,72,.45);
-      font-weight:800;
-      letter-spacing:.04em;
-    }
-
-    #godmodePulse{
-      position:fixed;
-      right:18px;
-      bottom:18px;
-      z-index:60;
-      padding:10px 14px;
-      border-radius:999px;
-      background:rgba(0,0,0,.76);
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(10px);
-      font-size:.86rem;
-      color:#fff;
-    }
-
-    .low{
-      box-shadow:0 0 120px rgba(255,0,0,.28) inset;
-    }
-
-    @media (max-width:1080px){
-      .hero-grid,.grid.two,.grid.three,.grid.split,.hero-mini-row,.stats-row{
-        grid-template-columns:1fr;
-      }
-      .hero-visual{min-height:440px}
-    }
-
-    @media (max-width:760px){
-      .header-inner{
-        min-height:68px;
-        flex-direction:column;
-        align-items:flex-start;
-        padding:12px 0;
-      }
-      h1{max-width:none}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serious Finch Empire</title>
+
+<style>
+body{background:#000;color:#fff;font-family:Arial;margin:0;text-align:center}
+h1{margin-top:40px}
+button{margin:5px;padding:12px 20px;border-radius:25px;border:none;cursor:pointer}
+.primary{background:#ff2d55;color:#fff}
+.secondary{background:#111;color:#fff;border:1px solid #333}
+.gold{background:#d4af37;color:#000}
+.section{padding:40px}
+iframe{border-radius:12px}
+#promo{margin:15px;color:#ff2d55}
+#stats{margin-top:20px;color:#aaa}
+</style>
 </head>
+
 <body>
-  <header class="header">
-    <div class="container header-inner">
-      <div class="brand">
-        <div class="brand-mark">SF</div>
-        <div>
-          <div class="brand-title">Serious Finch</div>
-          <div class="brand-sub">Sons of Gunsmoke rollout</div>
-        </div>
-      </div>
 
-      <nav class="nav">
-        <a href="#music">Music</a>
-        <a href="#campaign">Campaign</a>
-        <a href="#engine">Engine</a>
-        <a href="#radio">Radio</a>
-        <a href="#support">Support</a>
-      </nav>
-    </div>
-  </header>
+<h1>GOD MODE EMPIRE</h1>
 
-  <section class="hero">
-    <div id="heroBgA" class="hero-bg"></div>
-    <div id="heroBgB" class="hero-bg-2"></div>
-    <div class="hero-overlay"></div>
+<!-- BUTTONS -->
+<button class="primary" data-go="youtube">▶ PLAY</button>
+<button class="secondary" data-go="spotify">Spotify</button>
+<button class="secondary" data-go="apple">Apple</button>
+<button class="gold" data-go="tidal">TIDAL</button>
+<button class="secondary" data-go="instagram">Instagram</button>
+<button class="secondary" data-go="facebook">Facebook</button>
+<button class="secondary" data-go="hub">Hub</button>
 
-    <div class="container hero-content">
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow">Out now · Serious Finch · Sons of Gunsmoke</div>
-          <h1>WHY SO <span>SERIOUS?</span></h1>
-          <p class="hero-copy">
-            Serious Finch and Sons of Gunsmoke official rollout page. Premium visuals, official-player funnel, clean conversion flow, and a private distribution engine that keeps pressure on the record.
-          </p>
+<div id="liveCounter">🔥 153 tapped in</div>
 
-          <div class="hero-actions">
-            <button class="btn btn-primary" onclick="go(bestPlatformKey())">Stream Now</button>
-            <button class="btn btn-secondary" onclick="go('tidal')">TIDAL</button>
-            <button class="btn btn-secondary" onclick="go('sound')">SoundCloud</button>
-            <button class="btn btn-gold" onclick="goYoutube()">YouTube</button>
-          </div>
+<!-- PLAYER -->
+<div class="section">
 
-          <div class="chip-row">
-            <div class="chip">Serious Finch</div>
-            <div class="chip">Sons of Gunsmoke</div>
-            <div class="chip">Official rollout</div>
-            <div class="chip">Private analytics</div>
-          </div>
+<!-- YouTube -->
+<iframe width="100%" height="300"
+src="https://www.youtube.com/embed/L6qnsBgi2ZQ?autoplay=1&mute=1"></iframe>
 
-          <div class="quick-actions">
-            <button class="btn btn-ghost" onclick="newPlan()">New Plan</button>
-            <button class="btn btn-ghost" onclick="newCaption()">New Caption</button>
-            <button class="btn btn-ghost" onclick="share()">Share This Page</button>
-          </div>
-        </div>
+<br><br>
 
-        <div class="hero-spotlight">
-          <div class="hero-visual panel">
-            <img id="heroMainImage" src="image-hero-2.jpg" alt="Serious Finch visual" />
-            <div class="hero-visual-copy">
-              <h3>Serious Finch x Sons of Gunsmoke</h3>
-              <p>Artist-first presentation up front. Distribution pressure underneath. No broken embeds. No black-screen hero.</p>
-            </div>
-          </div>
+<!-- Spotify -->
+<iframe src="https://open.spotify.com/embed/track/7zEJAr3odmPEhBiywgqafV"
+width="100%" height="152"></iframe>
 
-          <div class="hero-mini-row">
-            <div class="hero-mini"><strong id="liveHypeCount">147</strong><span>Tap-ins this session feel</span></div>
-            <div class="hero-mini"><strong id="bestPlatformHero">Spotify</strong><span>Current strongest lane</span></div>
-            <div class="hero-mini"><strong id="energyHero">LOW</strong><span>Pressure status</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<br><br>
 
-  <section class="section" id="music">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Music</h2>
-          <p>Main record, group branding, and official listening options.</p>
-        </div>
-      </div>
+<!-- Apple -->
+<iframe src="https://embed.music.apple.com/us/song/no-contact-feat-serious-finch/1854184106"
+width="100%" height="175"></iframe>
 
-      <div class="grid three">
-        <div class="release">
-          <img src="image-hero-2.jpg" alt="Spotify visual" />
-          <div class="release-info">
-            <div class="release-kicker">Primary push</div>
-            <div class="release-title">Spotify</div>
-            <div class="release-sub">Main conversion lane</div>
-          </div>
-        </div>
+<br><br>
 
-        <div class="release">
-          <img src="image-hero-3.jpg" alt="TIDAL visual" />
-          <div class="release-info">
-            <div class="release-kicker">Secondary push</div>
-            <div class="release-title">TIDAL</div>
-            <div class="release-sub">Premium support lane</div>
-          </div>
-        </div>
+<!-- YouTube Music -->
+<iframe width="100%" height="300"
+src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_lceL2Dg6t59lhNr_QI6BQwKUWVhOrl_L0"></iframe>
 
-        <div class="release">
-          <img src="image-hero-1.jpg" alt="Sons of Gunsmoke visual" />
-          <div class="release-info">
-            <div class="release-kicker">Discovery push</div>
-            <div class="release-title">Sons of Gunsmoke</div>
-            <div class="release-sub">Group identity front and center</div>
-          </div>
-        </div>
-      </div>
+<br><br>
 
-      <div class="panel" style="margin-top:16px;">
-        <div class="section-head">
-          <div>
-            <h2>Official Player</h2>
-            <p>Use the official player and direct CTA together, the way pros do it.</p>
-          </div>
-        </div>
+<iframe width="100%" height="300"
+src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_lb3VeA7H-WUpMjWzHJno35vdQkddcQRbs"></iframe>
 
-        <div class="spotify-embed">
-          <iframe
-            src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B"
-            width="100%"
-            height="152"
-            frameborder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            title="Spotify player"></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
+</div>
 
-  <section class="section" id="campaign">
-    <div class="container grid split">
-      <div class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Think Tank</h2>
-            <p>Sharper rollout tasks for Serious Finch and Sons of Gunsmoke.</p>
-          </div>
-          <div class="toolbar">
-            <button class="btn btn-primary" onclick="newPlan()">New Plan</button>
-            <button class="btn btn-secondary" onclick="newCaption()">New Caption</button>
-          </div>
-        </div>
-        <div id="plan" class="stack"></div>
-      </div>
+<!-- TRAFFIC ENGINE -->
+<div class="section">
+<h2>Traffic Engine</h2>
+<div id="promo"></div>
+<div id="stats"></div>
+</div>
 
-      <div class="panel">
-        <div class="section-head">
-          <div>
-            <h2>God Mode Brain</h2>
-            <p>Platform focus, urgency, and what to do next.</p>
-          </div>
-        </div>
-        <div id="caption" class="caption-box"></div>
-        <div id="brain" class="stack" style="margin-top:16px;"></div>
-      </div>
-    </div>
-  </section>
+<script>
+/* =========================
+   🔥 GOD MODE TRAFFIC ENGINE
+========================= */
 
-  <section class="section" id="engine">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Distribution Engine</h2>
-          <p>Tracks movement and keeps the strongest lane in front.</p>
-        </div>
-      </div>
+// 🎯 LINKS (CONTROL CENTER)
+const LINKS = {
+spotify:"https://open.spotify.com/track/7zEJAr3odmPEhBiywgqafV",
+apple:"https://music.apple.com/us/song/no-contact-feat-serious-finch/1854184106",
+tidal:"https://tidal.com/artist/19525593",
+youtube:"https://youtube.com/watch?v=L6qnsBgi2ZQ",
+instagram:"https://www.instagram.com/serious_finch?igsh=MWFmdG42anI0d2ttcQ==",
+facebook:"https://www.facebook.com/share/1L3xM3P1y7/",
+hub:"https://serious-finch-hub.replit.app/"
+};
 
-      <div class="stats-row">
-        <div class="stat"><strong id="clicksStat">0</strong><span>Total clicks</span></div>
-        <div class="stat"><strong id="plansStat">0</strong><span>Plans generated</span></div>
-        <div class="stat"><strong id="focusStat">Spotify</strong><span>Best platform</span></div>
-        <div class="stat"><strong id="energyStat">LOW</strong><span>Current energy</span></div>
-      </div>
+// 📊 TRACKING
+function trackClick(platform){
+let stats=JSON.parse(localStorage.getItem("sf_stats")||"{}");
+stats[platform]=(stats[platform]||0)+1;
+localStorage.setItem("sf_stats",JSON.stringify(stats));
+updateStats();
+console.log("CLICK:",platform);
+}
 
-      <div class="grid two" style="margin-top:16px;">
-        <div class="panel">
-          <div class="section-head">
-            <div>
-              <h2>Mission</h2>
-              <p id="missionText" class="muted"></p>
-            </div>
-          </div>
-          <div id="missionBoard" class="stack"></div>
-        </div>
+// 🔗 ADD UTM TRACKING
+function buildLink(url,platform){
+let u=new URL(url);
+u.searchParams.set("utm_source","empire");
+u.searchParams.set("utm_campaign","serious_finch");
+u.searchParams.set("utm_content",platform);
+return u.toString();
+}
 
-        <div class="panel">
-          <div class="section-head">
-            <div>
-              <h2>Pressure Board</h2>
-              <p>What the session is really saying.</p>
-            </div>
-          </div>
-          <div id="pressureBoard" class="stack"></div>
-        </div>
-      </div>
+// 🚀 ROUTER
+function go(platform){
+let link=LINKS[platform];
+if(!link)return;
 
-      <div class="grid split" style="margin-top:16px;">
-        <div class="panel">
-          <div class="section-head">
-            <div>
-              <h2>Session Notes</h2>
-              <p>Read the momentum. Then move.</p>
-            </div>
-          </div>
-          <div id="sessionNotes" class="stack"></div>
-        </div>
+let finalLink=buildLink(link,platform);
+trackClick(platform);
 
-        <div class="panel">
-          <div class="section-head">
-            <div>
-              <h2>Viral Loop</h2>
-              <p>Keep attention moving without overcomplicating it.</p>
-            </div>
-          </div>
-          <div id="viralLoop" class="stack"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+window.open(finalLink,"_blank");
+}
 
-  <section class="section" id="radio">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Radio</h2>
-          <p>Hip-hop radio layer for energy and reference.</p>
-        </div>
-      </div>
+// 🔘 BUTTON CONNECTION
+document.querySelectorAll("[data-go]").forEach(btn=>{
+btn.onclick=()=>go(btn.getAttribute("data-go"));
+});
 
-      <div class="panel">
-        <audio id="radio" controls class="radio-player"></audio>
-        <div class="radio-buttons">
-          <button class="btn btn-secondary" onclick="radio('hot97')">Hot97</button>
-          <button class="btn btn-secondary" onclick="radio('power')">Power105</button>
-          <button class="btn btn-secondary" onclick="radio('real')">Real92</button>
-        </div>
-      </div>
-    </div>
-  </section>
+// 🔁 PROMO ROTATION
+const PROMOS=[
+"🔥 Tap into the YouTube rollout",
+"🎧 Run it up on Spotify",
+"🍎 Apple Music listeners tap in",
+"💎 TIDAL premium sound",
+"📲 Follow Serious Finch on Instagram",
+"📘 Share on Facebook"
+];
 
-  <section class="section" id="support">
-    <div class="container grid split">
-      <div class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Support</h2>
-            <p>Keep the campaign centered on the record and the group brand.</p>
-          </div>
-        </div>
-        <div class="support-item">Best move: hit the winning platform again, then repost the same lane while it still has energy. Keep Serious Finch and Sons of Gunsmoke tied together in the message.</div>
-        <div class="toolbar" style="margin-top:14px;">
-          <button class="btn btn-primary" onclick="go(bestPlatformKey())">Run It Up</button>
-          <button class="btn btn-secondary" onclick="goYoutube()">Open YouTube</button>
-        </div>
-      </div>
+let i=0;
+setInterval(()=>{
+document.getElementById("promo").innerText=PROMOS[i];
+i=(i+1)%PROMOS.length;
+},3000);
 
-      <div class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Share</h2>
-            <p>One tap out. Copy if share is unavailable.</p>
-          </div>
-        </div>
-        <div class="share-buttons">
-          <button class="btn btn-primary" onclick="share()">Share Site</button>
-          <button class="btn btn-secondary" onclick="copyLink()">Copy Link</button>
-        </div>
-        <p id="shareStatus" class="share-status"></p>
-      </div>
-    </div>
-  </section>
+// 📊 SHOW STATS
+function updateStats(){
+let stats=JSON.parse(localStorage.getItem("sf_stats")||"{}");
+let html="<strong>Traffic Stats</strong><br>";
+for(let k in stats){
+html+=k+": "+stats[k]+"<br>";
+}
+document.getElementById("stats").innerHTML=html;
+}
+updateStats();
 
-  <div id="cta" onclick="go(bestPlatformKey())">Tap In</div>
-  <div id="godmodePulse">God mode active</div>
+// 🔥 LIVE COUNTER
+let count=153;
+setInterval(()=>{
+count+=Math.random()>0.5?1:0;
+document.getElementById("liveCounter").innerText="🔥 "+count+" tapped in";
+},4000);
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <span>Serious Finch x Sons of Gunsmoke</span>
-      <span>Final rollout build</span>
-    </div>
-  </footer>
+// 🔒 LIGHT PROTECTION
+document.addEventListener("contextmenu",e=>e.preventDefault());
+document.onkeydown=function(e){
+if(e.ctrlKey&&(e.key==='u'||e.key==='s'))return false;
+};
 
-  <script>
-    const L = {
-      spotify: "https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B",
-      tidal: "https://tidal.com/track/249962630/u",
-      sound: "https://on.soundcloud.com/KGizTKf05XbbIIH5VD",
-      youtube: "https://youtu.be/xTj7TFiVc0g"
-    };
+</script>
 
-    const R = {
-      hot97: "https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFMAAC.aac",
-      power: "https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFMAAC.aac",
-      real: "https://playerservices.streamtheworld.com/api/livestream-redirect/KRBQAAC.aac"
-    };
-
-    const heroImages = ["image-hero-2.jpg","image-hero-3.jpg","image-hero-1.jpg"];
-
-    const moves = [
-      "Post TikTok with the strongest 8-second section and mention Sons of Gunsmoke.",
-      "Put the Spotify link in one IG story right now.",
-      "Send the record to 10 real listeners.",
-      "Comment on 20 hip-hop posts and pin the link.",
-      "Drop the track in Facebook groups that already react.",
-      "Post a raw snippet video and push replay value.",
-      "Reply to every comment before reposting.",
-      "Use the press image for one clean status post."
-    ];
-
-    const captions = [
-      "Serious Finch x Sons of Gunsmoke. If you found this, you early.",
-      "Run this up before everybody catches on.",
-      "Real pressure. No filler. Press play.",
-      "Why So Serious? Tap in now.",
-      "Serious Finch and Sons of Gunsmoke. Different energy.",
-      "This one is not background music."
-    ];
-
-    let S = JSON.parse(localStorage.getItem("sf_final_rollout")) || {
-      clicks: 0,
-      spotify: 0,
-      tidal: 0,
-      sound: 0,
-      youtube: 0,
-      plans: 0
-    };
-
-    let hypeCount = 147;
-    let currentBg = "heroBgA";
-    let nextBg = "heroBgB";
-    let bgIndex = 1;
-
-    function save() {
-      localStorage.setItem("sf_final_rollout", JSON.stringify(S));
-      render();
-    }
-
-    function bestPlatformKey() {
-      if (S.tidal > S.spotify && S.tidal >= S.sound) return "tidal";
-      if (S.sound > S.spotify && S.sound > S.tidal) return "sound";
-      return "spotify";
-    }
-
-    function energy() {
-      if (S.clicks > 15) return "HIGH";
-      if (S.clicks > 5) return "MID";
-      return "LOW";
-    }
-
-    function go(platform) {
-      S.clicks += 1;
-      if (S[platform] !== undefined) S[platform] += 1;
-      save();
-      window.open(L[platform], "_blank", "noopener,noreferrer");
-    }
-
-    function goYoutube() {
-      go("youtube");
-    }
-
-    function radio(name) {
-      document.getElementById("radio").src = R[name];
-    }
-
-    function newPlan() {
-      S.plans += 1;
-      save();
-      const plan = [...moves]
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 5)
-        .map((item) => `<div class="plan-item">${item}</div>`)
-        .join("");
-      document.getElementById("plan").innerHTML = plan;
-    }
-
-    function newCaption() {
-      const c = captions[Math.floor(Math.random() * captions.length)];
-      document.getElementById("caption").innerText = c;
-    }
-
-    function renderBrain() {
-      document.getElementById("brain").innerHTML = `
-        <div class="brain-item">Energy: ${energy()}</div>
-        <div class="brain-item">Focus: ${bestPlatformKey().toUpperCase()}</div>
-        <div class="brain-item">Next Move: Push the strongest lane and keep Sons of Gunsmoke in the message.</div>
-      `;
-    }
-
-    function renderPressureBoard() {
-      const rows = [
-        `Spotify clicks: ${S.spotify}`,
-        `TIDAL clicks: ${S.tidal}`,
-        `SoundCloud clicks: ${S.sound}`,
-        `YouTube clicks: ${S.youtube}`,
-        `Total clicks: ${S.clicks}`
-      ];
-      document.getElementById("pressureBoard").innerHTML =
-        rows.map((x) => `<div class="note-item">${x}</div>`).join("");
-    }
-
-    function renderMission() {
-      let text = "Get the first 5 clicks.";
-      if (S.clicks >= 5 && S.clicks < 15) text = "Push to 15 clicks and repost the winning lane.";
-      if (S.clicks >= 15) text = "Double down while momentum is active.";
-
-      document.getElementById("missionText").innerText = text;
-      document.getElementById("missionBoard").innerHTML = `
-        <div class="mission-item">Primary target: ${text}</div>
-        <div class="mission-item">Winning lane: ${bestPlatformKey().toUpperCase()}</div>
-        <div class="mission-item">Brand focus: Serious Finch x Sons of Gunsmoke</div>
-      `;
-    }
-
-    function renderNotes() {
-      const notes = [];
-      if (S.clicks < 5) notes.push("Low motion. Push the link now.");
-      else if (S.clicks < 15) notes.push("Momentum is building. Repost before it cools off.");
-      else notes.push("Strong day. Double down while attention is active.");
-
-      notes.push("Keep the group tied into the caption and visuals.");
-      notes.push("Use YouTube as attention, Spotify as main conversion.");
-
-      document.getElementById("sessionNotes").innerHTML =
-        notes.map((x) => `<div class="note-item">${x}</div>`).join("");
-    }
-
-    function renderViralLoop() {
-      document.getElementById("viralLoop").innerHTML = `
-        <div class="mission-item">1. Post the strongest clip.</div>
-        <div class="mission-item">2. Mention Serious Finch x Sons of Gunsmoke.</div>
-        <div class="mission-item">3. Send people to Spotify first.</div>
-        <div class="mission-item">4. Repost before the energy drops.</div>
-      `;
-    }
-
-    function updateHype() {
-      hypeCount += Math.floor(Math.random() * 3);
-      document.getElementById("liveHypeCount").innerText = hypeCount;
-    }
-
-    function updatePulse() {
-      const messages = [
-        "God mode active",
-        "Campaign live",
-        "Pressure is on",
-        "Winning lane loaded",
-        "Sons of Gunsmoke live"
-      ];
-      document.getElementById("godmodePulse").innerText =
-        messages[Math.floor(Math.random() * messages.length)];
-    }
-
-    function share() {
-      if (navigator.share) {
-        navigator.share({ title: "Serious Finch x Sons of Gunsmoke", url: location.href });
-      } else {
-        document.getElementById("shareStatus").innerText = "Use copy link on this device.";
-      }
-    }
-
-    function copyLink() {
-      navigator.clipboard.writeText(location.href).then(() => {
-        document.getElementById("shareStatus").innerText = "Link copied.";
-      }).catch(() => {
-        document.getElementById("shareStatus").innerText = "Copy failed on this browser.";
-      });
-    }
-
-    function rotateHero() {
-      const currentEl = document.getElementById(currentBg);
-      const nextEl = document.getElementById(nextBg);
-      nextEl.style.backgroundImage =
-        `linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.88)), url('${heroImages[bgIndex]}')`;
-      nextEl.style.opacity = "1";
-      currentEl.style.opacity = "0";
-      [currentBg, nextBg] = [nextBg, currentBg];
-      bgIndex = (bgIndex + 1) % heroImages.length;
-      document.getElementById("heroMainImage").src = heroImages[(bgIndex + 1) % heroImages.length];
-    }
-
-    function render() {
-      document.getElementById("clicksStat").innerText = S.clicks;
-      document.getElementById("plansStat").innerText = S.plans;
-      document.getElementById("focusStat").innerText = bestPlatformKey().toUpperCase();
-      document.getElementById("energyStat").innerText = energy();
-      document.getElementById("bestPlatformHero").innerText = bestPlatformKey().toUpperCase();
-      document.getElementById("energyHero").innerText = energy();
-      renderBrain();
-      renderPressureBoard();
-      renderMission();
-      renderNotes();
-      renderViralLoop();
-
-      if (S.clicks < 5) document.body.classList.add("low");
-      else document.body.classList.remove("low");
-    }
-
-    setInterval(updateHype, 2000);
-    setInterval(updatePulse, 3000);
-    setInterval(rotateHero, 6000);
-    setInterval(render, 3000);
-
-    render();
-    newPlan();
-    newCaption();
-    updateHype();
-  </script>
 </body>
-    </html>
+</html>
