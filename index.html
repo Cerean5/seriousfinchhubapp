@@ -3,166 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Serious Finch Empire</title>
+<title>Serious Finch | Sons of Gunsmoke</title>
 
 <style>
-body{background:#000;color:#fff;font-family:Arial;margin:0;text-align:center}
-h1{margin-top:40px}
-button{margin:5px;padding:12px 20px;border-radius:25px;border:none;cursor:pointer}
-.primary{background:#ff2d55;color:#fff}
+:root{
+  --bg:#000;
+  --card:#0a0a0a;
+  --line:#222;
+  --text:#fff;
+  --muted:#bbb;
+  --accent:#ff2d55;
+  --gold:#d4af37;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* HERO */
+.hero{
+  position:relative;
+  height:320px;
+  overflow:hidden;
+}
+.hero img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(.6) contrast(1.1);
+}
+.hero-overlay{
+  position:absolute;
+  bottom:20px;
+  left:20px;
+  background:rgba(0,0,0,.65);
+  padding:12px 16px;
+  border-radius:14px;
+  backdrop-filter:blur(6px);
+}
+.hero-overlay h1{margin:0;font-size:26px}
+.hero-overlay p{margin:0;color:var(--muted)}
+
+/* BUTTONS */
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  padding:16px;
+}
+button{
+  padding:12px 18px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  font-weight:700;
+}
+.primary{background:var(--accent);color:#fff}
 .secondary{background:#111;color:#fff;border:1px solid #333}
-.gold{background:#d4af37;color:#000}
-.section{padding:40px}
-iframe{border-radius:12px}
-#promo{margin:15px;color:#ff2d55}
-#stats{margin-top:20px;color:#aaa}
+.gold{background:var(--gold);color:#000}
+
+/* LIVE */
+#live{
+  text-align:center;
+  color:var(--accent);
+  font-size:14px;
+  margin-top:-6px;
+}
+
+/* SECTION */
+.section{padding:18px}
+.card{
+  max-width:860px;
+  margin:16px auto;
+  padding:14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+
+/* EMBEDS */
+iframe{
+  width:100%;
+  border-radius:16px;
+  border:1px solid var(--line);
+  display:block;
+  margin-top:10px;
+}
+
+/* TITLES */
+h2{
+  text-align:center;
+  margin:10px 0 6px;
+}
+.sub{
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* FADE */
+.fade{opacity:0;transform:translateY(20px);transition:.6s}
+.fade.show{opacity:1;transform:translateY(0)}
 </style>
 </head>
 
 <body>
 
-<h1>GOD MODE EMPIRE</h1>
-
-<!-- BUTTONS -->
-<button class="primary" data-go="youtube">▶ PLAY</button>
-<button class="secondary" data-go="spotify">Spotify</button>
-<button class="secondary" data-go="apple">Apple</button>
-<button class="gold" data-go="tidal">TIDAL</button>
-<button class="secondary" data-go="instagram">Instagram</button>
-<button class="secondary" data-go="facebook">Facebook</button>
-<button class="secondary" data-go="hub">Hub</button>
-
-<div id="liveCounter">🔥 153 tapped in</div>
-
-<!-- PLAYER -->
-<div class="section">
-
-<!-- YouTube -->
-<iframe width="100%" height="300"
-src="https://www.youtube.com/embed/L6qnsBgi2ZQ?autoplay=1&mute=1"></iframe>
-
-<br><br>
-
-<!-- Spotify -->
-<iframe src="https://open.spotify.com/embed/track/7zEJAr3odmPEhBiywgqafV"
-width="100%" height="152"></iframe>
-
-<br><br>
-
-<!-- Apple -->
-<iframe src="https://embed.music.apple.com/us/song/no-contact-feat-serious-finch/1854184106"
-width="100%" height="175"></iframe>
-
-<br><br>
-
-<!-- YouTube Music -->
-<iframe width="100%" height="300"
-src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_lceL2Dg6t59lhNr_QI6BQwKUWVhOrl_L0"></iframe>
-
-<br><br>
-
-<iframe width="100%" height="300"
-src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_lb3VeA7H-WUpMjWzHJno35vdQkddcQRbs"></iframe>
-
+<!-- 🎯 HERO (YOUR IMAGE) -->
+<div class="hero">
+  <img src="sauce.jpg"> <!-- 🔥 YOUR IMAGE FILE -->
+  <div class="hero-overlay">
+    <h1>WHERE THE SAUCE AT?</h1>
+    <p>Serious Finch • Sons of Gunsmoke</p>
+  </div>
 </div>
 
-<!-- TRAFFIC ENGINE -->
-<div class="section">
-<h2>Traffic Engine</h2>
-<div id="promo"></div>
-<div id="stats"></div>
+<!-- 🎯 CTA -->
+<div class="buttons">
+  <button class="primary" data-go="youtube">▶ Play</button>
+  <button class="secondary" data-go="spotify">Spotify</button>
+  <button class="secondary" data-go="apple">Apple</button>
+  <button class="gold" data-go="tidal">TIDAL</button>
+  <button class="secondary" data-go="instagram">Instagram</button>
+  <button class="secondary" data-go="facebook">Facebook</button>
+</div>
+
+<div id="live">🔥 153 tapped in</div>
+
+<!-- 🎥 VIDEO -->
+<div class="section fade">
+  <h2>Official Video</h2>
+  <div class="card">
+    <iframe height="300"
+    src="https://www.youtube.com/embed/L6qnsBgi2ZQ?autoplay=1&mute=1"
+    allow="autoplay"></iframe>
+  </div>
+</div>
+
+<!-- 🎧 STREAMING -->
+<div class="section fade">
+  <h2>Stream the Record</h2>
+  <p class="sub">Available everywhere</p>
+
+  <div class="card">
+    <strong>Spotify</strong>
+    <iframe height="152"
+    src="https://open.spotify.com/embed/track/7zEJAr3odmPEhBiywgqafV"></iframe>
+  </div>
+
+  <div class="card">
+    <strong>Apple Music</strong>
+    <iframe height="175"
+    src="https://embed.music.apple.com/us/song/no-contact-feat-serious-finch/1854184106"></iframe>
+  </div>
+
+  <div class="card">
+    <strong>YouTube Music (Official)</strong>
+    <iframe height="300"
+    src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_lceL2Dg6t59lhNr_QI6BQwKUWVhOrl_L0"></iframe>
+  </div>
 </div>
 
 <script>
-/* =========================
-   🔥 GOD MODE TRAFFIC ENGINE
-========================= */
-
-// 🎯 LINKS (CONTROL CENTER)
-const LINKS = {
+/* 🔒 GOD MODE ENGINE (HIDDEN) */
+const LINKS={
 spotify:"https://open.spotify.com/track/7zEJAr3odmPEhBiywgqafV",
 apple:"https://music.apple.com/us/song/no-contact-feat-serious-finch/1854184106",
 tidal:"https://tidal.com/artist/19525593",
 youtube:"https://youtube.com/watch?v=L6qnsBgi2ZQ",
-instagram:"https://www.instagram.com/serious_finch?igsh=MWFmdG42anI0d2ttcQ==",
-facebook:"https://www.facebook.com/share/1L3xM3P1y7/",
-hub:"https://serious-finch-hub.replit.app/"
+instagram:"https://www.instagram.com/serious_finch",
+facebook:"https://www.facebook.com/share/1L3xM3P1y7/"
 };
 
-// 📊 TRACKING
-function trackClick(platform){
-let stats=JSON.parse(localStorage.getItem("sf_stats")||"{}");
-stats[platform]=(stats[platform]||0)+1;
-localStorage.setItem("sf_stats",JSON.stringify(stats));
-updateStats();
-console.log("CLICK:",platform);
-}
-
-// 🔗 ADD UTM TRACKING
-function buildLink(url,platform){
-let u=new URL(url);
+function go(p){
+let u=new URL(LINKS[p]);
 u.searchParams.set("utm_source","empire");
-u.searchParams.set("utm_campaign","serious_finch");
-u.searchParams.set("utm_content",platform);
-return u.toString();
+u.searchParams.set("utm_campaign","finch");
+window.open(u,"_blank");
 }
 
-// 🚀 ROUTER
-function go(platform){
-let link=LINKS[platform];
-if(!link)return;
-
-let finalLink=buildLink(link,platform);
-trackClick(platform);
-
-window.open(finalLink,"_blank");
-}
-
-// 🔘 BUTTON CONNECTION
-document.querySelectorAll("[data-go]").forEach(btn=>{
-btn.onclick=()=>go(btn.getAttribute("data-go"));
+document.querySelectorAll("[data-go]").forEach(b=>{
+b.onclick=()=>go(b.getAttribute("data-go"));
 });
 
-// 🔁 PROMO ROTATION
-const PROMOS=[
-"🔥 Tap into the YouTube rollout",
-"🎧 Run it up on Spotify",
-"🍎 Apple Music listeners tap in",
-"💎 TIDAL premium sound",
-"📲 Follow Serious Finch on Instagram",
-"📘 Share on Facebook"
-];
-
-let i=0;
+/* 🔥 LIVE COUNTER */
+let c=153;
 setInterval(()=>{
-document.getElementById("promo").innerText=PROMOS[i];
-i=(i+1)%PROMOS.length;
-},3000);
-
-// 📊 SHOW STATS
-function updateStats(){
-let stats=JSON.parse(localStorage.getItem("sf_stats")||"{}");
-let html="<strong>Traffic Stats</strong><br>";
-for(let k in stats){
-html+=k+": "+stats[k]+"<br>";
-}
-document.getElementById("stats").innerHTML=html;
-}
-updateStats();
-
-// 🔥 LIVE COUNTER
-let count=153;
-setInterval(()=>{
-count+=Math.random()>0.5?1:0;
-document.getElementById("liveCounter").innerText="🔥 "+count+" tapped in";
+c+=Math.random()>0.5?1:0;
+document.getElementById("live").innerText="🔥 "+c+" tapped in";
 },4000);
 
-// 🔒 LIGHT PROTECTION
-document.addEventListener("contextmenu",e=>e.preventDefault());
-document.onkeydown=function(e){
-if(e.ctrlKey&&(e.key==='u'||e.key==='s'))return false;
-};
-
+/* 🎬 FADE IN */
+const faders=document.querySelectorAll(".fade");
+window.addEventListener("scroll",()=>{
+faders.forEach(el=>{
+if(el.getBoundingClientRect().top<window.innerHeight-60){
+el.classList.add("show");
+}
+});
+});
 </script>
 
 </body>
