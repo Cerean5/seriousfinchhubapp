@@ -1,915 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Serious Finch | OUT NOW</title>
-  <meta name="description" content="Serious Finch official site. Stream Why So Serious now." />
-  <meta name="theme-color" content="#090b10" />
-  <meta name="referrer" content="no-referrer" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icon-192.png" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serious Finch | WHY SO SERIOUS</title>
 
-  <meta property="og:title" content="Serious Finch | OUT NOW" />
-  <meta property="og:description" content="If you found this, you early. Tap in now." />
-  <meta property="og:image" content="image-hero-2.jpg" />
-  <meta property="og:url" content="https://cerean5.github.io/seriousfinchhubapp/" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Serious Finch | OUT NOW" />
-  <meta name="twitter:description" content="Raw music. No gimmicks. Tap in." />
-  <meta name="twitter:image" content="image-hero-2.jpg" />
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#000;
+color:#fff;
+overflow-x:hidden;
+}
 
-  <style>
-    :root{
-      --bg:#040509;
-      --bg-soft:#0b0d14;
-      --panel:rgba(255,255,255,.07);
-      --line:rgba(255,255,255,.10);
-      --text:#f7f8fb;
-      --muted:#aeb5c2;
-      --soft:#7c8393;
-      --red:#ff2348;
-      --red-dark:#991024;
-      --gold:#d2af68;
-      --shadow:0 24px 60px rgba(0,0,0,.46);
-      --radius:24px;
-      --max:1280px;
-    }
+/* VIDEO */
+.hero-video-wrap{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-5;
+overflow:hidden;
+}
+.hero-video-wrap iframe{
+position:absolute;
+top:50%;
+left:50%;
+width:177.77vh;
+height:56.25vw;
+min-width:100%;
+min-height:100%;
+transform:translate(-50%,-50%);
+pointer-events:none;
+filter:brightness(.45) contrast(1.3);
+}
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter,Arial,Helvetica,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at 14% 14%, rgba(255,35,72,.12), transparent 24%),
-        radial-gradient(circle at 82% 12%, rgba(210,175,104,.06), transparent 18%),
-        linear-gradient(180deg,#040509,#090b12 50%,#040509 100%);
-      overflow-x:hidden;
-    }
-    a{text-decoration:none;color:inherit}
-    button{font:inherit}
-    .hidden{display:none !important}
-    .container{width:min(var(--max),calc(100% - 28px));margin:0 auto}
+/* HERO */
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+}
 
-    .header{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      background:rgba(5,6,10,.72);
-      backdrop-filter:blur(16px);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .header-inner{
-      min-height:78px;
-      display:flex;align-items:center;justify-content:space-between;gap:18px;
-    }
-    .brand{display:flex;align-items:center;gap:14px}
-    .brand-mark{
-      width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
-      font-weight:900;letter-spacing:.14em;
-      background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.12);
-    }
-    .brand-title{font-size:.92rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
-    .brand-sub{font-size:.78rem;color:var(--soft)}
-    .nav{display:flex;gap:18px;flex-wrap:wrap}
-    .nav a{font-size:.92rem;color:var(--muted)}
-    .nav a:hover{color:#fff}
+/* TEXT */
+h1{
+font-size:70px;
+text-shadow:0 0 40px red;
+margin:0;
+}
+.sub{opacity:.8}
 
-    .gate{
-      position:fixed;inset:0;z-index:200;
-      display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(180deg,rgba(0,0,0,.82),rgba(0,0,0,.95));
-      backdrop-filter:blur(10px);
-    }
-    .gate-card{
-      width:min(560px,calc(100% - 28px));
-      background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.1);
-      border-radius:28px;
-      padding:26px;
-      box-shadow:var(--shadow);
-      text-align:center;
-    }
-    .gate-card h2{margin:0 0 10px;font-size:2rem;letter-spacing:-.03em}
-    .gate-card p{margin:0;color:#d3d8e2;line-height:1.6}
-    .gate-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+/* BUTTONS */
+.btn{
+padding:15px 35px;
+border:none;
+border-radius:50px;
+margin:10px;
+font-size:18px;
+cursor:pointer;
+}
+.red{background:red;color:#fff;}
+.gold{background:gold;color:#000;}
+.dark{background:#222;color:#fff;}
 
-    .hero{
-      position:relative;
-      min-height:100svh;
-      display:flex;
-      align-items:end;
-      overflow:hidden;
-      isolation:isolate;
-    }
-    .hero-bg,.hero-bg-2{
-      position:absolute;inset:0;z-index:-4;
-      background-size:cover;background-position:center;
-      transition:opacity 1.1s ease, transform 7s ease;
-      transform:scale(1.06);
-    }
-    .hero-bg{
-      opacity:1;
-      background-image:
-        linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.88)),
-        url('image-hero-2.jpg');
-    }
-    .hero-bg-2{opacity:0}
-    .hero-overlay{
-      position:absolute;inset:0;z-index:-3;
-      background:
-        radial-gradient(circle at 20% 48%, rgba(255,35,72,.18), transparent 20%),
-        radial-gradient(circle at 78% 20%, rgba(210,175,104,.08), transparent 18%),
-        radial-gradient(circle at center, transparent 38%, rgba(0,0,0,.38) 70%, rgba(0,0,0,.94) 100%);
-    }
+/* FLOAT CTA */
+#cta{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:red;
+padding:12px 30px;
+border-radius:40px;
+cursor:pointer;
+box-shadow:0 0 20px red;
+}
 
-    .hero-video-wrap{
-      position:absolute;inset:0;z-index:-5;overflow:hidden;
-      opacity:.55;
-    }
-    .hero-video-wrap iframe{
-      position:absolute;top:50%;left:50%;
-      width:177.77777778vh;
-      height:56.25vw;
-      min-width:100%;
-      min-height:100%;
-      transform:translate(-50%,-50%);
-      pointer-events:none;
-      border:0;
-    }
-
-    .hero-content{width:100%;padding:126px 0 42px}
-    .hero-grid{display:grid;grid-template-columns:1.06fr .94fr;gap:28px;align-items:end}
-    .eyebrow{
-      display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);
-      font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px;
-    }
-    h1{
-      margin:0;
-      font-size:clamp(3.5rem,7.2vw,7rem);
-      line-height:.84;
-      letter-spacing:-.06em;
-      text-transform:uppercase;
-      max-width:8ch;
-      text-shadow:0 0 26px rgba(255,35,72,.16);
-    }
-    h1 span{
-      display:block;
-      background:linear-gradient(180deg,#fff 10%,#ffdbe1 82%);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      text-shadow:0 0 18px rgba(255,35,72,.24);
-    }
-    .hero-copy{
-      margin-top:18px;
-      max-width:64ch;
-      color:#d2d7e2;
-      line-height:1.76;
-      font-size:1.04rem;
-    }
-    .hero-actions,.toolbar,.chip-row,.radio-buttons,.share-buttons,.quick-actions{
-      display:flex;gap:12px;flex-wrap:wrap;
-    }
-    .hero-actions{margin-top:26px}
-    .chip-row{margin-top:18px}
-    .quick-actions{margin-top:22px}
-    .chip{
-      padding:9px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.1);
-      background:rgba(255,255,255,.04);color:#d9dde7;font-size:.82rem;
-    }
-
-    .btn{
-      border:0;border-radius:999px;padding:14px 20px;font-weight:700;cursor:pointer;
-      transition:.2s ease;display:inline-flex;align-items:center;justify-content:center;gap:10px;
-    }
-    .btn:hover{transform:translateY(-1px)}
-    .btn-primary{
-      color:#fff;background:linear-gradient(135deg,var(--red),var(--red-dark));
-      box-shadow:0 12px 32px rgba(157,16,39,.35);
-    }
-    .btn-secondary{
-      color:#fff;background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.11);
-    }
-    .btn-gold{
-      color:#161616;background:linear-gradient(135deg,#f0d9a3,var(--gold));
-      box-shadow:0 12px 30px rgba(210,175,104,.24);
-    }
-    .btn-ghost{
-      color:#fff;background:rgba(0,0,0,.24);
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .panel{
-      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(14px);
-      padding:18px;
-    }
-    .panel-top{
-      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;
-    }
-    .panel-kicker{
-      color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;
-    }
-    .panel-title{margin-top:6px;font-size:1.18rem;font-weight:800;line-height:1.1}
-    .pill{
-      padding:8px 10px;border-radius:999px;background:rgba(255,35,72,.12);
-      border:1px solid rgba(255,35,72,.18);color:#ffdce2;font-size:.75rem;white-space:nowrap;
-    }
-
-    .hero-spotlight{display:grid;gap:14px}
-    .hero-visual{
-      position:relative;overflow:hidden;border-radius:22px;min-height:580px;
-      border:1px solid rgba(255,255,255,.1);box-shadow:var(--shadow);background:#090b10;
-    }
-    .hero-visual img{
-      width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.86) contrast(1.02);
-    }
-    .hero-visual::after{
-      content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(0,0,0,.92) 100%);
-    }
-    .hero-visual-copy{
-      position:absolute;left:0;right:0;bottom:0;z-index:1;padding:22px;
-    }
-    .hero-visual-copy h3{margin:0;font-size:1.55rem;letter-spacing:-.03em}
-    .hero-visual-copy p{margin:8px 0 0;color:#d0d6e0;max-width:34ch;line-height:1.55}
-    .hero-mini-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .hero-mini{
-      padding:14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-    }
-    .hero-mini strong{display:block;font-size:1rem;margin-bottom:4px}
-    .hero-mini span{font-size:.83rem;color:var(--soft);line-height:1.35}
-
-    .section{padding:40px 0}
-    .section-head{
-      display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:18px;
-    }
-    .section-head h2{
-      margin:0;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1;letter-spacing:-.03em;text-transform:uppercase;
-    }
-    .section-head p{
-      margin:8px 0 0;color:var(--muted);max-width:60ch;line-height:1.58;
-    }
-
-    .grid{display:grid;gap:14px}
-    .grid.two{grid-template-columns:1fr 1fr}
-    .grid.three{grid-template-columns:repeat(3,1fr)}
-    .grid.four{grid-template-columns:repeat(4,1fr)}
-    .grid.split{grid-template-columns:1.02fr .98fr}
-
-    .release{
-      position:relative;min-height:360px;border-radius:22px;overflow:hidden;background:#090a0e;
-      border:1px solid rgba(255,255,255,.09);box-shadow:0 18px 50px rgba(0,0,0,.35);
-    }
-    .release::after{
-      content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.94) 100%);
-    }
-    .release img{
-      width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.95) contrast(1.03) brightness(.84);
-    }
-    .release-info{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:16px}
-    .release-kicker{color:#f0dde2;font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;opacity:.94}
-    .release-title{margin-top:8px;font-weight:800;font-size:1rem}
-    .release-sub{margin-top:6px;color:#c3cad7;font-size:.84rem}
-
-    .stack{display:grid;gap:12px}
-    .plan-item,.brain-item,.note-item,.support-item,.mission-item,.social-proof-item{
-      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;text-align:left;
-    }
-    .caption-box{
-      min-height:110px;padding:16px;border-radius:18px;background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);text-align:left;line-height:1.6;
-    }
-    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .stat{
-      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
-      border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;text-align:center;
-    }
-    .stat strong{display:block;font-size:1.9rem;margin-bottom:6px}
-    .stat span{color:var(--muted);font-size:.9rem}
-    .radio-player{width:100%}
-    .share-status,.muted{color:var(--muted);line-height:1.6}
-    .spotify-embed{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
-
-    .footer{padding:28px 0 42px;color:var(--soft)}
-    .footer-inner{
-      border-top:1px solid rgba(255,255,255,.08);padding-top:20px;
-      display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-    }
-
-    #cta{
-      position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:60;
-      background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;padding:12px 24px;border-radius:40px;
-      cursor:pointer;box-shadow:0 0 20px rgba(255,35,72,.45);font-weight:800;letter-spacing:.04em;
-    }
-    #godmodePulse{
-      position:fixed;right:18px;bottom:18px;z-index:60;
-      padding:10px 14px;border-radius:999px;background:rgba(0,0,0,.76);
-      border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);font-size:.86rem;color:#fff;
-    }
-
-    .low{box-shadow:0 0 120px rgba(255,0,0,.28) inset}
-
-    @media (max-width:1080px){
-      .hero-grid,.grid.two,.grid.three,.grid.four,.grid.split,.hero-mini-row,.stats-row{grid-template-columns:1fr}
-      .hero-visual{min-height:440px}
-    }
-    @media (max-width:760px){
-      .header-inner{min-height:68px;flex-direction:column;align-items:flex-start;padding:12px 0}
-      h1{max-width:none}
-    }
-  </style>
+/* FLASH EFFECT */
+.flash{
+animation:flash 0.3s;
+}
+@keyframes flash{
+0%{background:#000;}
+50%{background:#111;}
+100%{background:#000;}
+}
+</style>
 </head>
+
 <body>
-  <div id="enterGate" class="gate">
-    <div class="gate-card">
-      <div class="eyebrow" style="margin-bottom:14px;">Serious Finch experience</div>
-      <h2>Tap to Enter</h2>
-      <p>Starts the full rollout experience and unlocks the track.</p>
-      <div class="gate-actions">
-        <button class="btn btn-primary" id="enterBtn" type="button">Enter Site</button>
-        <button class="btn btn-secondary" id="muteBtn" type="button">Enter Silent</button>
-      </div>
-    </div>
-  </div>
 
-  <header class="header">
-    <div class="container header-inner">
-      <div class="brand">
-        <div class="brand-mark">SF</div>
-        <div>
-          <div class="brand-title">Serious Finch</div>
-          <div class="brand-sub">Platinum label rollout</div>
-        </div>
-      </div>
-      <nav class="nav">
-        <a href="#music">Music</a>
-        <a href="#campaign">Campaign</a>
-        <a href="#engine">Engine</a>
-        <a href="#radio">Radio</a>
-        <a href="#support">Support</a>
-      </nav>
-    </div>
-  </header>
+<!-- VIDEO -->
+<div class="hero-video-wrap">
+<iframe
+src="https://www.youtube.com/embed/xTj7TFiVc0g?autoplay=1&mute=1&controls=0&loop=1&playlist=xTj7TFiVc0g&playsinline=1"
+allow="autoplay; encrypted-media"
+frameborder="0">
+</iframe>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+<h1 id="title">WHY SO SERIOUS?</h1>
+<div class="sub" id="subtext">Serious Finch • OUT NOW</div>
+
+<button class="btn red" onclick="goSmart()">STREAM NOW</button>
+<button class="btn dark" onclick="go('tidal')">TIDAL</button>
+<button class="btn gold" onclick="share()">SHARE</button>
+
+<iframe style="margin-top:20px;border-radius:12px"
+src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B"
+width="300" height="80"
+frameBorder="0">
+</iframe>
+
+</div>
+
+<div id="cta" onclick="goSmart()">TAP IN</div>
+
+<script>
+
+// LINKS
+const L={
+spotify:"https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B",
+tidal:"https://tidal.com/track/249962630/u"
+};
+
+// STATE
+let S=JSON.parse(localStorage.getItem("sf_god"))||{
+visits:0,
+clicks:0,
+spotify:0,
+tidal:0
+};
+
+S.visits++;
+
+// SMART PLATFORM (REAL LOGIC)
+function bestPlatform(){
+if(S.spotify < 5) return "spotify";
+if(S.tidal < 3 && S.visits > 2) return "tidal";
+return "spotify";
+}
+
+// CLICK
+function go(p){
+S.clicks++;
+S[p]++;
+save();
+window.open(L[p],"_blank");
+}
+
+// SMART PUSH
+function goSmart(){
+let p=bestPlatform();
+go(p);
+flash();
+}
+
+// SAVE
+function save(){
+localStorage.setItem("sf_god",JSON.stringify(S));
+}
+
+// FLASH FX
+function flash(){
+document.body.classList.add("flash");
+setTimeout(()=>document.body.classList.remove("flash"),300);
+}
+
+// DYNAMIC TEXT (RETARGET FEEL)
+function updateText(){
+if(S.visits===1){
+document.getElementById("subtext").innerText="First time here. Tap in.";
+}
+if(S.visits>2){
+document.getElementById("subtext").innerText="You back. Run it up.";
+}
+if(S.visits>5){
+document.getElementById("subtext").innerText="Stop playing. Stream it.";
+}
+}
+
+// AUTO PUSH (LIKE ADS)
+setTimeout(()=>{
+goSmart();
+},7000);
+
+// INIT
+updateText();
+save();
 
-  <section class="hero">
-    <div class="hero-video-wrap">
-      <iframe id="yt-bg"
-        src="https://www.youtube.com/embed/L6qnsBgi2ZQ?autoplay=1&mute=1&controls=0&loop=1&playlist=L6qnsBgi2ZQ&modestbranding=1&playsinline=1&rel=0"
-        allow="autoplay; encrypted-media"
-        title="YouTube background video"></iframe>
-    </div>
+</script>
 
-    <div id="heroBgA" class="hero-bg"></div>
-    <div id="heroBgB" class="hero-bg-2"></div>
-    <div class="hero-overlay"></div>
-
-    <div class="container hero-content">
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow">OUT NOW · Serious Finch</div>
-          <h1>WHY SO <span>SERIOUS?</span></h1>
-          <p class="hero-copy">Platinum-level artist rollout. Official-platform funnel. Premium visuals up front. God mode distribution pressure underneath.</p>
-
-          <div class="hero-actions">
-            <button class="btn btn-primary" onclick="go(bestPlatformKey())">STREAM NOW</button>
-            <button class="btn btn-secondary" onclick="go('tidal')">TIDAL</button>
-            <button class="btn btn-secondary" onclick="go('sound')">SoundCloud</button>
-            <button class="btn btn-gold" onclick="share()">Share</button>
-          </div>
-
-          <div class="chip-row">
-            <div class="chip">Artist-first rollout</div>
-            <div class="chip">Private analytics</div>
-            <div class="chip">Distribution engine</div>
-            <div class="chip">God mode pressure</div>
-          </div>
-
-          <div class="quick-actions">
-            <button class="btn btn-ghost" onclick="newPlan()">New Plan</button>
-            <button class="btn btn-ghost" onclick="newCaption()">New Caption</button>
-            <button class="btn btn-ghost" onclick="share()">Share This Page</button>
-          </div>
-        </div>
-
-        <div class="hero-spotlight">
-          <div class="hero-visual panel">
-            <img id="heroMainImage" src="image-hero-2.jpg" alt="Serious Finch hero visual" />
-            <div class="hero-visual-copy">
-              <h3>Serious Finch</h3>
-              <p>Built like a real campaign. YouTube for attention. Spotify for conversion. TIDAL and SoundCloud as support lanes.</p>
-            </div>
-          </div>
-
-          <div class="hero-mini-row">
-            <div class="hero-mini"><strong id="liveHypeCount">147</strong><span>Tap-ins this session feel</span></div>
-            <div class="hero-mini"><strong id="bestPlatformHero">Spotify</strong><span>Current strongest lane</span></div>
-            <div class="hero-mini"><strong id="energyHero">LOW</strong><span>Pressure status</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="music">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Music</h2>
-          <p>Three lanes. One campaign. One strongest move at a time.</p>
-        </div>
-      </div>
-
-      <div class="grid three">
-        <div class="release">
-          <img src="image-hero-2.jpg" alt="Spotify campaign visual" />
-          <div class="release-info">
-            <div class="release-kicker">Primary push</div>
-            <div class="release-title">Spotify</div>
-            <div class="release-sub">Main conversion lane</div>
-          </div>
-        </div>
-
-        <div class="release">
-          <img src="image-hero-3.jpg" alt="Tidal campaign visual" />
-          <div class="release-info">
-            <div class="release-kicker">Secondary push</div>
-            <div class="release-title">TIDAL</div>
-            <div class="release-sub">Extra platform reach</div>
-          </div>
-        </div>
-
-        <div class="release">
-          <img src="image-hero-1.jpg" alt="SoundCloud campaign visual" />
-          <div class="release-info">
-            <div class="release-kicker">Discovery push</div>
-            <div class="release-title">SoundCloud</div>
-            <div class="release-sub">Broader discovery</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" style="margin-top:16px;">
-        <div class="section-head">
-          <div>
-            <h2>Official Player</h2>
-            <p>Trust layer. Use the official player and the direct CTA together.</p>
-          </div>
-        </div>
-        <div class="spotify-embed">
-          <iframe
-            src="https://open.spotify.com/embed/track/5YEBWTiJxIsqNA15LIKk4B"
-            width="100%"
-            height="152"
-            frameborder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            title="Spotify player"></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="campaign">
-    <div class="container grid split">
-      <div class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Think Tank</h2>
-            <p>Sharper rollout tasks. Less clutter. More movement.</p>
-          </div>
-          <div class="toolbar">
-            <button class="btn btn-primary" onclick="newPlan()">New Plan</button>
-            <button class="btn btn-secondary" onclick="newCaption()">New Caption</button>
-          </div>
-        </div>
-        <div id="plan" class="stack"></div>
-      </div>
-
-      <div class="panel">
-        <div class="section-head">
-          <div>
-            <h2>God Mode Brain</h2>
-            <p>Platform focus, urgency, and what to do next.</p>
-          </div>
-        </div>
-        <div id="caption" class="caption-box"></div>
-        <div id="brain" class="stack" style="margin-top:16px;"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="engine">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Distribution Engine</h2>
-          <p>Mission system, pressure board, viral loop, and platform routing.</p>
-        </div>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat"><strong id="clicksStat">0</strong><span>Total clicks</span></div>
-        <div class="stat"><strong id="plansStat">0</strong><span>Plans generated</span></div>
-        <div class="stat"><strong id="focusStat">Spotify</strong><span>Best platform</span></div>
-        <div class="stat"><strong id="energyStat">LOW</strong><span>Current energy</span></div>
-      </div>
-
-      <div class="grid two" style="margin-top:16px;">
-        <div class="panel">
-          <div class="section-head">
-            <div>
-              <h2>Mission</h2>
-              <p id="missionText" class="muted"></p>
-            </div>
-          </div>
-          <div id="missionBoard" class="stack"></div>
-        </div>
-
-        <div class="panel">
-          <div class="section-head">
-            <div>
-              <h2>Pressure Board</h2>
-              <p>What the session is really saying.</p>
-            </div>
-          </div>
-          <div id="pressureBoard" class="stack"></div>
-        </div>
-      </div>
-
-      <div class="grid split" style="margin-top:16px;">
-        <div class="panel">
-          <div class="section-head">
-            <div>
-              <h2>Session Notes</h2>
-              <p>Read the momentum. Then move.</p>
-            </div>
-          </div>
-          <div id="sessionNotes" class="stack"></div>
-        </div>
-
-        <div class="panel">
-          <div class="section-head">
-            <div>
-              <h2>Viral Loop</h2>
-              <p>Simple repeat sequence to keep traffic alive.</p>
-            </div>
-          </div>
-          <div id="viralLoop" class="stack"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="radio">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Radio</h2>
-          <p>Hip-hop radio layer for energy and reference.</p>
-        </div>
-      </div>
-      <div class="panel">
-        <audio id="radio" controls class="radio-player"></audio>
-        <div class="radio-buttons">
-          <button class="btn btn-secondary" onclick="radio('hot97')">Hot97</button>
-          <button class="btn btn-secondary" onclick="radio('power')">Power105</button>
-          <button class="btn btn-secondary" onclick="radio('real')">Real92</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="support">
-    <div class="container grid split">
-      <div class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Support</h2>
-            <p>Everything stays tied to the song and the main stream action.</p>
-          </div>
-        </div>
-        <div class="support-item">Best move: hit the winning platform again, then repost the same lane while it still has energy.</div>
-        <div class="toolbar" style="margin-top:14px;">
-          <button class="btn btn-primary" onclick="go(bestPlatformKey())">Run It Up</button>
-          <button class="btn btn-secondary" onclick="go('tidal')">Open TIDAL</button>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Share</h2>
-            <p>One tap out. Copy if share is unavailable.</p>
-          </div>
-        </div>
-        <div class="share-buttons">
-          <button class="btn btn-primary" onclick="share()">Share Site</button>
-          <button class="btn btn-secondary" onclick="copyLink()">Copy Link</button>
-        </div>
-        <p id="shareStatus" class="share-status"></p>
-      </div>
-    </div>
-  </section>
-
-  <audio id="player" preload="auto" class="hidden">
-    <!-- Optional direct MP3 URL. Leave blank if not using it. -->
-    <source src="" type="audio/mpeg" />
-  </audio>
-
-  <div id="cta" onclick="go(bestPlatformKey())">TAP IN</div>
-  <div id="godmodePulse">God mode active</div>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <span>Serious Finch</span>
-      <span>Platinum label distribution engine</span>
-    </div>
-  </footer>
-
-  <script>
-    const L = {
-      spotify: "https://open.spotify.com/track/5YEBWTiJxIsqNA15LIKk4B",
-      tidal: "https://tidal.com/track/249962630/u",
-      sound: "https://on.soundcloud.com/KGizTKf05XbbIIH5VD"
-    };
-
-    const R = {
-      hot97: "https://playerservices.streamtheworld.com/api/livestream-redirect/WQHTFMAAC.aac",
-      power: "https://playerservices.streamtheworld.com/api/livestream-redirect/WWPRFMAAC.aac",
-      real: "https://playerservices.streamtheworld.com/api/livestream-redirect/KRBQAAC.aac"
-    };
-
-    const heroImages = ["image-hero-2.jpg","image-hero-3.jpg","image-hero-1.jpg"];
-
-    const moves = [
-      "Post TikTok with the strongest 8-second section.",
-      "Put the Spotify link in one IG story right now.",
-      "Send the record to 10 real listeners.",
-      "Comment on 20 hip-hop posts and pin the link.",
-      "Drop the track in Facebook groups that already react.",
-      "Post a raw snippet video and push replay value.",
-      "Reply to every comment before reposting.",
-      "Use the press image for one clean status post."
-    ];
-
-    const captions = [
-      "If you found this, you early. Run it up.",
-      "Real pressure. No filler. Press play.",
-      "This one is built for replay.",
-      "Tap in and let it ride.",
-      "If it hits, save it.",
-      "One record. Different energy.",
-      "This one is not background music.",
-      "Run this up before everybody catches on."
-    ];
-
-    let S = JSON.parse(localStorage.getItem("sf_godmode")) || {
-      clicks: 0,
-      spotify: 0,
-      tidal: 0,
-      sound: 0,
-      plans: 0,
-      shares: 0,
-      visits: 0
-    };
-
-    let hypeCount = 147;
-    let currentBg = "heroBgA";
-    let nextBg = "heroBgB";
-    let bgIndex = 1;
-
-    const player = document.getElementById("player");
-    const gate = document.getElementById("enterGate");
-    const ytBg = document.getElementById("yt-bg");
-
-    function save() {
-      localStorage.setItem("sf_godmode", JSON.stringify(S));
-      render();
-    }
-
-    function bestPlatformKey() {
-      if (S.tidal > S.spotify && S.tidal >= S.sound) return "tidal";
-      if (S.sound > S.spotify && S.sound > S.tidal) return "sound";
-      return "spotify";
-    }
-
-    function energy() {
-      if (S.clicks > 15) return "HIGH";
-      if (S.clicks > 5) return "MID";
-      return "LOW";
-    }
-
-    function hookTime() {
-      if (S.visits < 2) return 8000;
-      if (S.visits < 5) return 6000;
-      return 4000;
-    }
-
-    function go(t) {
-      S.clicks += 1;
-      S[t] += 1;
-      save();
-      window.open(L[t], "_blank", "noopener,noreferrer");
-    }
-
-    function radio(n) {
-      document.getElementById("radio").src = R[n];
-    }
-
-    function newPlan() {
-      S.plans += 1;
-      save();
-      const plan = [...moves]
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 5)
-        .map((x) => `<div class="plan-item">${x}</div>`)
-        .join("");
-      document.getElementById("plan").innerHTML = plan;
-    }
-
-    function newCaption() {
-      const c = captions[Math.floor(Math.random() * captions.length)];
-      document.getElementById("caption").innerText = c;
-    }
-
-    function renderBrain() {
-      document.getElementById("brain").innerHTML = `
-        <div class="brain-item">Energy: ${energy()}</div>
-        <div class="brain-item">Focus: ${bestPlatformKey().toUpperCase()}</div>
-        <div class="brain-item">Next Move: Push the strongest platform again right now.</div>
-      `;
-    }
-
-    function renderPressureBoard() {
-      const rows = [
-        `Spotify clicks: ${S.spotify}`,
-        `TIDAL clicks: ${S.tidal}`,
-        `SoundCloud clicks: ${S.sound}`,
-        `Total clicks: ${S.clicks}`,
-        `Plans generated: ${S.plans}`
-      ];
-      document.getElementById("pressureBoard").innerHTML =
-        rows.map((x) => `<div class="note-item">${x}</div>`).join("");
-    }
-
-    function renderMission() {
-      let text = "Get the first 5 clicks.";
-      if (S.clicks >= 5 && S.clicks < 15) text = "Push to 15 clicks and repost the winning lane.";
-      if (S.clicks >= 15) text = "Double down while momentum is active.";
-
-      document.getElementById("missionText").innerText = text;
-      document.getElementById("missionBoard").innerHTML = `
-        <div class="mission-item">Primary target: ${text}</div>
-        <div class="mission-item">Winning lane: ${bestPlatformKey().toUpperCase()}</div>
-        <div class="mission-item">Pressure level: ${energy()}</div>
-      `;
-    }
-
-    function renderNotes() {
-      const notes = [];
-      if (S.clicks < 5) notes.push("Low motion. Push the link now.");
-      else if (S.clicks < 15) notes.push("Momentum is building. Repost before it cools off.");
-      else notes.push("Strong day. Double down while attention is active.");
-
-      if (bestPlatformKey() === "spotify") notes.push("Spotify is leading. Keep it primary.");
-      if (bestPlatformKey() === "tidal") notes.push("TIDAL is catching attention. Give it a direct post.");
-      if (bestPlatformKey() === "sound") notes.push("SoundCloud is pulling discovery traffic right now.");
-
-      document.getElementById("sessionNotes").innerHTML =
-        notes.map((x) => `<div class="note-item">${x}</div>`).join("");
-    }
-
-    function renderViralLoop() {
-      document.getElementById("viralLoop").innerHTML = `
-        <div class="mission-item">1. Post the strongest clip.</div>
-        <div class="mission-item">2. Send people to the winning platform.</div>
-        <div class="mission-item">3. Repost once comments start moving.</div>
-        <div class="mission-item">4. Share again before momentum drops.</div>
-      `;
-    }
-
-    function updateHype() {
-      hypeCount += Math.floor(Math.random() * 3);
-      document.getElementById("liveHypeCount").innerText = hypeCount;
-    }
-
-    function updatePulse() {
-      const messages = [
-        "God mode active",
-        "Traffic engine armed",
-        "Pressure is on",
-        "Winning lane loaded",
-        "Campaign momentum live"
-      ];
-      document.getElementById("godmodePulse").innerText =
-        messages[Math.floor(Math.random() * messages.length)];
-    }
-
-    function share() {
-      if (navigator.share) {
-        navigator.share({ title: "Serious Finch", url: location.href });
-      } else {
-        document.getElementById("shareStatus").innerText = "Use copy link on this device.";
-      }
-    }
-
-    function copyLink() {
-      navigator.clipboard.writeText(location.href).then(() => {
-        document.getElementById("shareStatus").innerText = "Link copied.";
-      }).catch(() => {
-        document.getElementById("shareStatus").innerText = "Copy failed on this browser.";
-      });
-    }
-
-    function rotateHero() {
-      const currentEl = document.getElementById(currentBg);
-      const nextEl = document.getElementById(nextBg);
-      nextEl.style.backgroundImage =
-        `linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.88)), url('${heroImages[bgIndex]}')`;
-      nextEl.style.opacity = "1";
-      currentEl.style.opacity = "0";
-      [currentBg, nextBg] = [nextBg, currentBg];
-      bgIndex = (bgIndex + 1) % heroImages.length;
-      document.getElementById("heroMainImage").src = heroImages[(bgIndex + 1) % heroImages.length];
-    }
-
-    function triggerAutoShare() {
-      if (S.clicks >= 5 && S.shares < 1) {
-        document.getElementById("shareStatus").innerText = "Share this now while it still has energy.";
-      }
-    }
-
-    function render() {
-      document.getElementById("clicksStat").innerText = S.clicks;
-      document.getElementById("plansStat").innerText = S.plans;
-      document.getElementById("focusStat").innerText = bestPlatformKey().toUpperCase();
-      document.getElementById("energyStat").innerText = energy();
-      document.getElementById("bestPlatformHero").innerText = bestPlatformKey().toUpperCase();
-      document.getElementById("energyHero").innerText = energy();
-      renderBrain();
-      renderPressureBoard();
-      renderMission();
-      renderNotes();
-      renderViralLoop();
-      triggerAutoShare();
-
-      if (S.clicks < 5) document.body.classList.add("low");
-      else document.body.classList.remove("low");
-    }
-
-    function fadeInAudio() {
-      let vol = 0;
-      const interval = setInterval(() => {
-        if (vol >= 1) {
-          clearInterval(interval);
-          return;
-        }
-        vol += 0.05;
-        player.volume = vol;
-      }, 100);
-    }
-
-    function enterSite(playAudio) {
-      gate.classList.add("hidden");
-      S.visits += 1;
-      save();
-
-      if (playAudio) {
-        const currentSrc = player.querySelector("source")?.getAttribute("src") || "";
-        if (currentSrc) {
-          player.volume = 0;
-          player.play().then(() => {
-            fadeInAudio();
-            setTimeout(() => go(bestPlatformKey()), hookTime());
-          }).catch(() => {
-            setTimeout(() => go(bestPlatformKey()), hookTime());
-          });
-        } else {
-          ytBg.src = ytBg.src.replace("mute=1","mute=0");
-          setTimeout(() => go(bestPlatformKey()), hookTime());
-        }
-      }
-    }
-
-    document.getElementById("enterBtn").addEventListener("click", () => enterSite(true));
-    document.getElementById("muteBtn").addEventListener("click", () => enterSite(false));
-
-    setInterval(updateHype, 2000);
-    setInterval(updatePulse, 3000);
-    setInterval(rotateHero, 6000);
-    setInterval(render, 3000);
-
-    render();
-    newPlan();
-    newCaption();
-    updateHype();
-  </script>
 </body>
 </html>
