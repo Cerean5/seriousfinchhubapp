@@ -1,10 +1,10 @@
 {
-  "name": "Serious Finch x Sons of Gunsmoke",
-  "short_name": "SeriousFinch",
-  "start_url": "./index.html",
+  "name": "Serious Finch Hub",
+  "short_name": "Finch Hub",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#090b10",
+  "theme_color": "#ff0000",
   "icons": [
     {
       "src": "icon-192.png",
