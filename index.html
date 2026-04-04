@@ -3,174 +3,171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Serious Finch | Sons of Gunsmoke</title>
+
+<title>Serious Finch x Sons of Gunsmoke</title>
+
+<link rel="manifest" href="manifest.json">
 
 <style>
-:root{
-  --bg:#000;
-  --card:#0a0a0a;
-  --line:#222;
-  --text:#fff;
-  --muted:#bbb;
-  --accent:#ff2d55;
-  --gold:#d4af37;
-}
-
-*{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:var(--bg);
-  color:var(--text);
+margin:0;
+background:#000;
+color:#fff;
+font-family:Arial;
+overflow-x:hidden;
 }
 
-/* HERO */
+/* 🔥 HERO SLIDER */
 .hero{
-  position:relative;
-  height:320px;
-  overflow:hidden;
+position:relative;
+height:100vh;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
 }
-.hero img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  filter:brightness(.6) contrast(1.1);
+
+.hero-slide{
+position:absolute;
+width:100%;
+height:100%;
+background-size:cover;
+background-position:center;
+transition:opacity 1.2s ease;
 }
+
 .hero-overlay{
-  position:absolute;
-  bottom:20px;
-  left:20px;
-  background:rgba(0,0,0,.65);
-  padding:12px 16px;
-  border-radius:14px;
-  backdrop-filter:blur(6px);
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.65);
 }
-.hero-overlay h1{margin:0;font-size:26px}
-.hero-overlay p{margin:0;color:var(--muted)}
+
+.hero-content{
+position:relative;
+z-index:2;
+}
+
+.hero h1{
+font-size:3rem;
+letter-spacing:3px;
+}
 
 /* BUTTONS */
-.buttons{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:8px;
-  padding:16px;
+.btn{
+padding:12px 22px;
+margin:6px;
+border-radius:30px;
+border:none;
+cursor:pointer;
+font-weight:bold;
 }
-button{
-  padding:12px 18px;
-  border-radius:999px;
-  border:none;
-  cursor:pointer;
-  font-weight:700;
-}
-.primary{background:var(--accent);color:#fff}
-.secondary{background:#111;color:#fff;border:1px solid #333}
-.gold{background:var(--gold);color:#000}
 
-/* LIVE */
-#live{
-  text-align:center;
-  color:var(--accent);
-  font-size:14px;
-  margin-top:-6px;
-}
+.primary{background:#ff2d55;color:#fff}
+.secondary{background:#111;color:#fff;border:1px solid #333}
+.gold{background:#d4af37;color:#000}
 
 /* SECTION */
-.section{padding:18px}
-.card{
-  max-width:860px;
-  margin:16px auto;
-  padding:14px;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
+.section{
+padding:40px 20px;
+text-align:center;
 }
 
-/* EMBEDS */
 iframe{
-  width:100%;
-  border-radius:16px;
-  border:1px solid var(--line);
-  display:block;
-  margin-top:10px;
+width:100%;
+max-width:500px;
+height:250px;
+border:none;
+margin-top:15px;
 }
 
-/* TITLES */
-h2{
-  text-align:center;
-  margin:10px 0 6px;
-}
-.sub{
-  text-align:center;
-  color:var(--muted);
-  font-size:14px;
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
 }
 
-/* FADE */
-.fade{opacity:0;transform:translateY(20px);transition:.6s}
-.fade.show{opacity:1;transform:translateY(0)}
+.grid img{
+width:100%;
+border-radius:12px;
+}
+
+/* LIVE FEEL */
+#live{
+text-align:center;
+color:#ff2d55;
+margin-top:10px;
+font-weight:bold;
+}
 </style>
 </head>
 
 <body>
 
-<!-- 🎯 HERO (YOUR IMAGE) -->
+<!-- HERO -->
 <div class="hero">
-  <img src="sauce.jpg"> <!-- 🔥 YOUR IMAGE FILE -->
-  <div class="hero-overlay">
-    <h1>WHERE THE SAUCE AT?</h1>
-    <p>Serious Finch • Sons of Gunsmoke</p>
-  </div>
+
+<div id="slide1" class="hero-slide" style="background-image:url('image-hero-1.jpg');opacity:1;"></div>
+<div id="slide2" class="hero-slide" style="background-image:url('image-hero-2.jpg');opacity:0;"></div>
+<div id="slide3" class="hero-slide" style="background-image:url('image-hero-3.jpg');opacity:0;"></div>
+
+<div class="hero-overlay"></div>
+
+<div class="hero-content">
+<h1>SERIOUS FINCH</h1>
+<p>Sons of Gunsmoke</p>
+
+<button class="btn primary" onclick="go('youtube')">▶ PLAY</button>
+<button class="btn secondary" onclick="go('spotify')">Spotify</button>
+<button class="btn gold" onclick="go('tidal')">TIDAL</button>
 </div>
 
-<!-- 🎯 CTA -->
-<div class="buttons">
-  <button class="primary" data-go="youtube">▶ Play</button>
-  <button class="secondary" data-go="spotify">Spotify</button>
-  <button class="secondary" data-go="apple">Apple</button>
-  <button class="gold" data-go="tidal">TIDAL</button>
-  <button class="secondary" data-go="instagram">Instagram</button>
-  <button class="secondary" data-go="facebook">Facebook</button>
 </div>
 
-<div id="live">🔥 153 tapped in</div>
+<div id="live">🔥 147 tapped in</div>
 
-<!-- 🎥 VIDEO -->
-<div class="section fade">
-  <h2>Official Video</h2>
-  <div class="card">
-    <iframe height="300"
-    src="https://www.youtube.com/embed/L6qnsBgi2ZQ?autoplay=1&mute=1"
-    allow="autoplay"></iframe>
-  </div>
+<!-- VIDEO -->
+<div class="section">
+<h2>Latest Video</h2>
+<iframe src="https://www.youtube.com/embed/L6qnsBgi2ZQ"></iframe>
 </div>
 
-<!-- 🎧 STREAMING -->
-<div class="section fade">
-  <h2>Stream the Record</h2>
-  <p class="sub">Available everywhere</p>
+<!-- STREAM -->
+<div class="section">
+<h2>Stream</h2>
 
-  <div class="card">
-    <strong>Spotify</strong>
-    <iframe height="152"
-    src="https://open.spotify.com/embed/track/7zEJAr3odmPEhBiywgqafV"></iframe>
-  </div>
+<iframe src="https://open.spotify.com/embed/track/7zEJAr3odmPEhBiywgqafV"></iframe>
 
-  <div class="card">
-    <strong>Apple Music</strong>
-    <iframe height="175"
-    src="https://embed.music.apple.com/us/song/no-contact-feat-serious-finch/1854184106"></iframe>
-  </div>
+<iframe src="https://embed.music.apple.com/us/song/no-contact-feat-serious-finch/1854184106"></iframe>
 
-  <div class="card">
-    <strong>YouTube Music (Official)</strong>
-    <iframe height="300"
-    src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_lceL2Dg6t59lhNr_QI6BQwKUWVhOrl_L0"></iframe>
-  </div>
+</div>
+
+<!-- VISUALS -->
+<div class="section">
+<h2>Visuals</h2>
+
+<div class="grid">
+<img src="image-hero-1.jpg">
+<img src="image-hero-2.jpg">
+<img src="image-hero-3.jpg">
+</div>
+
+</div>
+
+<!-- SOCIAL -->
+<div class="section">
+<h2>Follow</h2>
+
+<button class="btn secondary" onclick="go('instagram')">Instagram</button>
+<button class="btn secondary" onclick="go('facebook')">Facebook</button>
+
 </div>
 
 <script>
-/* 🔒 GOD MODE ENGINE (HIDDEN) */
+
+/* 🔥 REAL LINK SYSTEM */
 const LINKS={
 spotify:"https://open.spotify.com/track/7zEJAr3odmPEhBiywgqafV",
 apple:"https://music.apple.com/us/song/no-contact-feat-serious-finch/1854184106",
@@ -182,31 +179,28 @@ facebook:"https://www.facebook.com/share/1L3xM3P1y7/"
 
 function go(p){
 let u=new URL(LINKS[p]);
-u.searchParams.set("utm_source","empire");
-u.searchParams.set("utm_campaign","finch");
+u.searchParams.set("utm_source","finchhub");
+u.searchParams.set("utm_campaign","rollout");
 window.open(u,"_blank");
 }
 
-document.querySelectorAll("[data-go]").forEach(b=>{
-b.onclick=()=>go(b.getAttribute("data-go"));
-});
+/* 🔥 HERO SLIDER */
+let slides=["slide1","slide2","slide3"];
+let index=0;
+
+setInterval(()=>{
+document.getElementById(slides[index]).style.opacity=0;
+index=(index+1)%3;
+document.getElementById(slides[index]).style.opacity=1;
+},4000);
 
 /* 🔥 LIVE COUNTER */
-let c=153;
+let c=147;
 setInterval(()=>{
 c+=Math.random()>0.5?1:0;
 document.getElementById("live").innerText="🔥 "+c+" tapped in";
 },4000);
 
-/* 🎬 FADE IN */
-const faders=document.querySelectorAll(".fade");
-window.addEventListener("scroll",()=>{
-faders.forEach(el=>{
-if(el.getBoundingClientRect().top<window.innerHeight-60){
-el.classList.add("show");
-}
-});
-});
 </script>
 
 </body>
