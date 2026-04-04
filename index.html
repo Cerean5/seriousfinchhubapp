@@ -1,521 +1,200 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>WHY SO SERIOUS — Serious Finch × Sons of Gunsmoke</title>
-  <meta name="description" content="Official Serious Finch × Sons of Gunsmoke rollout. Watch the video, stream the record, and tap into the movement." />
-  <meta name="theme-color" content="#000000" />
-  <meta property="og:title" content="WHY SO SERIOUS — Serious Finch × Sons of Gunsmoke" />
-  <meta property="og:description" content="Official rollout. Watch the video. Stream now." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="image-hero-1.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="WHY SO SERIOUS — Serious Finch × Sons of Gunsmoke" />
-  <meta name="twitter:description" content="Official rollout. Watch the video. Stream now." />
-  <meta name="twitter:image" content="image-hero-1.jpg" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icon-192.png" />
-  <link rel="apple-touch-icon" href="icon-192.png" />  <style>
-    :root{
-      --bg:#000000;
-      --panel:#0b0b0f;
-      --panel-2:#101014;
-      --line:rgba(255,255,255,.08);
-      --text:#ffffff;
-      --muted:#b7b7c2;
-      --soft:#7a7a86;
-      --accent:#ff2d55;
-      --accent-glow:rgba(255,45,85,.55);
-      --radius:22px;
-      --shadow:0 20px 80px rgba(0,0,0,.75);
-      --max:1180px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter,Arial,Helvetica,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at top, rgba(255,45,85,.08), transparent 22%),
-        linear-gradient(180deg, #000 0%, #050507 55%, #000 100%);
-      overflow-x:hidden;
-    }
+<title>WHY SO SERIOUS — Serious Finch × Sons of Gunsmoke</title>
 
-    img{display:block;max-width:100%}
-    a{text-decoration:none;color:inherit}
-    button{font:inherit}
+<meta name="description" content="Serious Finch × Sons of Gunsmoke. Official release.">
+<meta property="og:title" content="WHY SO SERIOUS">
+<meta property="og:image" content="/seriousfinchhubapp/image-hero-1.jpg">
+<meta property="og:type" content="website">
 
-    .container{
-      width:min(calc(100% - 28px), var(--max));
-      margin:0 auto;
-    }
+<style>
+body{
+  margin:0;
+  background:#000;
+  color:#fff;
+  font-family:Arial;
+  overflow-x:hidden;
+}
 
-    /* Intro */
-    #intro{
-      position:fixed;
-      inset:0;
-      z-index:9999;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#000;
-      animation:introFade 2.8s ease forwards;
-      animation-delay:1.8s;
-      pointer-events:none;
-    }
+/* HERO */
+.hero{
+  height:100vh;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
 
-    #intro h1{
-      margin:0;
-      font-size:clamp(2rem,8vw,3.7rem);
-      letter-spacing:.42em;
-      text-transform:uppercase;
-      animation:introPulse 1.8s ease-in-out infinite alternate;
-    }
+.slide{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+  filter:brightness(.55);
+  transition:opacity 1.5s ease;
+  opacity:0;
+}
 
-    @keyframes introPulse{
-      from{opacity:.45; transform:scale(.985)}
-      to{opacity:1; transform:scale(1.02)}
-    }
+.active{opacity:1;}
 
-    @keyframes introFade{
-      to{opacity:0; visibility:hidden}
-    }
+.overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.1));
+}
 
-    /* Header */
-    .topbar{
-      position:fixed;
-      top:0;
-      left:0;
-      right:0;
-      z-index:500;
-      background:rgba(0,0,0,.42);
-      backdrop-filter:blur(14px);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
+.hero-content{
+  position:relative;
+  z-index:2;
+  padding:0 20px;
+}
 
-    .topbar-inner{
-      min-height:70px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-    }
+.hero h1{
+  font-size:4rem;
+  letter-spacing:10px;
+}
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-transform:uppercase;
-    }
+.hero p{
+  color:#aaa;
+}
 
-    .brand-mark{
-      width:42px;
-      height:42px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.09);
-      font-weight:900;
-      letter-spacing:.08em;
-    }
+button{
+  margin:10px;
+  padding:16px 32px;
+  border-radius:40px;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .brand-text strong{
-      display:block;
-      font-size:.87rem;
-      letter-spacing:.16em;
-    }
+.primary{
+  background:#ff2d55;
+  color:#fff;
+}
 
-    .brand-text span{
-      display:block;
-      color:var(--soft);
-      font-size:.76rem;
-      letter-spacing:.1em;
-    }
+.secondary{
+  background:#111;
+  color:#fff;
+  border:1px solid #333;
+}
 
-    .nav{
-      display:flex;
-      gap:18px;
-      flex-wrap:wrap;
-    }
+/* SECTION */
+.section{
+  padding:100px 20px;
+  text-align:center;
+}
 
-    .nav a{
-      color:var(--muted);
-      font-size:.92rem;
-    }
+iframe{
+  width:100%;
+  max-width:800px;
+  height:400px;
+  border:none;
+  border-radius:16px;
+  margin-top:30px;
+}
 
-    .nav a:hover{color:#fff}
+/* VISUALS */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  margin-top:40px;
+}
 
-    /* Hero */
-    .hero{
-      position:relative;
-      min-height:100svh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      text-align:center;
-      isolation:isolate;
-    }
+.grid img{
+  width:100%;
+  border-radius:16px;
+}
 
-    .slide{
-      position:absolute;
-      inset:0;
-      background-size:cover;
-      background-position:center;
-      opacity:0;
-      transform:scale(1.12);
-      filter:brightness(.53) contrast(1.08);
-      transition:opacity 1.4s ease, transform 8s ease;
-      z-index:-3;
-    }
+footer{
+  text-align:center;
+  padding:40px;
+  color:#444;
+}
+</style>
+</head>
 
-    .slide.active{
-      opacity:1;
-      transform:scale(1.03);
-    }
-
-    .hero-overlay{
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 50% 35%, rgba(255,255,255,.04), transparent 24%),
-        linear-gradient(to top, rgba(0,0,0,.95), rgba(0,0,0,.15));
-      z-index:-2;
-    }
-
-    .hero-content{
-      position:relative;
-      z-index:2;
-      width:min(100%, 980px);
-      padding:118px 20px 72px;
-      animation:rise .95s ease;
-    }
-
-    @keyframes rise{
-      from{opacity:0; transform:translateY(38px)}
-      to{opacity:1; transform:translateY(0)}
-    }
-
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.1);
-      background:rgba(255,255,255,.04);
-      color:#ddd;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      font-size:.74rem;
-      margin-bottom:22px;
-    }
-
-    .hero h1{
-      margin:0;
-      font-size:clamp(3rem,12vw,5.6rem);
-      line-height:.9;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      text-shadow:0 0 28px rgba(255,255,255,.12);
-    }
-
-    .hero p{
-      max-width:760px;
-      margin:18px auto 0;
-      color:var(--muted);
-      font-size:clamp(1rem,2vw,1.08rem);
-      line-height:1.7;
-      letter-spacing:.06em;
-    }
-
-    .hero-actions{
-      margin-top:30px;
-      display:flex;
-      justify-content:center;
-      gap:14px;
-      flex-wrap:wrap;
-    }
-
-    .btn{
-      border:none;
-      cursor:pointer;
-      border-radius:999px;
-      padding:18px 34px;
-      font-size:1rem;
-      font-weight:800;
-      letter-spacing:.06em;
-      transition:transform .2s ease, filter .2s ease, box-shadow .2s ease;
-    }
-
-    .btn:hover{transform:translateY(-2px) scale(1.02)}
-
-    .btn-primary{
-      color:#fff;
-      background:linear-gradient(135deg, #ff2d55, #cf1238);
-      box-shadow:0 0 42px var(--accent-glow), 0 18px 38px rgba(255,45,85,.22);
-    }
-
-    .btn-secondary{
-      color:#fff;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.18);
-    }
-
-    .hero-foot{
-      margin-top:26px;
-      color:#8f8f98;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:.78rem;
-    }
-
-    /* Sections */
-    .section{
-      padding:110px 0;
-    }
-
-    .section-head{
-      text-align:center;
-      margin-bottom:34px;
-    }
-
-    .section-head h2{
-      margin:0 0 14px;
-      font-size:clamp(1.7rem,4vw,2.7rem);
-      letter-spacing:.28em;
-      text-transform:uppercase;
-    }
-
-    .section-head p{
-      margin:0 auto;
-      max-width:700px;
-      color:var(--muted);
-      line-height:1.75;
-    }
-
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
-
-    .media-wrap{
-      padding:22px;
-      text-align:center;
-    }
-
-    iframe{
-      display:block;
-      width:100%;
-      max-width:860px;
-      height:460px;
-      margin:0 auto;
-      border:none;
-      border-radius:18px;
-      box-shadow:0 28px 90px rgba(0,0,0,.88);
-      background:#000;
-    }
-
-    .spotify-embed{
-      max-width:860px;
-      margin:0 auto;
-    }
-
-    .spotify-embed iframe{
-      height:360px;
-    }
-
-    .movement{
-      text-align:center;
-      max-width:860px;
-      margin:0 auto;
-      padding:8px 10px;
-    }
-
-    .movement p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.9;
-      font-size:1.05rem;
-    }
-
-    .visuals-grid{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:26px;
-      margin-top:20px;
-    }
-
-    .visual-card{
-      overflow:hidden;
-      border-radius:22px;
-      background:#050505;
-      border:1px solid rgba(255,255,255,.07);
-      box-shadow:0 26px 90px rgba(0,0,0,.95);
-      min-height:420px;
-    }
-
-    .visual-card.featured{
-      grid-column:span 2;
-      min-height:520px;
-    }
-
-    .visual-card img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:transform .6s ease, filter .35s ease;
-    }
-
-    .visual-card:hover img{
-      transform:scale(1.05);
-      filter:brightness(1.05);
-    }
-
-    .footer{
-      padding:54px 0 80px;
-      border-top:1px solid rgba(255,255,255,.06);
-      color:#585864;
-      text-align:center;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:.78rem;
-    }
-
-    @media (max-width: 900px){
-      iframe{height:320px}
-      .spotify-embed iframe{height:280px}
-      .visuals-grid{grid-template-columns:1fr}
-      .visual-card.featured{grid-column:span 1; min-height:380px}
-      .visual-card{min-height:340px}
-    }
-
-    @media (max-width: 700px){
-      .nav{display:none}
-      .topbar-inner{min-height:64px}
-      .hero-content{padding-top:110px; padding-bottom:56px}
-      .hero h1{letter-spacing:.12em}
-      .btn{width:100%}
-      .hero-actions{flex-direction:column}
-      .section{padding:82px 0}
-      .section-head h2{letter-spacing:.18em}
-      iframe{height:220px}
-      .spotify-embed iframe{height:232px}
-    }
-  </style></head>
 <body>
-  <div id="intro"><h1>SERIOUS FINCH</h1></div>  <header class="topbar">
-    <div class="container topbar-inner">
-      <div class="brand">
-        <div class="brand-mark">SF</div>
-        <div class="brand-text">
-          <strong>Serious Finch</strong>
-          <span>Sons of Gunsmoke</span>
-        </div>
-      </div>
-      <nav class="nav">
-        <a href="#video">Video</a>
-        <a href="#listen">Listen</a>
-        <a href="#movement">Movement</a>
-        <a href="#visuals">Visuals</a>
-      </nav>
-    </div>
-  </header>  <section class="hero">
-    <div id="s1" class="slide active"></div>
-    <div id="s2" class="slide"></div>
-    <div id="s3" class="slide"></div>
-    <div class="hero-overlay"></div><div class="hero-content">
-  <div class="eyebrow">Official Rollout • Serious Finch × Sons of Gunsmoke</div>
-  <h1>Why So Serious</h1>
-  <p>
-    Serious Finch × Sons of Gunsmoke. Official visuals, official video, and the record in one clean release experience.
-  </p>
-  <div class="hero-actions">
-    <button class="btn btn-primary" onclick="go('spotify')">Stream Now</button>
-    <button class="btn btn-secondary" onclick="go('youtube')">Watch Video</button>
-  </div>
-  <div class="hero-foot">Built for the moment • Made to be shared</div>
+
+<!-- HERO -->
+<div class="hero">
+<div id="s1" class="slide active"></div>
+<div id="s2" class="slide"></div>
+<div id="s3" class="slide"></div>
+<div class="overlay"></div>
+
+<div class="hero-content">
+<h1>WHY SO SERIOUS</h1>
+<p>Serious Finch × Sons of Gunsmoke</p>
+
+<button class="primary" onclick="go('spotify')">STREAM</button>
+<button class="secondary" onclick="go('youtube')">WATCH</button>
+</div>
 </div>
 
-  </section>  <section class="section" id="video">
-    <div class="container">
-      <div class="section-head">
-        <h2>Official Video</h2>
-        <p>Lead with the visual first. Let people feel the record before they leave the page.</p>
-      </div>
-      <div class="card media-wrap">
-        <iframe src="https://www.youtube.com/embed/L6qnsBgi2ZQ" title="Official video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-      </div>
-    </div>
-  </section>  <section class="section" id="listen">
-    <div class="container">
-      <div class="section-head">
-        <h2>Listen</h2>
-        <p>The record front and center, with a clean player that feels premium on desktop and mobile.</p>
-      </div>
-      <div class="spotify-embed card media-wrap">
-        <iframe src="https://open.spotify.com/embed/track/7zEJAr3odmPEhBiywgqafV?utm_source=generator" title="Spotify player" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-    </div>
-  </section>  <section class="section" id="movement">
-    <div class="container">
-      <div class="section-head">
-        <h2>The Movement</h2>
-        <p>Not just a drop. A statement. A mood. A world around the music.</p>
-      </div>
-      <div class="movement">
-        <p>
-          Serious Finch × Sons of Gunsmoke is pressure, identity, and presence. The sound leads. The visuals support it. The brand stays clean, dark, and unforgettable.
-        </p>
-      </div>
-    </div>
-  </section>  <section class="section" id="visuals">
-    <div class="container">
-      <div class="section-head">
-        <h2>Visuals</h2>
-        <p>Three images. One identity. Kept minimal so the presentation feels high-end and intentional.</p>
-      </div>
-      <div class="visuals-grid">
-        <div class="visual-card featured"><img src="image-hero-1.jpg" alt="Serious Finch visual 1" loading="lazy"></div>
-        <div class="visual-card"><img src="image-hero-2.jpg" alt="Serious Finch visual 2" loading="lazy"></div>
-        <div class="visual-card"><img src="image-hero-3.jpg" alt="Serious Finch visual 3" loading="lazy"></div>
-      </div>
-    </div>
-  </section>  <footer class="footer">
-    © Serious Finch × Sons of Gunsmoke
-  </footer>  <script>
-    const IMAGES = ['image-hero-1.jpg','image-hero-2.jpg','image-hero-3.jpg'];
-    const slideEls = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3')];
-    let current = 0;
+<!-- VIDEO -->
+<div class="section">
+<h2>VIDEO</h2>
+<iframe src="https://www.youtube.com/embed/L6qnsBgi2ZQ"></iframe>
+</div>
 
-    slideEls.forEach((el, index) => {
-      el.style.backgroundImage = `url('${IMAGES[index]}')`;
-    });
+<!-- LISTEN -->
+<div class="section">
+<h2>LISTEN</h2>
+<iframe src="https://open.spotify.com/embed/track/7zEJAr3odmPEhBiywgqafV"></iframe>
+</div>
 
-    setInterval(() => {
-      slideEls[current].classList.remove('active');
-      current = (current + 1) % slideEls.length;
-      slideEls[current].classList.add('active');
-    }, 6000);
+<!-- VISUALS -->
+<div class="section">
+<h2>VISUALS</h2>
 
-    const LINKS = {
-      spotify: 'https://open.spotify.com/track/7zEJAr3odmPEhBiywgqafV',
-      youtube: 'https://youtube.com/watch?v=L6qnsBgi2ZQ'
-    };
+<div class="grid">
+<img src="/seriousfinchhubapp/image-hero-1.jpg">
+<img src="/seriousfinchhubapp/image-hero-2.jpg">
+<img src="/seriousfinchhubapp/image-hero-3.jpg">
+</div>
 
-    function go(key){
-      window.open(LINKS[key], '_blank', 'noopener');
-    }
+</div>
 
-    document.querySelectorAll('img').forEach(img => {
-      img.addEventListener('error', () => {
-        img.closest('.visual-card')?.style.setProperty('display','none');
-      });
-    });
-  </script></body>
+<footer>
+© Serious Finch × Sons of Gunsmoke
+</footer>
+
+<script>
+const IMAGES=[
+"/seriousfinchhubapp/image-hero-1.jpg",
+"/seriousfinchhubapp/image-hero-2.jpg",
+"/seriousfinchhubapp/image-hero-3.jpg"
+];
+
+let slides=[s1,s2,s3];
+let i=0;
+
+slides.forEach((el,index)=>{
+el.style.backgroundImage=`url(${IMAGES[index]})`;
+});
+
+setInterval(()=>{
+slides[i].classList.remove("active");
+i=(i+1)%3;
+slides[i].classList.add("active");
+},5000);
+
+const LINKS={
+spotify:"https://open.spotify.com/track/7zEJAr3odmPEhBiywgqafV",
+youtube:"https://youtube.com/watch?v=L6qnsBgi2ZQ"
+};
+
+function go(p){
+window.open(LINKS[p],"_blank");
+}
+</script>
+
+</body>
 </html>
